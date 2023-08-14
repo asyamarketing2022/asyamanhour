@@ -23,7 +23,7 @@
 
                 <?php } ?>
             </div>
-
+                    
             <!-- <div class="select-action__wrapper mt-4">
                 <div class="select-action__sort">
                     <span><i class="fa fa-sort-amount-desc"></i> Sort by</span>
@@ -171,6 +171,10 @@
                             <div class="content__info"> 
                                 <span>Client Name</span>
                                 <input type="text" name="clientName">
+                            </div>
+                            <div class="content__info"> 
+                                <span>Allotted Hours</span>
+                                <input type="number" name="allottedHours">
                             </div>
                         </div>
                     </div>

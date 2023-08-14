@@ -83,8 +83,8 @@ if(isset($_POST['userId'])) {
                                     <th class='d-none'>Manager Id</th>
                                     <th>Task Title</th>
                                     <th>Task Notes</th>
+                                    <th>Task Update</th>
                                     <th>Date Started</th>
-                                    <th>Due Date</th>
                                     <th>Status</th>
                                     <th>Upload File Path</th>
                                     <th>File Lists</th>
@@ -99,8 +99,25 @@ if(isset($_POST['userId'])) {
                             <td class='taskId d-none' value='". $row['id'] ."'>". $row['id'] ."</td>
                             <td class='taskTitle'>". $row['task_title'] ."</td>
                             <td>". $row['notes'] ."</td>
+                            <td class='taskUpdate'>
+                                <button class='taskUpdate_btn'>Task Update</button>
+                                <div class='taskUpdate_tooltip d-none'>
+                                    <table>
+                                        <tbody class='taskUpdate_tbody'>
+                                            <tr class='taskUpdate_header'>
+                                                <th>Updates</th>
+                                                <th>Date</th>
+                                                <th>Spend Hour</th>
+                                                <th></th>
+                                            </tr>
+                                            <tr>
+                                                <td><img class='add_newUpdate_btn' src='/img/add-icon.png' width='25'></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </td>
                             <td class='taskStarted'>". $row['date_started'] ."</td>
-                            <td class='taskDue-Date'>". $row['due_date'] ."</td>
                             <td class='pow_status'>
                                 <div class='text_status'>
                                     <span>" . $row['status'] . "</span> 

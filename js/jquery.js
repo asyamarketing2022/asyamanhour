@@ -2642,6 +2642,9 @@ function submit_file_path(){
                      taskColor()
                      taskDone_disable();
                      taskChange_status();
+                     taskUpdate_tooltip();
+                     add_task_work_update();
+               
       
                   }, 70);
                });
@@ -3168,6 +3171,137 @@ function submit_file_path(){
       }
   }
   taskChange_status();
+
+  function taskUpdate_tooltip(){
+
+   let taskUpdate_btn = document.querySelectorAll('.taskUpdate_btn');
+
+   for(let i = 0; taskUpdate_btn.length > i; i++){
+
+      $(taskUpdate_btn[i]).off().on('click', ()=> {
+
+        let tdContainer = $(taskUpdate_btn[i]).parent();
+        let taskUpdate_tooltip = $(tdContainer).find('.taskUpdate_tooltip');
+        let taskId = $($('.taskId')[i]).attr('value');
+
+         $.ajax({
+            type: 'POST',
+            url: 'view_task_work_update',
+            data: {
+               'taskId': taskId,
+            },
+            success: function(data){
+               $('.taskUpdate_tbody').html(data);
+
+               add_task_work_update();
+               delete_task_work_update();
+            }
+         });
+     
+        if($(taskUpdate_tooltip).hasClass('d-none')) {
+   
+         $(taskUpdate_tooltip).removeClass('d-none');
+
+         } else {
+            
+            $(taskUpdate_tooltip).addClass('d-none');
+
+         }
+      });
+
+   }
+
+  }
+  taskUpdate_tooltip();
+
+  // Add new Task Update
+  function add_task_work_update(){
+
+   let add_newUpdate_btn = document.querySelectorAll('.add_newUpdate_btn');
+
+      for(let i = 0; add_newUpdate_btn.length > i; i++){
+
+         $(add_newUpdate_btn[i]).off().on('click', ()=> {
+
+            let tableRow_header = document.querySelectorAll('.taskUpdate_header');
+            let dynamic_TableRow = `<tr>
+                                       <td><input type='text'></td>
+                                       <td><input type='date'></td>
+                                       <td><input type='number'></td>
+                                       <td>-</td>
+                                    </tr>`;
+
+            $(dynamic_TableRow).insertAfter(tableRow_header[i]);
+
+            let taskId = $($('.taskId')[i]).attr('value');
+            let phase_of_work = $('.searchEmployee_pow').text();
+            let services = $('.searchEmployee_service').text();
+            let projectId = $('#projectTitle').attr('value');
+            let projectName = $('#projectTitle').text();
+
+            let taskTitle = $($('.taskTitle')[i]).text();
+            let date = new Date();
+            let dateToday = date.getFullYear() + "-" + "0" + (date.getMonth()+1)  + "-" + "0" + date.getDate();
+          
+            $.ajax({
+               type: 'POST',
+               url: 'task_work_update.php',
+               data: {
+                  'taskId': taskId,
+                  'phase_of_work': phase_of_work,
+                  'services': services,
+                  'projectId': projectId,
+                  'projectName': projectName,
+                  'taskTitle': taskTitle,
+                  'dateToday': dateToday,
+               },
+               success: function(data){
+                  $('.taskUpdate_tbody').html(data);
+
+                  add_task_work_update();
+                  delete_task_work_update();
+               }
+
+            });
+
+         });
+
+      }
+
+  }
+
+  // Delete new task update
+  function delete_task_work_update(){
+
+      let delete_update_task = document.querySelectorAll('.delete_update_task');
+
+      for(let i = 0; delete_update_task.length > i; i++){
+
+         $(delete_update_task[i]).off().on('click', ()=> {
+
+            let update_task_id = $($('.update_task_id')[i]).text();
+            let taskId = $('.taskId').attr('value');
+
+            $.ajax({
+               type: 'POST',
+               url: 'delete_task_work_update.php',
+               data: {
+                  'update_task_id': update_task_id,
+                  'taskId': taskId,
+               },
+               success: function(data){
+                  $('.taskUpdate_tbody').html(data);
+
+                  delete_task_work_update();
+               }
+            });
+
+         });
+
+      }
+
+  }
+
 
   function closeMenu(){
 
