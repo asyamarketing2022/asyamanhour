@@ -315,7 +315,11 @@ button.deleteTask {
     width: 450px;
     left: 0;
     z-index: 15;
-    background: none;
+    background: #fff;
+ }
+
+ .tasks-content .user-tasks .taskUpdate .taskUpdate_tooltip .taskUpdate_tbody tr:last-child td {
+   border: none;
  }
 
 .addNewTask_form_container {
@@ -358,7 +362,7 @@ button.deleteTask {
 }
 
 .content-table tbody {
-
+    background: #fff;
 }
   
 .content-table td, .content-table th {

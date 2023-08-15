@@ -3175,6 +3175,7 @@ function submit_file_path(){
   function taskUpdate_tooltip(){
 
    let taskUpdate_btn = document.querySelectorAll('.taskUpdate_btn');
+   let taskUpdate_tooltip_all = document.querySelectorAll('.taskUpdate_tooltip');
 
    for(let i = 0; taskUpdate_btn.length > i; i++){
 
@@ -3195,10 +3196,17 @@ function submit_file_path(){
 
                add_task_work_update();
                delete_task_work_update();
+               save_task_work_update()
             }
          });
-     
+
         if($(taskUpdate_tooltip).hasClass('d-none')) {
+
+         Array.from(taskUpdate_tooltip_all).forEach((taskUpdate_tooltip_close) => {
+
+            $(taskUpdate_tooltip_close).addClass('d-none');
+
+         });
    
          $(taskUpdate_tooltip).removeClass('d-none');
 
@@ -3223,15 +3231,15 @@ function submit_file_path(){
 
          $(add_newUpdate_btn[i]).off().on('click', ()=> {
 
-            let tableRow_header = document.querySelectorAll('.taskUpdate_header');
-            let dynamic_TableRow = `<tr>
-                                       <td><input type='text'></td>
-                                       <td><input type='date'></td>
-                                       <td><input type='number'></td>
-                                       <td>-</td>
-                                    </tr>`;
+            // let tableRow_header = document.querySelectorAll('.taskUpdate_header');
+            // let dynamic_TableRow = `<tr>
+            //                            <td><input type='text'></td>
+            //                            <td><input type='date'></td>
+            //                            <td><input type='number'></td>
+            //                            <td>-</td>
+            //                         </tr>`;
 
-            $(dynamic_TableRow).insertAfter(tableRow_header[i]);
+            // $(dynamic_TableRow).insertAfter(tableRow_header[i]);
 
             let taskId = $($('.taskId')[i]).attr('value');
             let phase_of_work = $('.searchEmployee_pow').text();
@@ -3260,6 +3268,7 @@ function submit_file_path(){
 
                   add_task_work_update();
                   delete_task_work_update();
+                  save_task_work_update();
                }
 
             });
@@ -3293,6 +3302,8 @@ function submit_file_path(){
                   $('.taskUpdate_tbody').html(data);
 
                   delete_task_work_update();
+                  add_task_work_update();
+                  save_task_work_update();
                }
             });
 
@@ -3301,6 +3312,103 @@ function submit_file_path(){
       }
 
   }
+
+   // Save new task update
+   function save_task_work_update(){
+
+      let save_update_task = document.querySelectorAll('.save_update_tasks');
+      let total_spend_hours = 0;
+
+      for(let i = 0; save_update_task.length > i; i++){
+
+         $(save_update_task[i]).off().on('click', ()=> {
+
+            let taskId = $('.taskId').attr('value');
+            let tbody = $(save_update_task[i]).parent().parent().parent();
+
+            let update_tasks_id = $(tbody).find('.update_task_id');
+            let update_tasks_id_array = [];
+
+            Array.from(update_tasks_id).forEach((update_task_id) => {
+         
+               update_tasks_id_array.push($(update_task_id).text());
+   
+            });
+
+            let update_tasks_input = $(tbody).find('.update_task_input');
+            let update_tasks_input_array = [];
+
+               Array.from(update_tasks_input).forEach((update_task_input) => {
+         
+                  update_tasks_input_array.push($(update_task_input).val());
+      
+               });
+
+
+            let update_tasks_date = $(tbody).find('.update_task_date');
+            let update_tasks_date_array = [];
+
+               Array.from(update_tasks_date).forEach((update_task_date) => {
+            
+                  update_tasks_date_array.push($(update_task_date).val());
+      
+               });
+
+            let update_tasks_spendhours = $(tbody).find('.update_task_spendhours');
+            let update_tasks_spendhours_array = [];
+
+               Array.from(update_tasks_spendhours).forEach((update_task_spendhours) => {
+               
+                  update_tasks_spendhours_array.push($(update_task_spendhours).val());
+
+                  total_spend_hours += parseInt($(update_task_spendhours).val());
+
+               });
+
+             
+            $.ajax({
+               type: 'POST',
+               url: 'save_task_work_update.php',
+               data: {
+                  'taskId': taskId,
+                  'update_tasks_id_array': update_tasks_id_array,
+                  'update_tasks_input_array': update_tasks_input_array,
+                  'update_tasks_date_array': update_tasks_date_array,
+                  'update_tasks_spendhours_array': update_tasks_spendhours_array,
+                  'total_spend_hours': total_spend_hours,
+
+               },
+               success: function(data){
+                  $('.taskUpdate_tbody').html(data);
+
+                  save_task_work_update();
+                  delete_task_work_update();
+                  add_task_work_update();
+
+                  alert('Saved Updates');
+
+               }
+            });
+
+            $.ajax({
+               type: 'POST',
+               url: 'spend_task_work_update.php',
+               data: {
+                  'taskId': taskId,
+                  'total_spend_hours': total_spend_hours,
+               },
+               success: function(data){
+                  $('.total_spend_hours').html(data);
+               }
+
+            })
+
+
+         });
+
+      }
+
+   }
 
 
   function closeMenu(){

@@ -9,7 +9,7 @@ $con = $db->connection();
 
         $taskId = $_POST['taskId'];
 
-        $query_employees_update_tasks = "SELECT * FROM `employees_updates_task` WHERE task_id = $taskId ORDER BY id DESC";
+        $query_employees_update_tasks = "SELECT * FROM `employees_updates_task` WHERE task_id = $taskId ORDER BY id ASC";
         $employee_update_tasks = $con->query($query_employees_update_tasks) or die ($con->error);
         $row = $employee_update_tasks->fetch_assoc();
 
@@ -19,8 +19,7 @@ $con = $db->connection();
                             <th class='d-none'>Update Task Id</th>
                             <th>Updates</th>
                             <th>Date</th>
-                            <th>Spend Hour</th>
-                            <th></th>
+                            <th>Spend Hours</th>
                             <th></th>
                         </tr>";
 
@@ -30,10 +29,9 @@ $con = $db->connection();
 
                 $output .= "<tr>
                         <td class='d-none'><span class='update_task_id'>". $row['id'] ."</span></td>
-                        <td><input type='text' value='". $row['task_update'] ."'></td>
-                        <td><input type='date' value='". $row['date'] ."'></td>
-                        <td><input type='number' value='". $row['spend_hour'] ."'></td>
-                        <td>+</td>
+                        <td><input class='update_task_input' type='text' value='". $row['task_update'] ."'></td>
+                        <td><input class='update_task_date' type='date' value='". $row['date'] ."'></td>
+                        <td><input class='update_task_spendhours' type='number' value='". $row['spend_hours'] ."'></td>
                         <td class='delete_update_task'>-</td>
                     </tr>";
 
@@ -44,7 +42,10 @@ $con = $db->connection();
 
             $output .= "<tr>
                 <td><img class='add_newUpdate_btn' src='/img/add-icon.png' width='25'></td>
-            </tr>";
+                <td><button class='save_update_tasks'>Save</button></td>
+                <td>Total Hours:<span class='total_spend_hours'></span></td>
+                <td></td>
+                </tr>";
 
    
 
