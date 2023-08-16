@@ -317,6 +317,10 @@ button.deleteTask {
     z-index: 15;
     background: #fff;
  }
+ 
+ .tasks-content .user-tasks .taskUpdate .taskUpdate_tooltip table {
+    box-shadow: 1px 4px 5px 3px rgba(0,0,0,0.3);
+ }
 
  .tasks-content .user-tasks .taskUpdate .taskUpdate_tooltip .taskUpdate_tbody tr:last-child td {
    border: none;
@@ -391,7 +395,7 @@ button.deleteTask {
 }
 
 .content-table th:last-of-type {
-    border-top-right-radius: 10px;
+    /* border-top-right-radius: 10px; */
 }
 
 .content-table td img.table_image_small {

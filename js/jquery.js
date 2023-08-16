@@ -3187,7 +3187,7 @@ function submit_file_path(){
 
          $.ajax({
             type: 'POST',
-            url: 'view_task_work_update',
+            url: 'view_task_work_update.php',
             data: {
                'taskId': taskId,
             },
@@ -3283,6 +3283,7 @@ function submit_file_path(){
   function delete_task_work_update(){
 
       let delete_update_task = document.querySelectorAll('.delete_update_task');
+      let total_spend_hours = 0;
 
       for(let i = 0; delete_update_task.length > i; i++){
 
@@ -3290,22 +3291,71 @@ function submit_file_path(){
 
             let update_task_id = $($('.update_task_id')[i]).text();
             let taskId = $('.taskId').attr('value');
+            let tbody = $(delete_update_task[i]).parent().parent().parent();
+      
+            let index = 2;
+            let loop = 1;
 
-            $.ajax({
-               type: 'POST',
-               url: 'delete_task_work_update.php',
-               data: {
-                  'update_task_id': update_task_id,
-                  'taskId': taskId,
-               },
-               success: function(data){
-                  $('.taskUpdate_tbody').html(data);
+            for(let a = 0; loop > a; a++){
 
-                  delete_task_work_update();
-                  add_task_work_update();
-                  save_task_work_update();
+               if(loop != index) {
+
+                  $.ajax({
+                     type: 'POST',
+                     url: 'delete_task_work_update.php',
+                     data: {
+                        'update_task_id': update_task_id,
+                        'taskId': taskId
+                     },
+                     success: function(data){
+                        $('.taskUpdate_tbody').html(data);
+            
+                     }
+                  });
+
+                  loop++
+
+               } else {
+
+                  setTimeout(() => {
+
+                     let update_tasks_spendhours = $(tbody).find('.update_task_spendhours');
+                     let update_tasks_spendhours_array = [];
+
+                     Array.from(update_tasks_spendhours).forEach((update_task_spendhours) => {
+                  
+                        update_tasks_spendhours_array.push($(update_task_spendhours).val());
+               
+                        // total_spend_hours += parseFloat($(update_task_spendhours).val());
+                        total_spend_hours += parseFloat($(update_task_spendhours).val().replace(/,/g, "")) || 0;
+      
+                     });
+   
+                        $.ajax({
+                           type: 'POST',
+                           url: 'delete_task_work_update.php',
+                           data: {
+                              'total_spend_hours': total_spend_hours,
+                              // 'update_task_id': update_task_id,
+                              'taskId': taskId,
+                           },
+                           success: function(data){
+                              $('.taskUpdate_tbody').html(data);
+                              delete_task_work_update();
+                              add_task_work_update();
+                              save_task_work_update();
+                           }
+                        });
+
+                        delete_task_work_update();
+                        add_task_work_update();
+                        save_task_work_update();
+
+                  }, 50);
+
                }
-            });
+
+            }
 
          });
 
@@ -3323,7 +3373,7 @@ function submit_file_path(){
 
          $(save_update_task[i]).off().on('click', ()=> {
 
-            let taskId = $('.taskId').attr('value');
+            let taskId = $($('.taskId')[i]).attr('value');
             let tbody = $(save_update_task[i]).parent().parent().parent();
 
             let update_tasks_id = $(tbody).find('.update_task_id');
@@ -3358,51 +3408,51 @@ function submit_file_path(){
             let update_tasks_spendhours_array = [];
 
                Array.from(update_tasks_spendhours).forEach((update_task_spendhours) => {
-               
-                  update_tasks_spendhours_array.push($(update_task_spendhours).val());
 
-                  total_spend_hours += parseInt($(update_task_spendhours).val());
+                  update_tasks_spendhours_array.push($(update_task_spendhours).val());
+                  total_spend_hours += parseFloat($(update_task_spendhours).val().replace(/,/g, "")) || 0;
 
                });
 
-             
-            $.ajax({
-               type: 'POST',
-               url: 'save_task_work_update.php',
-               data: {
-                  'taskId': taskId,
-                  'update_tasks_id_array': update_tasks_id_array,
-                  'update_tasks_input_array': update_tasks_input_array,
-                  'update_tasks_date_array': update_tasks_date_array,
-                  'update_tasks_spendhours_array': update_tasks_spendhours_array,
-                  'total_spend_hours': total_spend_hours,
 
-               },
-               success: function(data){
-                  $('.taskUpdate_tbody').html(data);
+            if(update_tasks_id_array != 0){
 
-                  save_task_work_update();
-                  delete_task_work_update();
-                  add_task_work_update();
+               $.ajax({
+                  type: 'POST',
+                  url: 'save_task_work_update.php',
+                  data: {
+                     'taskId': taskId,
+                     'update_tasks_id_array': update_tasks_id_array,
+                     'update_tasks_input_array': update_tasks_input_array,
+                     'update_tasks_date_array': update_tasks_date_array,
+                     'update_tasks_spendhours_array': update_tasks_spendhours_array,
+                     'total_spend_hours': total_spend_hours,
+   
+                  },
+                  success: function(data){
+                     $('.taskUpdate_tbody').html(data);
+   
+                     save_task_work_update();
+                     delete_task_work_update();
+                     add_task_work_update();
+   
+                  }
+               });
+   
+               $.ajax({
+                  type: 'POST',
+                  url: 'spend_task_work_update.php',
+                  data: {
+                     'taskId': taskId,
+                     'total_spend_hours': total_spend_hours,
+                  },
+                   success: function(data){
+                     // $($('.total_spend_hours')[i]).html(data);
+                     alert('Saved Updates');
+                  }
+               })
 
-                  alert('Saved Updates');
-
-               }
-            });
-
-            $.ajax({
-               type: 'POST',
-               url: 'spend_task_work_update.php',
-               data: {
-                  'taskId': taskId,
-                  'total_spend_hours': total_spend_hours,
-               },
-               success: function(data){
-                  $('.total_spend_hours').html(data);
-               }
-
-            })
-
+            }
 
          });
 

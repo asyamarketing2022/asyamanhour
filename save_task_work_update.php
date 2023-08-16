@@ -7,6 +7,8 @@ $con = $db->connection();
 
     if(isset($_POST['taskId'])){
 
+        // if($_POST['update_tasks_id_array'] != [])
+    
         $taskId = $_POST['taskId'];
         $update_tasks_id_array = $_POST['update_tasks_id_array'];
         $update_tasks_input_array = $_POST['update_tasks_input_array'];
@@ -61,10 +63,14 @@ $con = $db->connection();
 
             } while($row = $employee_update_tasks->fetch_assoc());
 
+                $query_spend_total_hours = "SELECT * FROM `employees_tasks` WHERE id = $taskId";
+                $spend_total_hours = $con->query($query_spend_total_hours) or die ($con->error);
+                $total_hours = $spend_total_hours->fetch_assoc();
+
                 $output .= "<tr>
                                 <td><img class='add_newUpdate_btn' src='/img/add-icon.png' width='25'></td>
                                 <td><button class='save_update_tasks'>Save</button></td>
-                                <td>Total Hours:<span class='total_spend_hours'></span></td>
+                                <td>Total Hours:<span class='total_spend_hours'>". $total_hours['total_spend_hours'] ."</span></td>
                                 <td></td>
                             </tr>";
 
