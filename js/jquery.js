@@ -3246,6 +3246,7 @@ function submit_file_path(){
             let services = $('.searchEmployee_service').text();
             let projectId = $('#projectTitle').attr('value');
             let projectName = $('#projectTitle').text();
+            let employeeId = $('.employeeId').attr('value');
 
             let taskTitle = $($('.taskTitle')[i]).text();
             let date = new Date();
@@ -3262,6 +3263,7 @@ function submit_file_path(){
                   'projectName': projectName,
                   'taskTitle': taskTitle,
                   'dateToday': dateToday,
+                  'employeeId': employeeId,
                },
                success: function(data){
                   $('.taskUpdate_tbody').html(data);
@@ -3347,9 +3349,9 @@ function submit_file_path(){
                            }
                         });
 
-                        delete_task_work_update();
-                        add_task_work_update();
-                        save_task_work_update();
+                        // delete_task_work_update();
+                        // add_task_work_update();
+                        // save_task_work_update();
 
                   }, 50);
 
@@ -3507,6 +3509,46 @@ function submit_file_path(){
 }
 openMenu();
 
+function calendarLogs() {
+
+   let calendarIcons = document.querySelector('.calendar-icon');
+   let calendar = document.querySelector('.calendar');
+   let calendarOverlay = document.querySelector('.calendar-overlay');
+   let rightContent = document.querySelector('.grid-right__content');
+
+   $(calendarIcons).off().on('click', ()=> {
+
+      if($(calendar).hasClass('d-none')) {
+
+            $(calendar).addClass('d-none');
+            $(calendar).removeClass('d-none');
+
+            $(calendarOverlay).addClass('d-none');
+            $(calendarOverlay).removeClass('d-none');
+
+            $(rightContent).css('overflow', 'hidden');
+
+         } else {
+            
+            $(calendar).addClass('d-none');
+            $(calendarOverlay).addClass('d-none');
+            $(rightContent).css('overflow', 'auto');
+
+         }
+
+   });
+
+   $(calendarOverlay).off().on('click', ()=> {
+
+      $(calendar).addClass('d-none');
+      $(calendarOverlay).addClass('d-none');
+      $(rightContent).css('overflow', 'auto');
+
+   });
+
+}
+calendarLogs();
+
   function linkTask(){
 
       let clickable_row = document.querySelectorAll('.clickable-row');
@@ -3534,6 +3576,163 @@ openMenu();
    location.reload();
   })
 
+
+  //Employee Calendar Logs
+  function employeeCalendar(){
+
+   const currentDate = new Date();
+   let currentMonth = currentDate.getMonth();
+   let currentYear = currentDate.getFullYear();
+   
+   const monthYearElement = document.getElementById('monthYear');
+   const datesElement = document.getElementById('dates');
+   const prevBtn = document.getElementById('prevBtn');
+   const nextBtn = document.getElementById('nextBtn');
+   const eventModal = document.getElementById('eventModal');
+   const eventDate = document.getElementById('eventDate');
+   const eventDescription = document.getElementById('eventDescription');
+   const saveEventBtn = document.getElementById('saveEventBtn');
+   let selectedDate = null;
+   
+   
+   // Generate calendar for the current month
+   generateCalendar(currentMonth, currentYear);
+   
+   // Event listener for previous and next buttons
+   prevBtn.addEventListener('click', () => {
+     currentMonth--;
+     if (currentMonth < 0) {
+       currentMonth = 11;
+       currentYear--;
+     }
+     generateCalendar(currentMonth, currentYear);
+   });
+   
+   nextBtn.addEventListener('click', () => {
+     currentMonth++;
+     if (currentMonth > 11) {
+       currentMonth = 0;
+       currentYear++;
+     }
+     generateCalendar(currentMonth, currentYear);
+   });
+   
+   // Function to generate the calendar
+   function generateCalendar(month, year) {
+     monthYearElement.textContent = new Date(year, month).toLocaleString('default', { month: 'long' }) + ' ' + year;
+     datesElement.innerHTML = '';
+   
+     const firstDayOfMonth = new Date(year, month, 1);
+     const lastDayOfMonth = new Date(year, month + 1, 0);
+     const startDay = firstDayOfMonth.getDay();
+     const endDay = lastDayOfMonth.getDate();
+   
+     for (let i = 0; i < startDay; i++) {
+       const dateElement = document.createElement('div');
+       dateElement.classList.add('date');
+       datesElement.appendChild(dateElement);
+   
+     }
+   
+     for (let day = 1; day <= endDay; day++) {
+       const dateElement = document.createElement('div');
+       dateElement.textContent = day;
+       dateElement.classList.add('date');
+       if (month === currentDate.getMonth() && year === currentDate.getFullYear() && day === currentDate.getDate()) {
+         dateElement.classList.add('current-month');
+       }
+       dateElement.addEventListener('click', () => openEventModal(year, month, day));
+       datesElement.appendChild(dateElement);
+   
+     }
+   
+   }
+   
+   // Function to open the event modal
+   function openEventModal(year, month, day) {
+     selectedDate = new Date(year, month, day);
+     eventDate.textContent = selectedDate.toDateString();
+     eventDescription.value = getEventDescription(selectedDate) || '';
+     eventModal.style.display = 'block';
+   
+     let strDate = selectedDate.getFullYear() + "-" + ("0" + (selectedDate.getMonth()+1)).slice(-2) + "-" +  ("0" + (selectedDate.getDate()+0)).slice(-2);
+   
+     console.log(strDate);
+
+      $.ajax({
+         type: 'POST',
+         url: 'viewLogs.php',
+         data: {
+            'strDate': strDate,
+         },
+         success: function(data){
+            // $('.mylogs_table_header').html(data)
+            $(data).insertAfter('.mylogs_table_header');
+         }
+
+      })
+      
+   }
+   
+   // Function to close the event modal
+   function closeEventModal() {
+
+     eventModal.style.display = 'none';
+
+     let mylogs_updates = document.querySelectorAll('.mylogs_update');
+
+     Array.from(mylogs_updates).forEach((mylogs_update) => {
+
+      $(mylogs_update).remove();
+
+     });
+
+   }
+   
+   // Function to save the event
+   function saveEvent() {
+     const description = eventDescription.value;
+     setEventDescription(selectedDate, description);
+    
+       
+     closeEventModal();
+   }
+   
+   // Event listener for save button
+   saveEventBtn.addEventListener('click', saveEvent);
+   
+   // Function to get event description from local storage
+   function getEventDescription(date) {
+     const key = date.toDateString();
+     return localStorage.getItem(key);
+   }
+   
+   // Function to save event description to local storage
+   function setEventDescription(date, description) {
+     const key = date.toDateString();
+     localStorage.setItem(key, description);
+   }
+   
+   // Event listener for modal close button
+   const closeBtn = document.getElementsByClassName('close')[0];
+   closeBtn.addEventListener('click', closeEventModal);
+   
+   // Event listener for outside modal click
+   window.addEventListener('click', (event) => {
+     if (event.target === eventModal) {
+       closeEventModal();
+     }
+
+     
+
+   });
+   
+
+  }
+  employeeCalendar();
+
+
 });
 
 
+//Calendar

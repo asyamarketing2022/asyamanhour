@@ -17,5 +17,6 @@
         <script src="js/script.js"></script>
         <script src="js/jquery.js"></script>
         <script src="js/swiper.js"></script>
+        <script src="js/calendar.js"></script>
     </body>
 </html>

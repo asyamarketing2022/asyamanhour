@@ -14,8 +14,9 @@ $con = $db->connection();
         $taskId = $_POST['taskId'];
         $taskTitle = $_POST['taskTitle'];
         $dateToday = $_POST['dateToday'];
+        $employeeId = $_POST['employeeId'];
        
-        $sql =  "INSERT INTO `employees_updates_task`(`project_id`, `project_name`, `services`, `phase_of_work`, `task_id`, `task_title`, `date`) VALUES ('$projectId', '$projectName', '$services', '$phase_of_work', '$taskId', '$taskTitle', '$dateToday')";
+        $sql =  "INSERT INTO `employees_updates_task`(`project_id`, `project_name`, `services`, `phase_of_work`, `employee_id`, `task_id`, `task_title`, `date`) VALUES ('$projectId', '$projectName', '$services', '$phase_of_work', '$employeeId', '$taskId', '$taskTitle', '$dateToday')";
 
         $con->query($sql) or die ($con->error);
 

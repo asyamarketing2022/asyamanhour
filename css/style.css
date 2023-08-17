@@ -1336,6 +1336,12 @@ input.form-check-input {
     padding-top: 50px;
 }
 
+.profile .myprojects .content-table .search-action__wrapper {
+    width: 100%;
+    display: flex;
+    height: auto;
+}
+
 .profile .myprojects .content-table table { 
     border: 1px solid #f7f6f6;
 }
@@ -1407,8 +1413,157 @@ input.form-check-input {
     top: -2px;
 }
 
-.profile .myprojects .search-action__wrapper {
-    
+.profile .myprojects .calendar-logs {
+    position: relative;
+    width: 100%;
+}
+
+.profile .myprojects .calendar-logs img { 
+    width: 25px;
+    height: 25px;
+    position: relative;
+    left: 95%;
+}
+
+.calendar {
+    max-width: 100%;
+    min-width: 90%;
+    margin: 0 auto;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+
+    background: #fff;
+    top: 7%;
+    left: 5%;
+    position: absolute;
+    height: 92%;
+}
+
+.calendar .calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.calendar .days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 20px;
+    background-color: #f2f2f2;
+}
+
+.calendar .days .day {
+    padding: 5px;
+    font-weight: bold;
+}
+
+.calendar .dates {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: 125px 125px 125px 125px 125px 125px;
+}
+
+.calendar .date {
+    padding: 5px;
+    cursor: pointer;
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc; /* Add this line */
+    border-bottom: 1px solid #ccc; /* Add this line */
+    border-top: 1px solid #ccc;
+    display: flex; /* Add this line */
+    align-items: flex-start; /* Add this line */
+    justify-content: flex-start; /* Add this line */
+    position: relative; /* Add this line */
+}
+
+.calendar .date:hover {
+    background-color: #f2f2f2;
+}
+
+.calendar .current-month {
+    font-weight: bold;
+}
+  
+.calendar .event {
+    background-color: #f2f2f2;
+    color: black;
+    padding: 20px 5px 60px 5px;
+    border-radius: 3px;
+    font-size: 22px;
+    cursor: pointer;
+    align-content: center;
+}
+  
+.calendar .has-event::after {
+    content: '\2022'; /* Unicode for a bullet point */
+    color: #FF5733; /* Choose a color for the indicator */
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
+  
+.calendar .area {
+      width: 100%
+}
+
+.calendar-overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.62);
+}
+
+.modal-logs {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(1.1);
+    transition: visibility 0s linear 0.25s, opacity 0.25s 0s, transform 0.25s;
+}
+
+.modal-logs .modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 1rem 1.5rem;
+    width: 50rem;
+    border-radius: 0.5rem;
+}
+
+.close-button {
+    float: right;
+    width: 1.5rem;
+    line-height: 1.5rem;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 0.25rem;
+    background-color: lightgray;
+}
+
+.close-button:hover {
+    background-color: darkgray;
+}
+
+.modal-logs.show-modal {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1.0);
+    transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
+}
+
+.hidden {
+  display: none;
 }
 
 .myProject-form {
