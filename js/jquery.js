@@ -8,7 +8,57 @@ jQuery(function () {
       multidate: true
    }); 
 
-   
+   //Function for creating a data for Employee Logs
+   function employees_auto_create_date_logs(){
+
+      monthYearToday = new Date();
+
+      let calendarDate = monthYearToday.getFullYear() + "-" + ("0" + (monthYearToday.getMonth()+1)).slice(-2) + "-" +  ("0" + (monthYearToday.getDate()+0)).slice(-2);
+
+      $.ajax({
+         type: 'POST',
+         url: 'employees_logs_hours.php',
+         data: {
+            'calendarDate': calendarDate,
+         },
+         success:function(data){
+            // console.log(data);
+            $('.exeee').html(data);
+         }
+      });
+
+   }
+   $(window).on('load', employees_auto_create_date_logs);
+
+   //Function for update a table for Employee Logs
+   function employees_auto_update_date_logs(){
+
+      let calendarDate = document.querySelectorAll('.date');
+         
+      for(let i = 0; calendarDate.length > i; i++){
+
+         $(calendarDate[i]).off().on('click', ()=> {
+
+            let dateSelected = $(calendarDate[i]).attr('value');
+
+            $.ajax({
+               type: 'POST',
+               url: 'employees_auto_update_date_logs.php',
+               data: {
+                  'dateSelected': dateSelected,
+               },
+               success:function(data){
+                  console.log(data)
+               }
+            });
+
+            
+         });
+
+      }
+
+   }
+   // employees_auto_update_date_logs()
 
    //Update User
       $('.table-row_user').each(function(){
@@ -3536,6 +3586,15 @@ function calendarLogs() {
 
          }
 
+
+         //Update Employee Date Logs
+         setTimeout(() => {
+               
+            employees_auto_update_date_logs()
+   
+         }, 50);
+
+
    });
 
    $(calendarOverlay).off().on('click', ()=> {
@@ -3593,40 +3652,59 @@ calendarLogs();
    const eventDescription = document.getElementById('eventDescription');
    const saveEventBtn = document.getElementById('saveEventBtn');
    let selectedDate = null;
+
+   let monthYearToday = document.getElementById('monthYear');
    
    
    // Generate calendar for the current month
    generateCalendar(currentMonth, currentYear);
    
    // Event listener for previous and next buttons
-   prevBtn.addEventListener('click', () => {
-     currentMonth--;
-     if (currentMonth < 0) {
-       currentMonth = 11;
-       currentYear--;
-     }
-     generateCalendar(currentMonth, currentYear);
+   // prevBtn.addEventListener('click', () => {
+
+   // });
+
+   // nextBtn.addEventListener('click', () => {
+   //    currentMonth++;
+   //    if (currentMonth > 11) {
+   //      currentMonth = 0;
+   //      currentYear++;
+   //    }
+   //    generateCalendar(currentMonth, currentYear);
+   //  });
+
+   // Event listener for previous and next buttons
+   $(prevBtn).off().on('click', ()=> {
+      currentMonth--;
+      if (currentMonth < 0) {
+        currentMonth = 11;
+        currentYear--;
+      }
+      generateCalendar(currentMonth, currentYear);
+   });
+
+   $(nextBtn).off().on('click', ()=> {
+      currentMonth++;
+      if (currentMonth > 11) {
+        currentMonth = 0;
+        currentYear++;
+      }
+      generateCalendar(currentMonth, currentYear);
    });
    
-   nextBtn.addEventListener('click', () => {
-     currentMonth++;
-     if (currentMonth > 11) {
-       currentMonth = 0;
-       currentYear++;
-     }
-     generateCalendar(currentMonth, currentYear);
-   });
+
    
    // Function to generate the calendar
    function generateCalendar(month, year) {
      monthYearElement.textContent = new Date(year, month).toLocaleString('default', { month: 'long' }) + ' ' + year;
      datesElement.innerHTML = '';
-   
+
      const firstDayOfMonth = new Date(year, month, 1);
      const lastDayOfMonth = new Date(year, month + 1, 0);
      const startDay = firstDayOfMonth.getDay();
      const endDay = lastDayOfMonth.getDate();
    
+  
      for (let i = 0; i < startDay; i++) {
        const dateElement = document.createElement('div');
        dateElement.classList.add('date');
@@ -3643,9 +3721,17 @@ calendarLogs();
        }
        dateElement.addEventListener('click', () => openEventModal(year, month, day));
        datesElement.appendChild(dateElement);
-   
+
+       monthYearToday = new Date(year, month, day);
+
+       let calendarDate = monthYearToday.getFullYear() + "-" + ("0" + (monthYearToday.getMonth()+1)).slice(-2) + "-" +  ("0" + (monthYearToday.getDate()+0)).slice(-2);
+  
+      //  console.log(calendarDate)
+
+      dateElement.setAttribute('value', calendarDate);
+
      }
-   
+
    }
    
    // Function to open the event modal
@@ -3657,8 +3743,6 @@ calendarLogs();
    
      let strDate = selectedDate.getFullYear() + "-" + ("0" + (selectedDate.getMonth()+1)).slice(-2) + "-" +  ("0" + (selectedDate.getDate()+0)).slice(-2);
    
-     console.log(strDate);
-
       $.ajax({
          type: 'POST',
          url: 'viewLogs.php',
@@ -3669,7 +3753,6 @@ calendarLogs();
             // $('.mylogs_table_header').html(data)
             $(data).insertAfter('.mylogs_table_header');
          }
-
       })
       
    }
@@ -3694,7 +3777,6 @@ calendarLogs();
      const description = eventDescription.value;
      setEventDescription(selectedDate, description);
     
-       
      closeEventModal();
    }
    
@@ -3722,17 +3804,9 @@ calendarLogs();
      if (event.target === eventModal) {
        closeEventModal();
      }
-
-     
-
    });
-   
-
   }
-  employeeCalendar();
-
+  $('.calendar-icon').on('click', employeeCalendar) ;
 
 });
 
-
-//Calendar

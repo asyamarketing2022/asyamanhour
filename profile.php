@@ -48,6 +48,7 @@
                     </div>
                     <div class="mydesc">
                         <h3>About</h3>
+                        <div><p class="exeee">clickkkkkkkkkkkkkk</p></div>
                         <p class='current-bio'><?php echo $user_profile['user_bio']; ?></p>
                         <div class="edit-bio">
                             <button class="edit_bio_btn"><a href="#">Edit</a></button>
@@ -83,7 +84,7 @@
                             </div>
 
                             <div class="calendar-logs">
-                                <img class='calendar-icon' src="img/calendar-days-solid.svg" alt="">
+                                <img class='calendar-icon' id='calendarIcon' src="img/calendar-days-solid.svg" alt="">
                             </div>
                         </div>
             
@@ -319,18 +320,17 @@
                         </tr>
 
                         <tr>
-                            <td><img class="add_newUpdate_btn" src="/img/add-icon.png" width="25"></td>
+                            <td><img class='add_newUpdate_btn' src='/img/add-icon.png' width='25'></td>
                             <td></td>
-                            <td><button class="save_update_tasks">Save</button></td>
+                            <td><button class='save_update_logs'>Save</button></td>
                             <td></td>
+                            <td>Total Hours:<span class='total_spend_hours'></span></td>
                             <td></td>
-                            <td>Total Hours:<span class="total_spend_hours"></span></td>
                             <td></td>
                         </tr>
                     </tbody>
-            </table>
+                </table>
             </div>
-
         </div>
     </div>
 

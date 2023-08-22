@@ -73,7 +73,7 @@ if(isset($_POST['userID'])) {
                         <!-- users-table.php -->
                         <?php do { ?>
                         <tr class="table-row_user Info_user table-form" value="<?php echo $userInfo['ID'] ?>">
-                       
+
                             <td class="user-id"><?php echo $userInfo['ID'] ?></td>
                             <td><?php echo $userInfo['first_name'] ?> <?php echo $userInfo['last_name'] ?></td>
                             <td><?php echo $userInfo['position'] ?></td>

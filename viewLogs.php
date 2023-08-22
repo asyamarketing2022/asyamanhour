@@ -15,7 +15,7 @@ $con = $db->connection();
        $employee_work_update = $con->query($query_employee_work_update) or die ($con->error);
        $row = $employee_work_update->fetch_assoc();
 
-        $output = '';
+       $output = '';
 
        if($employee_work_update->num_rows != 0){
         
@@ -34,6 +34,10 @@ $con = $db->connection();
             } while($row = $employee_work_update->fetch_assoc());
 
         }
+
+        // $query_employee_work_update = "SELECT * FROM `employees_updates` WHERE employee_id = '$userId' AND date = '$strDate' ORDER BY id ASC";
+        // $employee_work_update = $con->query($query_employee_work_update) or die ($con->error);
+        // $row = $employee_work_update->fetch_assoc();
 
         echo $output;
     
