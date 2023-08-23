@@ -9,55 +9,56 @@ jQuery(function () {
    }); 
 
    //Function for creating a data for Employee Logs
-   function employees_auto_create_date_logs(){
+   // function employees_auto_create_date_logs(){
 
-      monthYearToday = new Date();
+   //    monthYearToday = new Date();
 
-      let calendarDate = monthYearToday.getFullYear() + "-" + ("0" + (monthYearToday.getMonth()+1)).slice(-2) + "-" +  ("0" + (monthYearToday.getDate()+0)).slice(-2);
+   //    let calendarDate = monthYearToday.getFullYear() + "-" + ("0" + (monthYearToday.getMonth()+1)).slice(-2) + "-" +  ("0" + (monthYearToday.getDate()+0)).slice(-2);
 
-      $.ajax({
-         type: 'POST',
-         url: 'employees_logs_hours.php',
-         data: {
-            'calendarDate': calendarDate,
-         },
-         success:function(data){
-            // console.log(data);
-            $('.exeee').html(data);
-         }
-      });
+   //    $.ajax({
+   //       type: 'POST',
+   //       url: 'employees_auto_create_date_logs.php',
+   //       data: {
+   //          'calendarDate': calendarDate,
+   //       },
+   //       success:function(data){
+   //          // console.log(data);
+   //          $('.exeee').html(data);
+   //       }
+   //    });
+      
+   // }
+   // // $(window).on('load', employees_auto_create_date_logs);
 
-   }
-   $(window).on('load', employees_auto_create_date_logs);
+   // //Function for update a table for Employee Logs
+   // function employees_auto_update_date_logs(){
 
-   //Function for update a table for Employee Logs
-   function employees_auto_update_date_logs(){
-
-      let calendarDate = document.querySelectorAll('.date');
+   //    let calendarDate = document.querySelectorAll('.date');
          
-      for(let i = 0; calendarDate.length > i; i++){
+   //    for(let i = 0; calendarDate.length > i; i++){
 
-         $(calendarDate[i]).off().on('click', ()=> {
+   //       // $(calendarDate[i]).off().on('click', ()=> {
 
-            let dateSelected = $(calendarDate[i]).attr('value');
+   //       //    let dateSelected = $(calendarDate[i]).attr('value');
 
-            $.ajax({
-               type: 'POST',
-               url: 'employees_auto_update_date_logs.php',
-               data: {
-                  'dateSelected': dateSelected,
-               },
-               success:function(data){
-                  console.log(data)
-               }
-            });
+   //       //    $.ajax({
+   //       //       type: 'POST',
+   //       //       url: 'employees_auto_update_date_logs.php',
+   //       //       data: {
+   //       //          'dateSelected': dateSelected,
+   //       //       },
+   //       //       success:function(data){
+   //       //          console.log(data)
+   //       //       }
+   //       //    });
 
-            
-         });
+   //       // });
 
-      }
+   //       employeeCalendar()
+   //    }
 
-   }
+   // }
+   // $(window).on('load', employees_auto_update_date_logs);
    // employees_auto_update_date_logs()
 
    //Update User
@@ -3297,6 +3298,7 @@ function submit_file_path(){
             let projectId = $('#projectTitle').attr('value');
             let projectName = $('#projectTitle').text();
             let employeeId = $('.employeeId').attr('value');
+            let employeeName = $('.employee_fullName').text();
 
             let taskTitle = $($('.taskTitle')[i]).text();
             let date = new Date();
@@ -3314,6 +3316,7 @@ function submit_file_path(){
                   'taskTitle': taskTitle,
                   'dateToday': dateToday,
                   'employeeId': employeeId,
+                  'employeeName': employeeName,
                },
                success: function(data){
                   $('.taskUpdate_tbody').html(data);
@@ -3409,6 +3412,26 @@ function submit_file_path(){
 
             }
 
+            let tableRow = $(delete_update_task[i]).parent();
+            let update_task_spendhours = $(tableRow).find('.update_task_spendhours');
+            let spendhours = $(update_task_spendhours).attr('value');
+            let employeeId = $('.employeeId').attr('value');
+            let update_task_date = $('.update_task_date').attr('value');
+
+            $.ajax({
+               type: 'POST',
+               url: 'employees_date_logs_minus_update.php',
+               data: {
+                  'spendhours': spendhours,
+                  'employeeId': employeeId,
+                  'update_task_date': update_task_date,
+               },
+               success: function(data){
+                  // $('.employee_fullName').html(data);
+                  console.log(data);
+               }
+            });
+
          });
 
       }
@@ -3498,11 +3521,24 @@ function submit_file_path(){
                      'taskId': taskId,
                      'total_spend_hours': total_spend_hours,
                   },
-                   success: function(data){
+                  success: function(data){
                      // $($('.total_spend_hours')[i]).html(data);
                      alert('Saved Updates');
                   }
                })
+
+               // $.ajax({
+               //    type: 'POST',
+               //    url : 'employees_auto_update_date_logs.php',
+               //    data: {
+               //       'update_tasks_date_array': update_tasks_date_array,
+               //       'update_tasks_spendhours_array': update_tasks_spendhours_array,
+               //    },
+               //    success: function(data){
+               //       $('.totalworkhours').html(data);
+               //       // console.log(data);
+               //    }
+               // });
 
             }
 

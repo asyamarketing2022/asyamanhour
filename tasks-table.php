@@ -36,7 +36,7 @@ if(isset($_POST['userPhoto'])) {
     $employeeId = $_POST['employeeId'];
     
     echo "<img class='photoCircle' src='$userPhoto' alt='' width='200'>
-        <h3>$fullName</h3>
+        <h3 class='employee_fullName'>$fullName</h3>
         <span class='employeeId d-none' value='$employeeId'><strong>Employee Id:</strong> $employeeId</span>";
 
 }

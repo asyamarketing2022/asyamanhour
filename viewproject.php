@@ -6,6 +6,7 @@
 <?php include_once("upload_file_path.php"); ?>
 <?php include_once("ViewProjectController.php"); ?>
 <?php include_once("SearchManagerController.php"); ?>
+<?/*php include_once("employees_auto_create_date_logs.php"); */?>
 
 
 <?/*php include_once("searchEmployee_table.php"); */?>
@@ -37,14 +38,16 @@ $row = $project->fetch_assoc();
 
 <div class="grid-right__content">
     <div class="project-title mt-4">
-         <h1 class="float-start" id="projectTitle" value='<?php echo $projectID ?>'><?php echo $row['project_name'] ?></h1>
-         <div class="float-end info-icon" data-toggle="modal" data-target="#projectInfo"><img src="img/info-icon.png" alt="" width="30"></div>
+        <h1 class="float-start" id="projectTitle" value='<?php echo $projectID ?>'><?php echo $row['project_name'] ?></h1>
+        <div class="float-end info-icon" data-toggle="modal" data-target="#projectInfo"><img src="img/info-icon.png" alt="" width="30"></div>
+
     </div>
 
     <!-- Architecture table  -->
     <?php if($row['service_architecture'] == 1) { ?>
 
     <div class="content-table project_services_table">
+
         <table>
             <tr>
                 <th class="th_services">Architecture</th>
@@ -313,6 +316,8 @@ $row = $project->fetch_assoc();
                     </button>
                 </div>
                 <span class="modal-title">Project In Charge</span>
+                <div class='totalworkhours'></div>
+    
                 <div class="project_in_charge_container">
                     <!-- postUsersProjectInCharge_in_modal.php -->
                     

@@ -1,5 +1,6 @@
 <?php include_once('connections/DBconnection.php'); ?>
 
+
 <?php 
 
 $db = new DBconnection();
@@ -18,7 +19,9 @@ $con = $db->connection();
         // $total_hours = $spend_total_hours->fetch_assoc();
 
         // echo $total_spend_hours;
-      
+
+        include_once('employees_date_logs_auto_update.php');
+
     }
 
 ?>

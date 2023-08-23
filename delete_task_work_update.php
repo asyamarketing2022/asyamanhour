@@ -56,6 +56,9 @@ $con = $db->connection();
 
         }
 
+        // Call a function Update employee date logs
+        include_once('employees_auto_update_date_logs.php');
+
    
     } elseif(isset($_POST['total_spend_hours'])){
 
@@ -110,6 +113,7 @@ $con = $db->connection();
                 echo $output;
 
         }
+
 
     }
 
