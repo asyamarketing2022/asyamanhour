@@ -111,7 +111,7 @@ if(isset($_POST['userId'])) {
                                                 <th></th>
                                             </tr>
                                             <tr>
-                                                <td><img class='add_newUpdate_btn' src='/img/add-icon.png' width='25'></td>
+                                                <td><img class='add_newUpdate_btn' src='img/add-icon.png' width='25'></td>
                                             </tr>
                                         </tbody>
                                     </table>

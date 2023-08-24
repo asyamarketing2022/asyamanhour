@@ -48,7 +48,7 @@
                     </div>
                     <div class="mydesc">
                         <h3>About</h3>
-                        <div><p class="exeee">clickkkkkkkkkkkkkk</p></div>
+                        <!-- <div><p class="exeee">clickkkkkkkkkkkkkk</p></div> -->
                         <p class='current-bio'><?php echo $user_profile['user_bio']; ?></p>
                         <div class="edit-bio">
                             <button class="edit_bio_btn"><a href="#">Edit</a></button>
@@ -319,13 +319,53 @@
                             <th></th>
                         </tr>
 
+                        <!-- For dynamic content (viewlogs.php) -->
+
                         <tr>
-                            <td><img class='add_newUpdate_btn' src='/img/add-icon.png' width='25'></td>
+                            <td class='add_logs_td'>
+                                <img class='add_logs' src='img/add-icon.png' width='25'>
+                                <div class='add_logs_tooltip d-none'>
+                                    <table>
+                                        <tbody>
+                                            <tr class='add_logs_header'>
+                                                <th>My Project</th>
+                                                <th>My Task</th>
+                                                <th>Task Update</th>
+                                                <th>Spend Hours</th>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <select id="select_project">
+                                                        <option value="saab">Saab</option>
+                                                        <option value="volvo">Volvoaaaaaaaaaaaaaaaaaaaaaaaaaa</option>
+                                                        <option value="opel">Opel</option>
+                                                        <option value="audi">Audi</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select id="select_task">
+                                                        <option value="volvo">Volvo</option>
+                                                        <option value="saab">Saab</option>
+                                                        <option value="opel">Opel</option>
+                                                        <option value="audi">Audi</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <input type="text">
+                                                </td>
+                                                <td>
+                                                    <input type="text">
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </td>
                             <td></td>
                             <td><button class='save_update_logs'>Save</button></td>
                             <td></td>
-                            <td>Total Hours:<span class='total_spend_hours'></span></td>
-                            <td></td>
+                            <td>Total Hours:</td>
+                            <td class='total_spend_hours'></td>
                             <td></td>
                         </tr>
                     </tbody>

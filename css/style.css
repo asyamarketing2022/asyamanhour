@@ -391,7 +391,7 @@ button.deleteTask {
 }
 
 .content-table th:first-of-type {
-    border-top-left-radius: 10px;
+    /* border-top-left-radius: 10px; */
 }
 
 .content-table th:last-of-type {
@@ -1563,7 +1563,28 @@ input.form-check-input {
 }
 
 .hidden {
-  display: none;
+    display: none;
+}
+
+.add_logs_td {
+    position: relative;
+}
+
+.add_logs_td .add_logs_tooltip {
+    position: absolute;
+    /* width: 700px; */
+    left: 0;
+    z-index: 15;
+    background: #fff;
+}
+
+.add_logs_td .add_logs_tooltip table {
+    box-shadow: 1px 4px 5px 3px rgba(0,0,0,0.3);
+}
+
+.add_logs_td .add_logs_tooltip table #select_project,
+.add_logs_td .add_logs_tooltip table #select_task {
+    width: 150px;
 }
 
 .myProject-form {

@@ -3338,6 +3338,8 @@ function submit_file_path(){
   function delete_task_work_update(){
 
       let delete_update_task = document.querySelectorAll('.delete_update_task');
+      // let taskUpdate_tbody = document.querySelectorAll('.taskUpdate_tbody');
+      
       let total_spend_hours = 0;
 
       for(let i = 0; delete_update_task.length > i; i++){
@@ -3345,8 +3347,11 @@ function submit_file_path(){
          $(delete_update_task[i]).off().on('click', ()=> {
 
             let update_task_id = $($('.update_task_id')[i]).text();
-            let taskId = $('.taskId').attr('value');
-            let tbody = $(delete_update_task[i]).parent().parent().parent();
+            // let taskId = $('.taskId').attr('value');
+            let tbody = $(delete_update_task[i]).parent().parent();
+            let parent_table_row = $(delete_update_task[i]).parent().parent().parent().parent().parent().parent();
+            let td_taskId = $(parent_table_row).find('.taskId');
+            let taskId = $(td_taskId).attr('value');
       
             let index = 2;
             let loop = 1;
@@ -3360,10 +3365,12 @@ function submit_file_path(){
                      url: 'delete_task_work_update.php',
                      data: {
                         'update_task_id': update_task_id,
-                        'taskId': taskId
+                        'taskId': taskId,
                      },
                      success: function(data){
-                        $('.taskUpdate_tbody').html(data);
+
+                        // $('.taskUpdate_tbody').html(data);
+                        $(tbody).html(data);
             
                      }
                   });
@@ -3372,6 +3379,7 @@ function submit_file_path(){
 
                } else {
 
+                  // Update The Employee Logs
                   setTimeout(() => {
 
                      let update_tasks_spendhours = $(tbody).find('.update_task_spendhours');
@@ -3402,10 +3410,6 @@ function submit_file_path(){
                            }
                         });
 
-                        // delete_task_work_update();
-                        // add_task_work_update();
-                        // save_task_work_update();
-
                   }, 50);
 
                }
@@ -3428,7 +3432,7 @@ function submit_file_path(){
                },
                success: function(data){
                   // $('.employee_fullName').html(data);
-                  console.log(data);
+                  // console.log(data);
                }
             });
 
@@ -3488,7 +3492,6 @@ function submit_file_path(){
                   total_spend_hours += parseFloat($(update_task_spendhours).val().replace(/,/g, "")) || 0;
 
                });
-
 
             if(update_tasks_id_array != 0){
 
@@ -3622,14 +3625,12 @@ function calendarLogs() {
 
          }
 
-
-         //Update Employee Date Logs
+         // Select All Dates in calendar
          setTimeout(() => {
-               
-            employees_auto_update_date_logs()
-   
-         }, 50);
+            
+            dateCalendar();
 
+         }, 50);
 
    });
 
@@ -3728,8 +3729,6 @@ calendarLogs();
       generateCalendar(currentMonth, currentYear);
    });
    
-
-   
    // Function to generate the calendar
    function generateCalendar(month, year) {
      monthYearElement.textContent = new Date(year, month).toLocaleString('default', { month: 'long' }) + ' ' + year;
@@ -3790,7 +3789,26 @@ calendarLogs();
             $(data).insertAfter('.mylogs_table_header');
          }
       })
-      
+
+      //Remove current total spend hours
+      $('.total_spend_hours span').remove();
+
+      //Create total spend hours
+      setTimeout(() => {
+         
+         let spendHours = document.querySelectorAll('.spendHours');
+         let totalHours = 0;
+
+         for(let i = 0; spendHours.length > i; i++){
+
+            totalHours += $(spendHours[i]).text() << 0;
+
+         }
+
+         $(`<span>${totalHours}</span>`).appendTo('.total_spend_hours')
+
+      }, 100);
+
    }
    
    // Function to close the event modal
@@ -3843,6 +3861,65 @@ calendarLogs();
    });
   }
   $('.calendar-icon').on('click', employeeCalendar) ;
+
+  //Date Calendar Function
+  function dateCalendar(){
+
+      let dateCalendar = document.querySelectorAll('.date');
+    
+      for(let i = 0; dateCalendar.length > i; i++){
+
+         $(dateCalendar[i]).off().on('click', ()=> {
+
+           let dateValue = $(dateCalendar[i]).attr('value');
+           let eventDate = document.querySelector('#eventDate');
+            
+           $(eventDate).attr('value', dateValue);
+
+         }); 
+
+      }
+
+   } 
+   // dateCalendar()
+
+  //Add new logs
+  function addLogs(){
+
+   let addLogs_btn = document.querySelector('.add_logs');
+   let eventDate = document.querySelector('#eventDate');
+   let add_logs_tooltip = document.querySelector('.add_logs_tooltip');
+
+      $(addLogs_btn).off().on('click', ()=> {
+
+         let dateClick = $(eventDate).attr('value');
+
+            if($(add_logs_tooltip).hasClass('d-none')) {
+
+               $(add_logs_tooltip).removeClass('d-none');
+    
+            } else {
+               
+               $(add_logs_tooltip).addClass('d-none');
+
+            }
+
+            $.ajax({
+               type: 'POST',
+               url: 'add-employee-logs.php',
+               data: {
+                  'dateClick': dateClick,
+               },
+               success: function(data){
+                  $('#select_project').html(data);
+               }
+
+            });
+
+      });
+
+  }
+  addLogs()
 
 });
 

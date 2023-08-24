@@ -27,7 +27,7 @@ $con = $db->connection();
                     <td>". $row['phase_of_work'] ."</td>
                     <td>". $row['task_title'] ."</td>
                     <td>". $row['task_update'] ."</td>
-                    <td>". $row['spend_hours'] ."</td>
+                    <td class='spendHours'>". $row['spend_hours'] ."</td>
                     <td class='delete_update_task'>-</td>
                 </tr>";
 

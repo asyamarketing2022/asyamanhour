@@ -53,7 +53,7 @@ $con = $db->connection();
             $total_hours = $spend_total_hours->fetch_assoc();
 
             $output .= "<tr>
-                        <td><img class='add_newUpdate_btn' src='/img/add-icon.png' width='25'></td>
+                        <td><img class='add_newUpdate_btn' src='img/add-icon.png' width='25'></td>
                         <td><button class='save_update_tasks'>Save</button></td>
                         <td>Total Hours:<span class='total_spend_hours'>" . $total_hours['total_spend_hours'] . "</span></td>
                         <td></td>
