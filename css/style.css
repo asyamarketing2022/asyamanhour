@@ -1580,6 +1580,7 @@ input.form-check-input {
 
 .add_logs_td .add_logs_tooltip table {
     box-shadow: 1px 4px 5px 3px rgba(0,0,0,0.3);
+    font-size: 14px;
 }
 
 .add_logs_td .add_logs_tooltip table #select_project,

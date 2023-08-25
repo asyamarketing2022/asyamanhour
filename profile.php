@@ -332,29 +332,33 @@
                                                 <th>My Task</th>
                                                 <th>Task Update</th>
                                                 <th>Spend Hours</th>
+                                                <th></th>
                                             </tr>
                                             <tr>
                                                 <td>
                                                     <select id="select_project">
-                                                        <option value="saab">Saab</option>
+                                                        <!-- <option value="saab">Saab</option>
                                                         <option value="volvo">Volvoaaaaaaaaaaaaaaaaaaaaaaaaaa</option>
                                                         <option value="opel">Opel</option>
-                                                        <option value="audi">Audi</option>
+                                                        <option value="audi">Audi</option> -->
                                                     </select>
                                                 </td>
                                                 <td>
                                                     <select id="select_task">
-                                                        <option value="volvo">Volvo</option>
+                                                        <!-- <option value="volvo">Volvo</option>
                                                         <option value="saab">Saab</option>
                                                         <option value="opel">Opel</option>
-                                                        <option value="audi">Audi</option>
+                                                        <option value="audi">Audi</option> -->
                                                     </select>
                                                 </td>
                                                 <td>
-                                                    <input type="text">
+                                                    <input id="add_logs_task_update" type="text">
                                                 </td>
                                                 <td>
-                                                    <input type="text">
+                                                    <input id="add_logs_task_spend_hours" type="text">
+                                                </td>
+                                                <td>
+                                                    <img class='add_logs_save' src="img/add-icon.png" alt="" width="25">
                                                 </td>
                                             </tr>
                                         </tbody>

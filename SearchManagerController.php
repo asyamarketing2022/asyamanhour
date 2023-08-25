@@ -58,7 +58,7 @@ class SearchManagerController
     
                                 echo "<div class='user_container' value='" . $query_manager['ID'] . "'>
                                     <div class='user_photo'>
-                                        <img class='photoCircle m-0' src='$URL/img/upload/" . $query_manager['user_image'] . "' alt='' width='100'>
+                                        <img class='photoCircle m-0' src='img/upload/" . $query_manager['user_image'] . "' alt='' width='100'>
                                         <button class='selectBtn'><a href='#'>Select Manager</a></button>
                                     </div>
                                         <div class='user_info'>
@@ -107,7 +107,7 @@ class SearchManagerController
                 
                 echo "<div class='user_container' value='" . $query_manager['ID'] . "'>
                             <div class='user_photo'>
-                                <img class='photoCircle m-0' src='$URL/img/upload/" . $query_manager['user_image'] . "' alt='' width='100'>
+                                <img class='photoCircle m-0' src='img/upload/" . $query_manager['user_image'] . "' alt='' width='100'>
                                 <button class='selectBtn'><a href='#'>Select Manager</a></button>
                             </div>
                             <div class='user_info'>
@@ -146,7 +146,7 @@ class SearchManagerController
 
                     echo "<div class='user_container' value='" . $query_manager['ID'] . "'>
                                 <div class='user_photo'>
-                                    <img class='photoCircle m-0' src='$URL/img/upload/" . $query_manager['user_image'] . "' alt='' width='100'>
+                                    <img class='photoCircle m-0' src='img/upload/" . $query_manager['user_image'] . "' alt='' width='100'>
                                     <button class='selectBtn'><a href='#'>Select Manager</a></button>
                                 </div>
                                 <div class='user_info'>
@@ -203,7 +203,7 @@ class SearchManagerController
         
                                     echo "<div class='user_container' value='" . $query_manager['ID'] . "'>
                                         <div class='user_photo'>
-                                            <img class='photoCircle m-0' src='$URL/img/upload/" . $query_manager['user_image'] . "' alt='' width='100'>
+                                            <img class='photoCircle m-0' src='img/upload/" . $query_manager['user_image'] . "' alt='' width='100'>
                                             <button class='selectBtn'><a href='#'>Select Manager</a></button>
                                         </div>
                                             <div class='user_info'>
@@ -280,7 +280,7 @@ class SearchManagerController
     
                                 echo "<div class='user_container' value='" . $query_manager['ID'] . "'>
                                     <div class='user_photo'>
-                                        <img class='photoCircle m-0' src='$URL/img/upload/" . $query_manager['user_image'] . "' alt='' width='100'>
+                                        <img class='photoCircle m-0' src='img/upload/" . $query_manager['user_image'] . "' alt='' width='100'>
                                         <button class='selectBtn'><a href='#'>Select Manager</a></button>
                                     </div>
                                         <div class='user_info'>
@@ -341,7 +341,7 @@ class SearchManagerController
                     
                     echo "<div class='user_container' value='" . $query_manager['ID'] . "'>
                                 <div class='user_photo'>
-                                    <img class='photoCircle m-0' src='$URL/img/upload/" . $query_manager['user_image'] . "' alt='' width='100'>
+                                    <img class='photoCircle m-0' src='img/upload/" . $query_manager['user_image'] . "' alt='' width='100'>
                                     <button class='selectBtn'><a href='#'>Select Manager</a></button>
                                 </div>
                                 <div class='user_info'>
@@ -389,7 +389,7 @@ class SearchManagerController
 
                     echo "<div class='user_container' value='" . $query_manager['ID'] . "'>
                                 <div class='user_photo'>
-                                    <img class='photoCircle m-0' src='$URL/img/upload/" . $query_manager['user_image'] . "' alt='' width='100'>
+                                    <img class='photoCircle m-0' src='img/upload/" . $query_manager['user_image'] . "' alt='' width='100'>
                                     <button class='selectBtn'><a href='#'>Select Manager</a></button>
                                 </div>
                                 <div class='user_info'>

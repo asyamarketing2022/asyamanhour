@@ -3912,14 +3912,93 @@ calendarLogs();
                },
                success: function(data){
                   $('#select_project').html(data);
+                  // $('#eventDate').html(data);
+                  // console.log(data);
                }
 
             });
 
+            // addLogs_select_project();
+
       });
 
   }
-  addLogs()
+  addLogs();
+
+  function addLogs_select_project(){
+
+      let select_project = document.querySelector('select#select_project');
+
+      $(select_project).off().on('click', ()=> {
+
+         let option_project = document.querySelectorAll('select#select_project option');
+
+         for(let i = 0; option_project.length > i; i++){
+
+            if(option_project[i].selected){
+
+               let projectId = $(option_project[i]).attr('value');
+
+               $.ajax({
+                  type: 'POST',
+                  url: 'add-employee-logs.php',
+                  data: {
+                     'projectId': projectId,
+                  },
+                  success: function(data){
+                     $('#select_task').html(data);
+                     // $('#eventDate').html(data);
+                  }
+
+               });
+
+            }
+
+         }
+
+      });
+
+  }
+  addLogs_select_project()
+
+  function add_logs_save(){
+
+      let add_logs_save = document.querySelector('.add_logs_save');
+ 
+         $(add_logs_save).off().on('click', ()=> {
+
+            let selectedProject = $('#select_project :selected').attr('value');
+            let selectedTask = $('#select_task :selected').attr('value');
+            let add_logs_task_update = $('#add_logs_task_update').val();
+            let add_logs_task_spend_hours = $('#add_logs_task_spend_hours').val();
+
+            if(selectedProject == undefined){
+
+               alert('Please Select Your Project');
+
+            } else if(add_logs_task_update == '') {
+
+               alert('Please Describe Your Task Update');
+
+            } else if(add_logs_task_spend_hours == '') {
+
+               alert('Kindly Put How Many Hours Do You Spend');
+
+            } else {
+
+               // $.ajax({
+               //    type: 'POST',
+               //    url
+
+
+               // });
+
+            }
+
+
+         });
+  }
+  add_logs_save();
 
 });
 
