@@ -306,15 +306,15 @@
             <textarea class="area d-none" id="eventDescription"></textarea>
             <button class='d-none' id="saveEventBtn">Save</button>
             <div class="content-table">
-                <table>
+                <table class='calendarModal_logs'>
                     <tbody>
                         <tr class="mylogs_table_header">
                             <th class="d-none">Update Task Id</th>
                             <th>Project Name</th>
                             <th>Service</th>
                             <th>Phase of work</th>
+                            <th>Task Title</th>
                             <th>Updates</th>
-                            <th>Date</th>
                             <th>Spend Hours</th>
                             <th></th>
                         </tr>
@@ -336,26 +336,16 @@
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <select id="select_project">
-                                                        <!-- <option value="saab">Saab</option>
-                                                        <option value="volvo">Volvoaaaaaaaaaaaaaaaaaaaaaaaaaa</option>
-                                                        <option value="opel">Opel</option>
-                                                        <option value="audi">Audi</option> -->
-                                                    </select>
+                                                    <select id="select_project"></select>
                                                 </td>
                                                 <td>
-                                                    <select id="select_task">
-                                                        <!-- <option value="volvo">Volvo</option>
-                                                        <option value="saab">Saab</option>
-                                                        <option value="opel">Opel</option>
-                                                        <option value="audi">Audi</option> -->
-                                                    </select>
+                                                    <select id="select_task"></select>
                                                 </td>
                                                 <td>
                                                     <input id="add_logs_task_update" type="text">
                                                 </td>
                                                 <td>
-                                                    <input id="add_logs_task_spend_hours" type="text">
+                                                    <input id="add_logs_task_spend_hours" type="number">
                                                 </td>
                                                 <td>
                                                     <img class='add_logs_save' src="img/add-icon.png" alt="" width="25">
@@ -366,7 +356,7 @@
                                 </div>
                             </td>
                             <td></td>
-                            <td><button class='save_update_logs'>Save</button></td>
+                            <td> <!-- <button class='save_update_logs'>Save</button> --></td>
                             <td></td>
                             <td>Total Hours:</td>
                             <td class='total_spend_hours'></td>

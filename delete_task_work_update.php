@@ -79,7 +79,6 @@ $con = $db->connection();
                             <th>Date</th>
                             <th>Spend Hours</th>
                             <th></th>
-            
                         </tr>";
 
                 do {

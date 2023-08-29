@@ -3416,6 +3416,7 @@ function submit_file_path(){
 
             }
 
+            //Update the employee logs total spend hours when update task was deleted
             let tableRow = $(delete_update_task[i]).parent();
             let update_task_spendhours = $(tableRow).find('.update_task_spendhours');
             let spendhours = $(update_task_spendhours).attr('value');
@@ -3431,8 +3432,7 @@ function submit_file_path(){
                   'update_task_date': update_task_date,
                },
                success: function(data){
-                  // $('.employee_fullName').html(data);
-                  // console.log(data);
+
                }
             });
 
@@ -3634,6 +3634,7 @@ function calendarLogs() {
 
    });
 
+   //Calendar Overlay Background
    $(calendarOverlay).off().on('click', ()=> {
 
       $(calendar).addClass('d-none');
@@ -3871,12 +3872,35 @@ calendarLogs();
 
          $(dateCalendar[i]).off().on('click', ()=> {
 
+           //Add date value in event modal
            let dateValue = $(dateCalendar[i]).attr('value');
            let eventDate = document.querySelector('#eventDate');
             
            $(eventDate).attr('value', dateValue);
 
+           //Call delete logs function
+           delete_logs()
          }); 
+
+         //Calendar Date Logs Color
+         let calendarDate = $(dateCalendar[i]).attr('value');
+         let dateNumber = $(dateCalendar[i]).text();
+
+         $.ajax({
+            type: 'POST',
+            url: 'date_logs_color.php',
+            data: {
+               'calendarDate': calendarDate,
+               'dateNumber': dateNumber,
+            },
+            success: function(data){
+               $(dateCalendar[i]).addClass(data);
+               // $(dateCalendar[i]).html(data);
+               // $(data).insertAfter('.dates');
+            }
+         });
+
+         // console.log(calendarDate)
 
       }
 
@@ -3892,8 +3916,10 @@ calendarLogs();
 
       $(addLogs_btn).off().on('click', ()=> {
 
+         // Select Date and get date value attribute
          let dateClick = $(eventDate).attr('value');
 
+            //Add new logs tooltip
             if($(add_logs_tooltip).hasClass('d-none')) {
 
                $(add_logs_tooltip).removeClass('d-none');
@@ -3904,21 +3930,18 @@ calendarLogs();
 
             }
 
+            //Select Date and Quary all user project
             $.ajax({
                type: 'POST',
-               url: 'add-employee-logs.php',
+               url: 'employee-logs-add.php',
                data: {
                   'dateClick': dateClick,
                },
                success: function(data){
                   $('#select_project').html(data);
-                  // $('#eventDate').html(data);
-                  // console.log(data);
                }
 
             });
-
-            // addLogs_select_project();
 
       });
 
@@ -3941,7 +3964,7 @@ calendarLogs();
 
                $.ajax({
                   type: 'POST',
-                  url: 'add-employee-logs.php',
+                  url: 'employee-logs-add.php',
                   data: {
                      'projectId': projectId,
                   },
@@ -3963,16 +3986,23 @@ calendarLogs();
 
   function add_logs_save(){
 
+      // Save new logs
       let add_logs_save = document.querySelector('.add_logs_save');
  
          $(add_logs_save).off().on('click', ()=> {
 
-            let selectedProject = $('#select_project :selected').attr('value');
-            let selectedTask = $('#select_task :selected').attr('value');
+            // let projectName = $('#select_project :selected').text()
+            let selected_project_id = $('#select_project :selected').attr('value');
+            // let TaskName = $('#select_task :selected').text();
+            let selected_task_id = $('#select_task :selected').attr('value');
+            let selectedDate = $('#eventDate').attr('value');
             let add_logs_task_update = $('#add_logs_task_update').val();
             let add_logs_task_spend_hours = $('#add_logs_task_spend_hours').val();
 
-            if(selectedProject == undefined){
+            // console.log(projectName);
+            // console.log(TaskName);
+
+            if(selected_project_id == undefined){
 
                alert('Please Select Your Project');
 
@@ -3986,12 +4016,47 @@ calendarLogs();
 
             } else {
 
-               // $.ajax({
-               //    type: 'POST',
-               //    url
+               $.ajax({
+                  type: 'POST',
+                  url: 'employee-logs-add.php',
+                  data: {
+                     'selected_project_id': selected_project_id,
+                     'selected_task_id': selected_task_id,
+                     'selectedDate': selectedDate,
+                     'add_logs_task_update': add_logs_task_update,
+                     'add_logs_task_spend_hours': add_logs_task_spend_hours,
+                  },
+                  success: function(data){
+             
+                     //Remove and refresh update data
+                     let mylogs_update = document.querySelectorAll('.mylogs_update');
+                     let total_spend_hours = document.querySelectorAll('.total_spend_hours span')
+                     
+                     $(mylogs_update).remove();
+                     $(total_spend_hours).remove();
+                     
+                     setTimeout(() => {
 
+                        $(data).insertAfter('.mylogs_table_header');
+         
+                        let spendHours = document.querySelectorAll('.spendHours');
+                        let totalHours = 0;
+               
+                        for(let i = 0; spendHours.length > i; i++){
+               
+                           totalHours += $(spendHours[i]).text() << 0;
+               
+                        }
+               
+                        $(`<span>${totalHours}</span>`).appendTo('.total_spend_hours')
+                       
+                        //Call Delete Logs function
+                        delete_logs();
 
-               // });
+                     }, 100);
+                  }
+
+               });
 
             }
 
@@ -3999,6 +4064,71 @@ calendarLogs();
          });
   }
   add_logs_save();
+
+  function delete_logs(){
+
+   setTimeout(() => {
+
+      let deletelogs_btn = document.querySelectorAll('.delete_update_task');
+
+      for(let i = 0; deletelogs_btn.length > i; i++){
+
+         $(deletelogs_btn[i]).off().on('click', ()=> {
+
+            let taskUpdate_id = $(deletelogs_btn[i]).parent().attr('id');
+            let selectedDate = $('#eventDate').attr('value');
+
+            $.ajax({
+               type: 'POST',
+               url: 'employee-logs-delete.php',
+               data: {
+                  'taskUpdate_id': taskUpdate_id,
+                  'selectedDate': selectedDate,
+               },
+               success: function(data){
+
+                  $(data).insertAfter('.mylogs_table_header');
+                  // Remove and refresh update data
+                  
+                  let mylogs_update = document.querySelectorAll('.mylogs_update');
+                  let total_spend_hours = document.querySelectorAll('.total_spend_hours span');
+                     
+                  $(mylogs_update).remove();
+                  $(total_spend_hours).remove();
+                     
+                  setTimeout(() => {
+
+                     $(data).insertAfter('.mylogs_table_header');
+         
+                     let spendHours = document.querySelectorAll('.spendHours');
+                     let totalHours = 0;
+               
+                     for(let i = 0; spendHours.length > i; i++){
+               
+                        totalHours += $(spendHours[i]).text() << 0;
+               
+                     }
+               
+                     $(`<span>${totalHours}</span>`).appendTo('.total_spend_hours');
+
+                     //Call Delete Logs function
+                     delete_logs();
+
+                  }, 100);
+
+               }
+            });
+
+        
+         });
+
+      }
+
+   }, 100);
+   
+  }
+
+
 
 });
 
