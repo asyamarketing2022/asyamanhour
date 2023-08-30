@@ -26,12 +26,25 @@ a {
     color: #004c3f;
 }
 
-.bg-green {
-    background: #95ef85;
+.button-disable {
+    color: grey;
+    border: grey;
 }
 
 .bg-red {
     background: #f77d7d;
+}
+
+.bg-green {
+    background: #95ef85;
+}
+
+.bg-green.bg-red {
+    background: #f77d7d;
+}
+
+.bg-red.bg-green {
+    background: #95ef85;
 }
 
 .close-btn-menu {

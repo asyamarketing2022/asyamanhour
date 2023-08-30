@@ -6,7 +6,7 @@
 $db = new DBconnection();
 $con = $db->connection();
 
-    //Select Date and Quary all user project
+    //Select Date and Query all user project
     if(isset($_POST['dateClick'])){
 
         $userId = $_SESSION['UserId'];
@@ -43,7 +43,7 @@ $con = $db->connection();
         
     } elseif(isset($_POST['projectId'])) {
 
-        //Select project already and Quary all user tasks
+        //Select project already and Query all user tasks
         $projectId = $_POST['projectId'];
         $userId = $_SESSION['UserId'];
 
@@ -82,13 +82,25 @@ $con = $db->connection();
         $services = $employee_task['services'];
         $phase_of_work = $employee_task['phase_of_work'];
 
+        //Update employee task spend hours 
+        $sql_employee_task_update = "SELECT * FROM employees_tasks WHERE employee_id = '$userId' AND id = '$taskId'";
+        $employee_task_update = $con->query($sql_employee_task_update) or die ($con->error);
+        $employeeTask = $employee_task_update->fetch_assoc();
+
+        // Select total spend hours and add the new logs spend hours
+        $update_total_spendhours = $add_logs_task_spend_hours + $employeeTask['total_spend_hours'];
+        
+        $sql_update_employees_task = "UPDATE `employees_tasks` SET `total_spend_hours` = '$update_total_spendhours' WHERE id = '$taskId'";
+
+        $con->query($sql_update_employees_task) or die ($con->error);
+
         //Insert new task update
         $sql_new_logs = "INSERT INTO `employees_updates_task`(`project_id`, `project_name`, `services`, `phase_of_work`, `employee_id`, `employee_name`, `task_id`, `task_title`, `task_update`, `date`, `spend_hours`) VALUES ('$projectId', '$project_name', '$services', '$phase_of_work', '$userId', '$firstName $lastName', '$taskId', '$task_title', '$add_logs_task_update', '$selectedDate', '$add_logs_task_spend_hours')";
 
         $con->query($sql_new_logs) or die ($con->error);
 
 
-        //Query all employee tasks
+        //Query all employee update logs
         $sql_employee_task_selected_date = "SELECT * FROM employees_updates_task WHERE employee_id = '$userId' AND date = '$selectedDate' ORDER BY id ASC";
         $employee_update_tasks = $con->query($sql_employee_task_selected_date) or die ($con->error);
         $employee_update_task = $employee_update_tasks->fetch_assoc();
@@ -103,7 +115,7 @@ $con = $db->connection();
                     <td>". $employee_update_task['project_name'] ."</td>
                     <td>". $employee_update_task['services'] ."</td>
                     <td>". $employee_update_task['phase_of_work'] ."</td>
-                    <td>". $employee_update_task['task_title'] ."</td>
+                    <td class='taskId' value='" . $employee_update_task['task_id'] . "'>". $employee_update_task['task_title'] ."</td>
                     <td>". $employee_update_task['task_update'] ."</td>
                     <td class='spendHours'>". $employee_update_task['spend_hours'] ."</td>
                     <td class='delete_update_task'>-</td>

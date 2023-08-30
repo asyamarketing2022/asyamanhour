@@ -6,6 +6,7 @@
 <?php include_once("upload_file_path.php"); ?>
 <?php include_once("ViewProjectController.php"); ?>
 <?php include_once("SearchManagerController.php"); ?>
+<?php include_once('login.php'); ?>
 <?/*php include_once("employees_auto_create_date_logs.php"); */?>
 
 
@@ -297,7 +298,13 @@ $row = $project->fetch_assoc();
                     <!-- postUsersManager_in_modal.php -->
 
             </div>
+
+            <?php if(isset($_SESSION['UserLogin']) && $_SESSION['Access'] == "admin" ) { ?>
+
             <img class="addManagerBtn" data-toggle="modal" data-target="#addManager" src="img/add-icon.png" alt="" width="50">
+
+
+            <?php } ?>
 
         </div>
     </div>
@@ -322,7 +329,12 @@ $row = $project->fetch_assoc();
                     <!-- postUsersProjectInCharge_in_modal.php -->
                     
                 </div>
-                <img class="addProjectInChargeBtn" data-toggle="modal" data-target="#addProjectInCharge" src="img/add-icon.png" alt="" width="50">
+
+                <div class="add_project_button_wrapper">
+                    <!-- <img class="addProjectInChargeBtn" data-toggle="modal" data-target="#addProjectInCharge" src="img/add-icon.png" alt="" width="50"> -->
+                </div>
+                
+        
             </div>
 
             <div class="modal-right-content">
@@ -340,7 +352,11 @@ $row = $project->fetch_assoc();
                                 <!-- tasks-table.php for dynamic content -->
 
                             </div>
-                            <img class='addNewTaskBtn' src='img/add-icon.png' alt='' width='25'>
+
+
+                                <img class='addNewTaskBtn' src='img/add-icon.png' alt='' width='25'>
+
+
                             <div class="addNewTask_form_container">
                                 <div class="content-info__wrapper">
                                     <div class="content__info">

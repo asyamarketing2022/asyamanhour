@@ -1564,6 +1564,12 @@ jQuery(function () {
             let employeeAssigned_id = $(employeesAssigned_id[i]).attr('value');
             let managerIds = $(managers_id[i]).attr('value');
 
+            let tableRow = $(employeesAssigned_id[i]).parent();
+            let managersId = $(tableRow).find('.manager_photo_id').attr('value');
+            let idArray = managersId.split(" ");
+            idArray.pop()
+
+            //Print all project in charge in modal
             $.ajax({   
               type: 'POST',
               url: 'postUsersProjectInCharge_in_modal.php',
@@ -1575,6 +1581,33 @@ jQuery(function () {
                    $('.project_in_charge_container').html(data);
                  }
             });
+
+            for(let i = 0; idArray.length > i; i++){
+
+               let managerId = idArray[i];
+
+               //Show add project in charge button if the manager user is assigned in the phase of work
+               $.ajax({
+                  type: 'POST',
+                  url: 'show_add_pic_button.php',
+                  data: {
+                     'managerId': managerId,
+                  },
+                  success:function(data){
+                     // $().html(data);
+                     $(data).appendTo('.add_project_button_wrapper');
+
+                     //Call add project in charge function
+                     addProjectInChargeBtn();
+
+                     //Call select employee function
+                     // selectEmployee();
+                  }
+
+               });
+                             
+            }
+
          });
          
       }
@@ -2255,6 +2288,7 @@ function submit_file_path(){
                   $('.search_employee_wrapper').html(data);
                }
             });
+
       });
 
    }
@@ -2268,12 +2302,13 @@ function submit_file_path(){
 
          setTimeout(function() {
             $('#addProjectInCharge').modal();
+
          }, 2000);
 
       });
 
    }
-   addProjectInChargeBtn_clicked_delay()
+   addProjectInChargeBtn_clicked_delay();
 
    // Create a dynamic html element for Service and Phase of work
    function PIC_service_and_pow(){
@@ -2501,6 +2536,8 @@ function submit_file_path(){
             {
 
          selectEmployee();
+
+    
 
          }, 100);
 
@@ -3436,6 +3473,9 @@ function submit_file_path(){
                }
             });
 
+            // Call a function to change the date color
+            dateColor();
+
          });
 
       }
@@ -3628,7 +3668,11 @@ function calendarLogs() {
          // Select All Dates in calendar
          setTimeout(() => {
             
+            //Call a function for add date value in event modal
             dateCalendar();
+
+            //Call calendar date color
+            dateColor()
 
          }, 50);
 
@@ -3719,6 +3763,9 @@ calendarLogs();
         currentYear--;
       }
       generateCalendar(currentMonth, currentYear);
+
+      // Call a function to change the date color
+      dateColor();
    });
 
    $(nextBtn).off().on('click', ()=> {
@@ -3728,6 +3775,9 @@ calendarLogs();
         currentYear++;
       }
       generateCalendar(currentMonth, currentYear);
+
+      // Call a function to change the date color
+      dateColor();
    });
    
    // Function to generate the calendar
@@ -3881,31 +3931,42 @@ calendarLogs();
            //Call delete logs function
            delete_logs()
          }); 
-
-         //Calendar Date Logs Color
-         let calendarDate = $(dateCalendar[i]).attr('value');
-         let dateNumber = $(dateCalendar[i]).text();
-
-         $.ajax({
-            type: 'POST',
-            url: 'date_logs_color.php',
-            data: {
-               'calendarDate': calendarDate,
-               'dateNumber': dateNumber,
-            },
-            success: function(data){
-               $(dateCalendar[i]).addClass(data);
-               // $(dateCalendar[i]).html(data);
-               // $(data).insertAfter('.dates');
-            }
-         });
-
-         // console.log(calendarDate)
-
       }
 
    } 
    // dateCalendar()
+
+   function dateColor(){
+
+      let dateCalendar = document.querySelectorAll('.date');
+
+      for(let i = 0; dateCalendar.length > i; i++){
+
+      //Remove Class
+
+      $(dateCalendar[i]).removeClass("bg-green");
+      $(dateCalendar[i]).removeClass("bg-red");
+
+      //Calendar Date Logs Color
+      let calendarDate = $(dateCalendar[i]).attr('value');
+      let dateNumber = $(dateCalendar[i]).text();
+   
+      $.ajax({
+         type: 'POST',
+         url: 'date_logs_color.php',
+         data: {
+            'calendarDate': calendarDate,
+            'dateNumber': dateNumber,
+         },
+         success: function(data){
+            $(dateCalendar[i]).addClass(data);
+            // $(dateCalendar[i]).html(data);
+            // $(data).insertAfter('.dates');
+         }
+      });
+
+   }
+}
 
   //Add new logs
   function addLogs(){
@@ -4054,6 +4115,9 @@ calendarLogs();
                         delete_logs();
 
                      }, 100);
+
+                     //Call a function to change the date color
+                     dateColor()
                   }
 
                });
@@ -4077,6 +4141,11 @@ calendarLogs();
 
             let taskUpdate_id = $(deletelogs_btn[i]).parent().attr('id');
             let selectedDate = $('#eventDate').attr('value');
+            let tableRow = $(deletelogs_btn[i]).parent();
+            let taskId = $(tableRow).find('.taskId').attr('value');
+            let update_task_spendhours = $(tableRow).find('.spendHours');
+            let spendhours = $(update_task_spendhours).text();
+            let update_task_date = $('#eventDate').attr('value');
 
             $.ajax({
                type: 'POST',
@@ -4084,6 +4153,8 @@ calendarLogs();
                data: {
                   'taskUpdate_id': taskUpdate_id,
                   'selectedDate': selectedDate,
+                  'spendhours': spendhours,
+                  'taskId': taskId,
                },
                success: function(data){
 
@@ -4114,12 +4185,28 @@ calendarLogs();
                      //Call Delete Logs function
                      delete_logs();
 
-                  }, 100);
+                  }, 50);
 
                }
             });
 
-        
+            //Update the employee logs total spend hours when update task was deleted
+ 
+            $.ajax({
+               type: 'POST',
+               url: 'employees_date_logs_minus_update.php',
+               data: {
+                  'spendhours': spendhours,
+                  // 'employeeId': employeeId,
+                  'update_task_date': update_task_date,
+               },
+               success: function(data){
+                  // $('#eventDate').html(data);
+               }
+            });
+
+            // Call a function to change the date color
+            dateColor();
          });
 
       }

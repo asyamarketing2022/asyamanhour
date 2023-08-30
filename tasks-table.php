@@ -1,6 +1,7 @@
 <?php 
 
 include_once("connections/DBconnection.php");
+include_once('login.php');
 
 $db = new DBconnection();
 $con = $db->connection();
@@ -44,6 +45,7 @@ if(isset($_POST['userPhoto'])) {
 if(isset($_POST['userId'])) {
 
     $userId = $_POST['userId'];
+    $login_userId = $_SESSION['UserId'];
     $phase_of_work = $_POST['phase_of_work'];
     $services = $_POST['services'];
     $projectId = $_POST['projectId'];
@@ -94,112 +96,175 @@ if(isset($_POST['userId'])) {
 
             if($row['invite_status'] == 'accept'){
 
-            $output .= "<tr>
-                            <td class='managerId d-none' value='". $row['manager_id'] ."'>". $row['manager_id'] ."</td>
-                            <td class='taskId d-none' value='". $row['id'] ."'>". $row['id'] ."</td>
-                            <td class='taskTitle'>". $row['task_title'] ."</td>
-                            <td>". $row['notes'] ."</td>
-                            <td class='taskUpdate'>
-                                <button class='taskUpdate_btn'>Task Update</button>
-                                <div class='taskUpdate_tooltip d-none'>
-                                    <table>
-                                        <tbody class='taskUpdate_tbody'>
-                                            <tr class='taskUpdate_header'>
-                                                <th>Updates</th>
-                                                <th>Date</th>
-                                                <th>Spend Hour</th>
-                                                <th></th>
-                                            </tr>
-                                            <tr>
-                                                <td><img class='add_newUpdate_btn' src='img/add-icon.png' width='25'></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </td>
-                            <td class='taskStarted'>". $row['date_started'] ."</td>
-                            <td class='pow_status'>
-                                <div class='text_status'>
-                                    <span>" . $row['status'] . "</span> 
-                                </div>
-                                <div class='status_tooltip d-none'>
-                                    <span class='status orangeStatus'>Working on it</span>
-                                    <span class='status redStatus'>Stuck</span>
-                                    <span class='status greenStatus'>Done</span>
-                                    <input onkeypress='return /[ A-Za-z0-9]/i.test(event.key)' onpaste='return false;' ondrop='return false;' autocomplete='off'>
-                                </div>
-                            </td>
-                            <td class='upload_filepath_td'>
-                                <button class='uploadPathBtn'>Upload File Path</button>
-                                <div class='upload_filepath_tooltip d-none'>
-                                    <div class='upload_filepath_wrapper'>
-                                        <span>Upload File Path</span>
-                                        <div class='upload_filepath_form'>
-                                            <div class='content-info__wrapper'>
-                                                <div class='content__info'>
-                                                    <span>Notes:</span>
-                                                    <textarea class='new-task-notes' name='notes' id='' cols='25' rows='5'></textarea>
-                                                </div>
-                                                <div class='content__info'>
-                                                    <span>File Name:</span>
-                                                    <input class='file-name' name='fileName' 'type='text' required=''>
-                                                </div>
-                                                <div class='content__info'>
-                                                    <span>Insert File Path:</span>
-                                                    <input class='file-path' name='filePath' type='url' required=''>
-                                                </div>
-                                                <div class='content__info d-none'>
-                                                    <span>Manager Id:</span>
-                                                    <span class='manager-id'></span>
-                                                </div>
-                                                <div class='content__info d-none'>
-                                                    <span>Employee Name:</span>
-                                                    <span class='employee-name'></span>
-                                                </div>
-                                                    <div class='content__info d-none'>
-                                                    <span>Task Id:</span>
-                                                    <span class='task-id'></span>
-                                                </div>
-                                                <div class='content__info d-none'>
-                                                    <span>Task Title:</span>
-                                                    <span class='task-title'></span>
-                                                </div>
-                                                <div class='content__info d-none'>
-                                                    <span>Project Id:</span>
-                                                    <input class='project-Id' name='projectId' type='hidden' value='$projectId'>
-                                                </div>
-                                                <div class='content__info d-none'>
-                                                <span>Project Name:</span>
-                                                    <input class='project-name' name='projectName' type='hidden' value='$projectName'>
-                                                </div>
-                                                <div class='content__info d-none'>
-                                                    <span>Phase of Work:</span>
-                                                    <input class='phase-of-work' name='phaseOfwork' type='hidden' value='$phase_of_work'>
-                                                </div>
-                                                <div class='content__info d-none'>
-                                                    <span>Services:</span>
-                                                    <input class='services' name='services' type='hidden' value='$services'>
-                                                </div>
-                                                <div class='button-wrapper'>
-                                                    <input class='submit-button submit-file-path' name='' type='submit' value='Submit'>
-                                                </div>
-                                            </div>
+                if($userId == $login_userId) {
+
+                    $output .= "<tr>
+                    <td class='managerId d-none' value='". $row['manager_id'] ."'>". $row['manager_id'] ."</td>
+                    <td class='taskId d-none' value='". $row['id'] ."'>". $row['id'] ."</td>
+                    <td class='taskTitle'>". $row['task_title'] ."</td>
+                    <td>". $row['notes'] ."</td>
+                    <td class='taskUpdate'>
+                        <button class='taskUpdate_btn'>Task Update</button>
+                        <div class='taskUpdate_tooltip d-none'>
+                            <table>
+                                <tbody class='taskUpdate_tbody'>
+                                    <tr class='taskUpdate_header'>
+                                        <th>Updates</th>
+                                        <th>Date</th>
+                                        <th>Spend Hour</th>
+                                        <th></th>
+                                    </tr>
+                                    <tr>
+                                        <td><img class='add_newUpdate_btn' src='img/add-icon.png' width='25'></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </td>
+                    <td class='taskStarted'>". $row['date_started'] ."</td>
+                    <td class='pow_status'>
+                        <div class='text_status'>
+                            <span>" . $row['status'] . "</span> 
+                        </div>
+                        <div class='status_tooltip d-none'>
+                            <span class='status orangeStatus'>Working on it</span>
+                            <span class='status redStatus'>Stuck</span>
+                            <span class='status greenStatus'>Done</span>
+                            <input onkeypress='return /[ A-Za-z0-9]/i.test(event.key)' onpaste='return false;' ondrop='return false;' autocomplete='off'>
+                        </div>
+                    </td>
+                    <td class='upload_filepath_td'>
+                        <button class='uploadPathBtn'>Upload File Path</button>
+                        <div class='upload_filepath_tooltip d-none'>
+                            <div class='upload_filepath_wrapper'>
+                                <span>Upload File Path</span>
+                                <div class='upload_filepath_form'>
+                                    <div class='content-info__wrapper'>
+                                        <div class='content__info'>
+                                            <span>Notes:</span>
+                                            <textarea class='new-task-notes' name='notes' id='' cols='25' rows='5'></textarea>
+                                        </div>
+                                        <div class='content__info'>
+                                            <span>File Name:</span>
+                                            <input class='file-name' name='fileName' 'type='text' required=''>
+                                        </div>
+                                        <div class='content__info'>
+                                            <span>Insert File Path:</span>
+                                            <input class='file-path' name='filePath' type='url' required=''>
+                                        </div>
+                                        <div class='content__info d-none'>
+                                            <span>Manager Id:</span>
+                                            <span class='manager-id'></span>
+                                        </div>
+                                        <div class='content__info d-none'>
+                                            <span>Employee Name:</span>
+                                            <span class='employee-name'></span>
+                                        </div>
+                                            <div class='content__info d-none'>
+                                            <span>Task Id:</span>
+                                            <span class='task-id'></span>
+                                        </div>
+                                        <div class='content__info d-none'>
+                                            <span>Task Title:</span>
+                                            <span class='task-title'></span>
+                                        </div>
+                                        <div class='content__info d-none'>
+                                            <span>Project Id:</span>
+                                            <input class='project-Id' name='projectId' type='hidden' value='$projectId'>
+                                        </div>
+                                        <div class='content__info d-none'>
+                                        <span>Project Name:</span>
+                                            <input class='project-name' name='projectName' type='hidden' value='$projectName'>
+                                        </div>
+                                        <div class='content__info d-none'>
+                                            <span>Phase of Work:</span>
+                                            <input class='phase-of-work' name='phaseOfwork' type='hidden' value='$phase_of_work'>
+                                        </div>
+                                        <div class='content__info d-none'>
+                                            <span>Services:</span>
+                                            <input class='services' name='services' type='hidden' value='$services'>
+                                        </div>
+                                        <div class='button-wrapper'>
+                                            <input class='submit-button submit-file-path' name='' type='submit' value='Submit'>
                                         </div>
                                     </div>
                                 </div>
-                            </td>
-                            <td class='check_filepath_td'>
-                                <button class='checkfilepathBtn'>Check Files</button>
-                                <div class='check_filepath_tooltip d-none'>
-                                  <div class='check_filepath_wrapper'>
-                                      <span>Check File Path</span>
-                                      <div class='content-table'>
-         
-                                      </div>
-                                  </div>
-                                </div>
-                            </td>
-                        </tr>";
+                            </div>
+                        </div>
+                    </td>
+                    <td class='check_filepath_td'>
+                        <button class='checkfilepathBtn'>Check Files</button>
+                        <div class='check_filepath_tooltip d-none'>
+                        <div class='check_filepath_wrapper'>
+                            <span>Check File Path</span>
+                            <div class='content-table'>
+
+                            </div>
+                        </div>
+                        </div>
+                    </td>
+                </tr>";
+                    
+                } else {
+
+                    $output .= "<tr>
+                    <td class='managerId d-none' value='". $row['manager_id'] ."'>". $row['manager_id'] ."</td>
+                    <td class='taskId d-none' value='". $row['id'] ."'>". $row['id'] ."</td>
+                    <td class='taskTitle'>". $row['task_title'] ."</td>
+                    <td>". $row['notes'] ."</td>
+                    <td class='taskUpdate'>
+                        <button class='taskUpdate_btn'>Task Update</button>
+                        <div class='taskUpdate_tooltip d-none'>
+                            <table>
+                                <tbody class='taskUpdate_tbody'>
+                                    <tr class='taskUpdate_header'>
+                                        <th>Updates</th>
+                                        <th>Date</th>
+                                        <th>Spend Hour</th>
+                                        <th></th>
+                                    </tr>
+                                    <tr>
+                                        <td><img class='add_newUpdate_btn' src='img/add-icon.png' width='25'></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </td>
+                    <td class='taskStarted'>". $row['date_started'] ."</td>
+                    <td class='pow_status'>
+                        <div class='text_status'>
+                            <span>" . $row['status'] . "</span> 
+                        </div>
+                        <div class='status_tooltip d-none'>
+                            <span class='status orangeStatus'>Working on it</span>
+                            <span class='status redStatus'>Stuck</span>
+                            <span class='status greenStatus'>Done</span>
+                            <input onkeypress='return /[ A-Za-z0-9]/i.test(event.key)' onpaste='return false;' ondrop='return false;' autocomplete='off'>
+                        </div>
+                    </td>
+                    <td class='upload_filepath_td'>
+                        <button class='button-disable'>Upload File Path</button>
+                        <div class='upload_filepath_tooltip d-none'>
+                            <div class='upload_filepath_wrapper'>
+                                
+                            </div>
+                        </div>
+                    </td>
+                    <td class='check_filepath_td'>
+                        <button class='checkfilepathBtn'>Check Files</button>
+                        <div class='check_filepath_tooltip d-none'>
+                        <div class='check_filepath_wrapper'>
+                            <span>Check File Path</span>
+                            <div class='content-table'>
+
+                            </div>
+                        </div>
+                        </div>
+                    </td>
+                </tr>";
+
+                }
+
 
             } elseif($row['invite_status'] == 'decline') {
                 
