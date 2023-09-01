@@ -323,11 +323,14 @@ $row = $project->fetch_assoc();
                     </button>
                 </div>
                 <span class="modal-title">Project In Charge</span>
+                <div class="assigned_managers_container d-none">
+
+                </div>
                 <div class='totalworkhours'></div>
     
                 <div class="project_in_charge_container">
                     <!-- postUsersProjectInCharge_in_modal.php -->
-                    
+                        
                 </div>
 
                 <div class="add_project_button_wrapper">
@@ -353,10 +356,10 @@ $row = $project->fetch_assoc();
 
                             </div>
 
-
-                                <img class='addNewTaskBtn' src='img/add-icon.png' alt='' width='25'>
-
-
+                            <div class="add_new_task_wrapper">
+                                <!-- <img class='addNewTaskBtn' src='img/add-icon.png' alt='' width='25'> -->
+                            </div>
+                                
                             <div class="addNewTask_form_container">
                                 <div class="content-info__wrapper">
                                     <div class="content__info">

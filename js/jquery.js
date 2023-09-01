@@ -1586,6 +1586,10 @@ jQuery(function () {
 
                let managerId = idArray[i];
 
+               let span = `<span class='assigned_managers_id'>${managerId}</span>`;
+
+               $(span).appendTo('.assigned_managers_container');
+
                //Show add project in charge button if the manager user is assigned in the phase of work
                $.ajax({
                   type: 'POST',
@@ -1600,8 +1604,6 @@ jQuery(function () {
                      //Call add project in charge function
                      addProjectInChargeBtn();
 
-                     //Call select employee function
-                     // selectEmployee();
                   }
 
                });
@@ -2267,7 +2269,7 @@ function submit_file_path(){
 
       let addProjectInChargeBtn = document.querySelector('.addProjectInChargeBtn');
 
-      $(addProjectInChargeBtn).on('click', ()=> {
+      $(addProjectInChargeBtn).off().on('click', ()=> {
 
             let userIDs = document.querySelectorAll('.project_in_charge_container .user_container');
             let userId_container = [];
@@ -2288,6 +2290,10 @@ function submit_file_path(){
                   $('.search_employee_wrapper').html(data);
                }
             });
+
+
+            //Call a function to select employee
+            selectEmployee();
 
       });
 
@@ -2485,63 +2491,66 @@ function submit_file_path(){
    });
 
 
-
-
    // Select Employee Function
    function selectEmployee(){
 
-      let selectBtn = document.querySelectorAll('.selectBtn');
+      setTimeout(() => {
+         
+         let selectBtn = document.querySelectorAll('.selectBtn');
 
-      for(let i = 0; selectBtn.length > i; i++){
-
-         $(selectBtn[i]).on('click', ()=> {
-
-            let userContainer = $(selectBtn[i]).parent().parent();
-            let employeeId = $(userContainer).attr('value');
-            let projectId = $('#projectTitle').attr('value');
-            let searchEmployee_pow = $('.searchEmployee_pow').text()
-            let searchEmployee_service = $('.searchEmployee_service').text()
-
-            $.ajax({
-               type: 'POST',
-               url: 'assign-projectIncharge.php',
-               data: {
-                  'projectId' : projectId,
-                  'employeeId' : employeeId,
-                  'searchEmployee_pow' : searchEmployee_pow,
-                  'searchEmployee_service' : searchEmployee_service,
-               },
-               success: function (data) {
-                  // alert("success", data);
-                  setTimeout(
-                     function()
-                     {
-
-                        window.location.reload();
-
-                     }, 100);
-
-                },
+         for(let i = 0; selectBtn.length > i; i++){
+   
+            $(selectBtn[i]).on('click', ()=> {
+   
+               let userContainer = $(selectBtn[i]).parent().parent();
+               let employeeId = $(userContainer).attr('value');
+               let projectId = $('#projectTitle').attr('value');
+               let searchEmployee_pow = $('.searchEmployee_pow').text()
+               let searchEmployee_service = $('.searchEmployee_service').text()
+   
+               $.ajax({
+                  type: 'POST',
+                  url: 'assign-projectIncharge.php',
+                  data: {
+                     'projectId' : projectId,
+                     'employeeId' : employeeId,
+                     'searchEmployee_pow' : searchEmployee_pow,
+                     'searchEmployee_service' : searchEmployee_service,
+                  },
+                  success: function (data) {
+                     // alert("success", data);
+                     setTimeout(
+                        function()
+                        {
+   
+                           window.location.reload();
+   
+                        }, 100);
+   
+                   },
+               });
+   
             });
+   
+         }
 
-         });
+      }, 50);
 
-      }
    }
-   $('.addProjectInChargeBtn').on('click', ()=> {
+   // $('.addProjectInChargeBtn').on('click', ()=> {
 
-      setTimeout(
+   //    console.log('okay');
 
-         function() 
-            {
+   //    setTimeout(
 
-         selectEmployee();
+   //       function() 
+   //          {
 
-    
+   //       selectEmployee();
 
-         }, 100);
+   //       }, 100);
 
-   });
+   // });
 
    $('.searchFilter').on('keydown', ()=> {
 
@@ -2647,12 +2656,38 @@ function submit_file_path(){
 
                   let userContainer = $(ViewTasksBtn[i]).parent().parent().parent().parent();
                   let userId = $(userContainer).attr('value');
-                  let employeeName = $(userContainer).find('.user_fullname span').text()
+                  let employeeName = $(userContainer).find('.user_fullname span').text();
                   let contentInfoWrapper = document.querySelector('.addNewTask_form_container .content-info__wrapper');
                   let phase_of_work = $('.searchEmployee_pow').text();
                   let services = $('.searchEmployee_service').text();
                   let projectId = $('#projectTitle').attr('value');
                   let projectName = $('#projectTitle').text();
+    
+                  let assigned_managers = document.querySelectorAll('.assigned_managers_id');
+
+                  
+                  //Check all assigned manager in this phase of work
+                  //Only manager assigned can I add new task 
+                  for(let i = 0; assigned_managers.length > i; i++){
+
+                     let assigned_managers_id = $(assigned_managers[i]).text();
+
+                     $.ajax({
+                        type: 'POST',
+                        url: 'tasks-table.php',
+                        data: {
+                           'assigned_managers_id': assigned_managers_id,
+                        },
+                        success: function(data){
+                           $(data).appendTo('.add_new_task_wrapper');
+
+                           //Add new task tooltip
+                           addNewTask_form_show();
+                        }
+                        
+                     })
+                     
+                  }
 
                   let contentInfo = `<div class="content__info d-none">
                                        <span>Employee Name:</span>
@@ -2675,7 +2710,7 @@ function submit_file_path(){
                         'phase_of_work': phase_of_work,
                         'services': services,
                         'projectId': projectId,
-                        'projectName': projectName
+                        'projectName': projectName,
                      },
                      success: function (data) {
                         // $('.user-tasks .content-table').html(data);
@@ -2733,7 +2768,6 @@ function submit_file_path(){
                      taskUpdate_tooltip();
                      add_task_work_update();
                
-      
                   }, 70);
                });
          }
@@ -2793,7 +2827,7 @@ function submit_file_path(){
 
   function addNewTask_form_show(){
 
-      $('.addNewTaskBtn').on('click', ()=> {
+      $('.addNewTaskBtn').off().on('click', ()=> {
 
          $('.addNewTask_form_container').toggle();
 
@@ -2841,17 +2875,17 @@ function submit_file_path(){
             type: 'POST',
             url: 'add-newTask.php',
             data: {
-               projectId: projectId,
-               projectTitle: projectTitle,
-               employeeId: employeeId,
-               employeeName: employeeName,
-               phase_of_work: phase_of_work,
-               services: services,
-               taskTitle: taskTitle,
-               dateStart: dateStart,
-               dateEnd, dateEnd,
-               newTask_notes: newTask_notes,
-               projectName: projectName
+               'projectId': projectId,
+               'projectTitle': projectTitle,
+               'employeeId': employeeId,
+               'employeeName': employeeName,
+               'phase_of_work': phase_of_work,
+               'services': services,
+               'taskTitle': taskTitle,
+               'dateStart': dateStart,
+               'dateEnd': dateEnd,
+               'newTask_notes': newTask_notes,
+               'projectName': projectName
             },
             success: function (data) {
                alert("Sent New Task", data);
@@ -3269,15 +3303,18 @@ function submit_file_path(){
 
       $(taskUpdate_btn[i]).off().on('click', ()=> {
 
-        let tdContainer = $(taskUpdate_btn[i]).parent();
-        let taskUpdate_tooltip = $(tdContainer).find('.taskUpdate_tooltip');
-        let taskId = $($('.taskId')[i]).attr('value');
+         let tdContainer = $(taskUpdate_btn[i]).parent();
+         let taskUpdate_tooltip = $(tdContainer).find('.taskUpdate_tooltip');
+         let taskId = $($('.taskId')[i]).attr('value');
+         let tasks_content = $(taskUpdate_btn[i]).parent().parent().parent().parent().parent().parent().parent();
+         let employee_id = $(tasks_content).find('.employeeId').attr('value');
 
          $.ajax({
             type: 'POST',
             url: 'view_task_work_update.php',
             data: {
                'taskId': taskId,
+               'employee_id': employee_id,
             },
             success: function(data){
                $('.taskUpdate_tbody').html(data);

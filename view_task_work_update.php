@@ -1,4 +1,5 @@
 <?php include_once('connections/DBconnection.php'); ?>
+<?php include_once('login.php'); ?>
 
 <?php 
 
@@ -8,6 +9,8 @@ $con = $db->connection();
     if(isset($_POST['taskId'])){
 
         $taskId = $_POST['taskId'];
+        $employee_id = $_POST['employee_id'];
+        $login_userId = $_SESSION['UserId'];
 
         $query_employees_update_tasks = "SELECT * FROM `employees_updates_task` WHERE task_id = $taskId ORDER BY id ASC";
         $employee_update_tasks = $con->query($query_employees_update_tasks) or die ($con->error);
@@ -31,25 +34,54 @@ $con = $db->connection();
 
                 if($employee_update_tasks->num_rows != 0){
 
-                $output .= "<tr>
-                        <td class='d-none'><span class='update_task_id'>". $row['id'] ."</span></td>
-                        <td><input class='update_task_input' type='text' value='". $row['task_update'] ."'></td>
-                        <td><input class='update_task_date' type='date' value='". $row['date'] ."'></td>
-                        <td><input class='update_task_spendhours' type='number' value='". $row['spend_hours'] ."'></td>
-                        <td class='delete_update_task'>-</td>
-                    </tr>";
+                    if($employee_id == $login_userId) {
+
+                        $output .= "<tr>
+                                        <td class='d-none'><span class='update_task_id'>". $row['id'] ."</span></td>
+                                        <td><input class='update_task_input' type='text' value='". $row['task_update'] ."'></td>
+                                        <td><input class='update_task_date' type='date' value='". $row['date'] ."'></td>
+                                        <td><input class='update_task_spendhours' type='number' value='". $row['spend_hours'] ."'></td>
+                                        <td class='delete_update_task'>-</td>
+                                    </tr>";
+
+                        } else {
+
+                            $output .= "<tr>
+                                            <td class='d-none'><span class='update_task_id'>". $row['id'] ."</span></td>
+                                            <td><input class='update_task_input' type='text' value='". $row['task_update'] ."'></td>
+                                            <td><input class='update_task_date' type='date' value='". $row['date'] ."'></td>
+                                            <td><input class='update_task_spendhours' type='number' value='". $row['spend_hours'] ."'></td>
+                                            <td></td>
+                                        </tr>";
+
+
+                        }
 
                 }
 
 
             } while($row = $employee_update_tasks->fetch_assoc());
 
-            $output .= "<tr>
+            if($employee_id == $login_userId) {
+
+                $output .= "<tr>
                 <td><img class='add_newUpdate_btn' src='img/add-icon.png' width='25'></td>
                 <td><button class='save_update_tasks'>Save</button></td>
                 <td>Total Hours:<span class='total_spend_hours'>" . $total_hours['total_spend_hours'] . "</span></td>
                 <td></td>
                 </tr>";
+
+            } else {
+
+                $output .= "<tr>
+                <td></td>
+                <td></td>
+                <td>Total Hours:<span class='total_spend_hours'>" . $total_hours['total_spend_hours'] . "</span></td>
+                <td></td>
+                </tr>";
+
+            }
+
 
    
 

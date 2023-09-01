@@ -24,6 +24,7 @@ if(isset($_POST['projectId'])) {
     $userfirstName = $_SESSION['UserLogin'];
     $userlastName = $_SESSION['Userlname'];
     $managerId = $_SESSION['UserId'];
+    $login_userId = $_SESSION['UserId'];
 
     $sql = "INSERT INTO `employees_tasks`(`project_id`, `project_name`, `services`, `phase_of_work`, `employee_id`, `employee_name`, `task_title`, `notes`, `date_started`, `due_date`, `status`, `invite_status`, `sent_by`, `manager_id`) VALUES ('$projectId', '$projectTitle', '$services', '$phase_of_work', '$employeeId', '$employeeName', '$taskTitle', '$new_task_notes', '$dateStart', '$dateEnd', '$status', '$invite_status', '$userfirstName $userlastName', '$managerId')";
 
@@ -73,7 +74,10 @@ if(isset($_POST['projectId'])) {
 
             if($row['invite_status'] == 'accept'){
 
-            $output .= "<tr>
+
+                if($employeeId == $login_userId) {
+
+                     $output .= "<tr>
                             <td class='managerId d-none' value='". $row['manager_id'] ."'>". $row['manager_id'] ."</td>
                             <td class='taskId d-none' value='". $row['id'] ."'>". $row['id'] ."</td>
                             <td class='taskTitle'>". $row['task_title'] ."</td>
@@ -159,6 +163,65 @@ if(isset($_POST['projectId'])) {
                             </td>
                         </tr>";
 
+                } else {
+
+                    $output .= "<tr>
+                    <td class='managerId d-none' value='". $row['manager_id'] ."'>". $row['manager_id'] ."</td>
+                    <td class='taskId d-none' value='". $row['id'] ."'>". $row['id'] ."</td>
+                    <td class='taskTitle'>". $row['task_title'] ."</td>
+                    <td>". $row['notes'] ."</td>
+                    <td class='taskUpdate'>
+                        <button class='taskUpdate_btn'>Task Update</button>
+                        <div class='taskUpdate_tooltip d-none'>
+                            <table>
+                                <tbody class='taskUpdate_tbody'>
+                                    <tr class='taskUpdate_header'>
+                                        <th>Updates</th>
+                                        <th>Date</th>
+                                        <th>Spend Hour</th>
+                                        <th></th>
+                                    </tr>
+                                    <tr>
+                                        <td><img class='add_newUpdate_btn' src='img/add-icon.png' width='25'></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </td>
+                    <td class='taskStarted'>". $row['date_started'] ."</td>
+                    <td class='pow_status'>
+                        <div class='text_status'>
+                            <span>" . $row['status'] . "</span> 
+                        </div>
+                        <div class='status_tooltip d-none'>
+                            <span class='status orangeStatus'>Working on it</span>
+                            <span class='status redStatus'>Stuck</span>
+                            <span class='status greenStatus'>Done</span>
+                            <input onkeypress='return /[ A-Za-z0-9]/i.test(event.key)' onpaste='return false;' ondrop='return false;' autocomplete='off'>
+                        </div>
+                    </td>
+                    <td class='upload_filepath_td'>
+                        <button class='button-disable'>Upload File Path</button>
+                        <div class='upload_filepath_tooltip d-none'>
+                            <div class='upload_filepath_wrapper'>
+                                
+                            </div>
+                        </div>
+                    </td>
+                    <td class='check_filepath_td'>
+                        <button class='checkfilepathBtn'>Check Files</button>
+                        <div class='check_filepath_tooltip d-none'>
+                        <div class='check_filepath_wrapper'>
+                            <span>Check File Path</span>
+                            <div class='content-table'>
+
+                            </div>
+                        </div>
+                        </div>
+                    </td>
+                </tr>";
+
+                }
                      
             } elseif($row['invite_status'] == 'decline') {   
             

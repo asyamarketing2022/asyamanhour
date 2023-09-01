@@ -12,6 +12,20 @@ if(isset($_POST['managerId'])) {
 
 }
 
+//Only assigned manager can add new task
+if(isset($_POST['assigned_managers_id'])){
+
+    $login_userId = $_SESSION['UserId'];
+    $managerId = $_POST['assigned_managers_id'];
+    
+    if($login_userId == $managerId){
+
+        echo "<img class='addNewTaskBtn' src='img/add-icon.png' alt='' width='25'>";
+
+    }
+
+}
+
 if(isset($_POST['taskId'])) {
 
     echo $_POST['taskId'];
