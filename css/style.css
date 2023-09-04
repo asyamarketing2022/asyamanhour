@@ -199,7 +199,8 @@ button.deleteTask {
     left: 22% !important;
 }
 
-#view_project_in_charge  .modal-left-content {
+#view_project_in_charge .modal-left-content,
+#view_managers .modal-left-content {
     background: #fff; 
     width: 800px; 
     height: 500px; 

@@ -41,6 +41,9 @@ if(isset($_POST['managerPhotoId'])) {
                         <label>Department:</label>
                         <span>" . $managerInfo['department'] . "</span>
                     </div>
+                    <div class='user_tasks border-0'>
+                        <button class='border-0'><a href='#' class='viewTasks m-3'>View Tasks</a></button>
+                    </div>
                 </div>
             </div>";
     }

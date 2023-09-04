@@ -284,34 +284,85 @@ $row = $project->fetch_assoc();
 </div>
 
 <!-- View My Managers - Modal -->
-<div class="modal fade pop-up__modal" id="view_managers" tabindex="-1" role="dialog" aria-labelledby="viewManagers" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl" role="document" style="max-width: 800px;">
-        <div class="modal-content" style="height: 500px; overflow-y: auto;">
-            <div class="modal-header border-0">
-                <h5></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <span class="modal-title">Managers</span>
-            <div class="managers_container">
-                    <!-- postUsersManager_in_modal.php -->
+<div class="modal fade pop-up__modal view_project_user" id="view_managers" tabindex="-1" role="dialog" aria-labelledby="viewManagers" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" role="document" style="max-width: 100%;">
+        <!-- <div class="modal-content" style="height: 500px; overflow-y: auto;"> -->
+            <div class="modal-content" style="height: 900px; background: transparent; border: none;">
 
-            </div>
+                <div class="modal-left-content">
+                    <div class="modal-header border-0">
+                        <h5></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <span class="modal-title">Managers</span>
+                    <div class="managers_container">
+                            <!-- postUsersManager_in_modal.php -->
 
-            <?php if(isset($_SESSION['UserLogin']) && $_SESSION['Access'] == "admin" ) { ?>
+                    </div>
 
-            <img class="addManagerBtn" data-toggle="modal" data-target="#addManager" src="img/add-icon.png" alt="" width="50">
+                    <?php if(isset($_SESSION['UserLogin']) && $_SESSION['Access'] == "admin" ) { ?>
 
+                        <img class="addManagerBtn" data-toggle="modal" data-target="#addManager" src="img/add-icon.png" alt="" width="50">
 
-            <?php } ?>
+                    <?php } ?>
+                </div>
+
+                <div class="modal-right-content">
+                    <div class="tasks-content_container">
+                        <div class="tasks-content">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="float: right;">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                            <div class="user_photo">
+                                <!-- tasks-table.php for dynamic content -->
+        
+                            </div>
+                            <div class="user-tasks">
+                                <div class="content-table">
+                                    <!-- tasks-table.php for dynamic content -->
+
+                                </div>
+
+                                <div class="add_new_task_wrapper">
+                                    <!-- <img class='addNewTaskBtn' src='img/add-icon.png' alt='' width='25'> -->
+                                </div>
+                                    
+                                <div class="addNewTask_form_container manager_add_new_task_form">
+                                    <div class='content-info__wrapper'>
+                                            <div class='content__info'>
+                                                <span>Task Title:</span>
+                                                <input class='taskTitle_field' type='text' name='taskTitle' required>
+                                            </div>
+                                            <div class='content__info'>
+                                                <span>Date Start:</span>
+                                                <input class='date_start dis_previous_dates new_task_dateStart' name='dateStart' type='date' required>
+                                            </div>
+                                            <div class='content__info'>
+                                                <span>Due Date:</span>
+                                                <input class='date_end dis_previous_dates new_task_dueDate' name='dueDate' type='date' required>
+                                            </div>
+                                            <div class='content__info'>
+                                                <span>Notes</span>
+                                                <textarea class='newTask_notes' name='notes' id='' cols='30' rows='10' required></textarea>
+                                            </div>
+                                            <div class='button-wrapper'>
+                                                <input class='submit-button manager-submit-new-task' type="button" value='Submit' required>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
         </div>
     </div>
 </div>
 
 <!-- View My Project In Charge - Modal -->
-<div class="modal fade pop-up__modal" id="view_project_in_charge" tabindex="-1" role="dialog" aria-labelledby="viewPIC" aria-hidden="true" style='overflow: hidden;'>
+<div class="modal fade pop-up__modal view_project_user" id="view_project_in_charge" tabindex="-1" role="dialog" aria-labelledby="viewPIC" aria-hidden="true" style='overflow: hidden;'>
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document" style="max-width: 100%;">
         <div class="modal-content" style="height: 900px; background: transparent; border: none;">
 
@@ -337,7 +388,6 @@ $row = $project->fetch_assoc();
                     <!-- <img class="addProjectInChargeBtn" data-toggle="modal" data-target="#addProjectInCharge" src="img/add-icon.png" alt="" width="50"> -->
                 </div>
                 
-        
             </div>
 
             <div class="modal-right-content">
@@ -360,27 +410,27 @@ $row = $project->fetch_assoc();
                                 <!-- <img class='addNewTaskBtn' src='img/add-icon.png' alt='' width='25'> -->
                             </div>
                                 
-                            <div class="addNewTask_form_container">
-                                <div class="content-info__wrapper">
-                                    <div class="content__info">
-                                        <span>Task Title:</span>
-                                        <input class='taskTitle_field' type='text' name='taskTitle' required>
-                                    </div>
-                                    <div class="content__info">
-                                        <span>Date Start:</span>
-                                        <input class='date_start dis_previous_dates new_task_dateStart' name='dateStart' type="date" required>
-                                    </div>
-                                    <div class="content__info">
-                                        <span>Due Date:</span>
-                                        <input class='date_end dis_previous_dates new_task_dueDate' name='dueDate' type="date" required>
-                                    </div>
-                                    <div class="content__info">
-                                        <span>Notes</span>
-                                        <textarea class='newTask_notes' name="notes" id="" cols="30" rows="10" required></textarea>
-                                    </div>
-                                    <div class="button-wrapper">
-                                        <input class='submit-button submit-new-task' type="button" value='Submit' required>
-                                    </div>
+                            <div class="addNewTask_form_container pic_add_new_task_form">
+                                <div class='content-info__wrapper'>
+                                        <div class='content__info'>
+                                            <span>Task Title:</span>
+                                            <input class='taskTitle_field' type='text' name='taskTitle' required>
+                                        </div>
+                                        <div class='content__info'>
+                                            <span>Date Start:</span>
+                                            <input class='date_start dis_previous_dates new_task_dateStart' name='dateStart' type='date' required>
+                                        </div>
+                                        <div class='content__info'>
+                                            <span>Due Date:</span>
+                                            <input class='date_end dis_previous_dates new_task_dueDate' name='dueDate' type='date' required>
+                                        </div>
+                                        <div class='content__info'>
+                                            <span>Notes</span>
+                                            <textarea class='newTask_notes' name='notes' id='' cols='30' rows='10' required></textarea>
+                                        </div>
+                                        <div class='button-wrapper'>
+                                            <input class='submit-button pic-submit-new-task' type="button" value='Submit' required>
+                                        </div>
                                 </div>
                             </div>
                         </div>

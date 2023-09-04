@@ -15,12 +15,18 @@ if(isset($_POST['managerId'])) {
 //Only assigned manager can add new task
 if(isset($_POST['assigned_managers_id'])){
 
+    $access = $_SESSION['Access'];
     $login_userId = $_SESSION['UserId'];
     $managerId = $_POST['assigned_managers_id'];
+    $userid_manager = $_POST['userid_manager'];
     
-    if($login_userId == $managerId){
+    if($login_userId == $managerId ){
 
-        echo "<img class='addNewTaskBtn' src='img/add-icon.png' alt='' width='25'>";
+        echo "<img class='addNewTaskBtn pic_add_new_task_btn' src='img/add-icon.png' alt='' width='25'>";
+
+    } else if($login_userId == $userid_manager && $access == 'manager') {
+
+        echo "<img class='addNewTaskBtn manager_add_new_task_btn' src='img/add-icon.png' alt='' width='25'>";
 
     }
 
@@ -281,74 +287,149 @@ if(isset($_POST['userId'])) {
 
 
             } elseif($row['invite_status'] == 'decline') {
-                
-                $declineTask .= "<tr>
-                            <td class='managerId d-none' value='". $row['manager_id'] ."'>". $row['manager_id'] ."</td>
-                            <td class='taskId d-none' value='". $row['id'] ."'>". $row['id'] ."</td>
-                            <td class='task_title_td'>
-                                <button type='button' class='btn btn-secondary tooltip-btn task_title_btn' data-bs-toggle='tooltip' data-bs-placement='bottom' title='" . $row['task_title'] . "' data-placement='bottom'>Task Title</button>
-                                <div class='task_title_tooltip d-none'>
-                                    <div class='task_title_wrapper'>
-                                        <span>Change Task Title</span>
-                                        <div class='task_title_form'>
-                                            <div class='content-info__wrapper'>
-                                                <div class='content__info'>
-                                                    <span>Task Title:</span>
-                                                    <input class='input_task_title' name='input_task_title' value='". $row['task_title']."'>
-                                                </div>
-                                                <div class='button-wrapper'>
-                                                    <input class='update-button close-tooltip' name='' type='submit' value='Update'>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class='declineTask_note_td'>
-                                <button type='button' class='btn btn-secondary tooltip-btn decline_notes_btn' data-bs-toggle='tooltip' data-bs-placement='bottom' title='" . $row['decline_notes'] . "' data-placement='bottom'>Decline Notes</button>
-                                <div class='declineTask_note_tooltip d-none'>
-                                    <div class='declineTask_note_wrapper'>
-                                        <span>Decline Notes</span>
-                                        <div class='declineTask_note_form'>
-                                            <div class='content-info__wrapper'>
-                                                <div class='content__info'>
-                                                    <span>Notes:</span>
-                                                    <textarea class='new-task-notes' name='notes' id='' cols='25' rows='5' spellcheck='false' disabled>" . $row['decline_notes'] . "</textarea>
-                                               
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class='task_note_td'>
-                            <button type='button' class='btn btn-secondary tooltip-btn tasknotes-btn' data-bs-toggle='tooltip' data-bs-placement='bottom' data-placement='bottom'  title=" . $row['notes'] . ">Task Notes</button>
-                                <div class='task_note_tooltip d-none'>
-                                    <div class='task_note_wrapper'>
-                                        <span>Update Task Notes</span>
-                                        <div class='task_note_form'>
-                                            <div class='content-info__wrapper'>
-                                                <div class='content__info'>
-                                                    <span>Notes:</span>
-                                                    <textarea class='update_task_note' name='notes' id='' cols='25' rows='5' spellcheck='false'>" . $row['notes'] . "</textarea>
-                                                </div>
-                                                <div class='button-wrapper'>
-                                                    <input class='update-button close-tooltip' name='' type='submit' value='Update'>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                       
-                            <td><input class='date_start dis_previous_dates' name='dateStart' type='date' value='". $row['date_started'] ."' required></td>
-                            <td><input class='due_date dis_previous_dates' name='dueDate' type='date' value='". $row['due_date'] ."' required=''></td>
-                            <td class='decline-td text-center'>". $row['invite_status'] ."</td>
-                            <td class=''><button class='updateTask'>Update</button></td>
-                            <td class=''><button class='deleteTask'>Delete</button></td>
-                        </tr>";
 
-                $declineTask_count++;       
+                if($row['manager_id'] == $login_userId) {
+
+                    $declineTask .= "<tr>
+                    <td class='managerId d-none' value='". $row['manager_id'] ."'>". $row['manager_id'] ."</td>
+                    <td class='taskId d-none' value='". $row['id'] ."'>". $row['id'] ."</td>
+                    <td class='task_title_td'>
+                        <button type='button' class='btn btn-secondary tooltip-btn task_title_btn' data-bs-toggle='tooltip' data-bs-placement='bottom' title='" . $row['task_title'] . "' data-placement='bottom'>Task Title</button>
+                        <div class='task_title_tooltip d-none'>
+                            <div class='task_title_wrapper'>
+                                <span>Change Task Title</span>
+                                <div class='task_title_form'>
+                                    <div class='content-info__wrapper'>
+                                        <div class='content__info'>
+                                            <span>Task Title:</span>
+                                            <input class='input_task_title' name='input_task_title' value='". $row['task_title']."'>
+                                        </div>
+                                        <div class='button-wrapper'>
+                                            <input class='update-button close-tooltip' name='' type='submit' value='Update'>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class='declineTask_note_td'>
+                        <button type='button' class='btn btn-secondary tooltip-btn decline_notes_btn' data-bs-toggle='tooltip' data-bs-placement='bottom' title='" . $row['decline_notes'] . "' data-placement='bottom'>Decline Notes</button>
+                        <div class='declineTask_note_tooltip d-none'>
+                            <div class='declineTask_note_wrapper'>
+                                <span>Decline Notes</span>
+                                <div class='declineTask_note_form'>
+                                    <div class='content-info__wrapper'>
+                                        <div class='content__info'>
+                                            <span>Notes:</span>
+                                            <textarea class='new-task-notes' name='notes' id='' cols='25' rows='5' spellcheck='false' disabled>" . $row['decline_notes'] . "</textarea>
+                                       
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class='task_note_td'>
+                    <button type='button' class='btn btn-secondary tooltip-btn tasknotes-btn' data-bs-toggle='tooltip' data-bs-placement='bottom' data-placement='bottom'  title=" . $row['notes'] . ">Task Notes</button>
+                        <div class='task_note_tooltip d-none'>
+                            <div class='task_note_wrapper'>
+                                <span>Update Task Notes</span>
+                                <div class='task_note_form'>
+                                    <div class='content-info__wrapper'>
+                                        <div class='content__info'>
+                                            <span>Notes:</span>
+                                            <textarea class='update_task_note' name='notes' id='' cols='25' rows='5' spellcheck='false'>" . $row['notes'] . "</textarea>
+                                        </div>
+                                        <div class='button-wrapper'>
+                                            <input class='update-button close-tooltip' name='' type='submit' value='Update'>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+               
+                    <td><input class='date_start dis_previous_dates' name='dateStart' type='date' value='". $row['date_started'] ."' required></td>
+                    <td><input class='due_date dis_previous_dates' name='dueDate' type='date' value='". $row['due_date'] ."' required=''></td>
+                    <td class='decline-td text-center'>". $row['invite_status'] ."</td>
+                    <td class=''><button class='updateTask'>Update</button></td>
+                    <td class=''><button class='deleteTask'>Delete</button></td>
+                </tr>";
+
+                $declineTask_count++;      
+
+                } else {
+
+                    $declineTask .= "<tr>
+                    <td class='managerId d-none' value='". $row['manager_id'] ."'>". $row['manager_id'] ."</td>
+                    <td class='taskId d-none' value='". $row['id'] ."'>". $row['id'] ."</td>
+                    <td class='task_title_td'>
+                        <button type='button' class='btn btn-secondary tooltip-btn task_title_btn' data-bs-toggle='tooltip' data-bs-placement='bottom' title='" . $row['task_title'] . "' data-placement='bottom'>Task Title</button>
+                        <div class='task_title_tooltip d-none'>
+                            <div class='task_title_wrapper'>
+                                <span>Change Task Title</span>
+                                <div class='task_title_form'>
+                                    <div class='content-info__wrapper'>
+                                        <div class='content__info'>
+                                            <span>Task Title:</span>
+                                            <input class='input_task_title' name='input_task_title' value='". $row['task_title']."'>
+                                        </div>
+                                        <div class='button-wrapper'>
+                                            <input class='update-button close-tooltip' name='' type='submit' value='Update'>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class='declineTask_note_td'>
+                        <button type='button' class='btn btn-secondary tooltip-btn decline_notes_btn' data-bs-toggle='tooltip' data-bs-placement='bottom' title='" . $row['decline_notes'] . "' data-placement='bottom'>Decline Notes</button>
+                        <div class='declineTask_note_tooltip d-none'>
+                            <div class='declineTask_note_wrapper'>
+                                <span>Decline Notes</span>
+                                <div class='declineTask_note_form'>
+                                    <div class='content-info__wrapper'>
+                                        <div class='content__info'>
+                                            <span>Notes:</span>
+                                            <textarea class='new-task-notes' name='notes' id='' cols='25' rows='5' spellcheck='false' disabled>" . $row['decline_notes'] . "</textarea>
+                                       
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class='task_note_td'>
+                    <button type='button' class='btn btn-secondary tooltip-btn tasknotes-btn' data-bs-toggle='tooltip' data-bs-placement='bottom' data-placement='bottom'  title=" . $row['notes'] . ">Task Notes</button>
+                        <div class='task_note_tooltip d-none'>
+                            <div class='task_note_wrapper'>
+                                <span>Update Task Notes</span>
+                                <div class='task_note_form'>
+                                    <div class='content-info__wrapper'>
+                                        <div class='content__info'>
+                                            <span>Notes:</span>
+                                            <textarea class='update_task_note' name='notes' id='' cols='25' rows='5' spellcheck='false'>" . $row['notes'] . "</textarea>
+                                        </div>
+                                        <div class='button-wrapper'>
+                                            <input class='update-button close-tooltip' name='' type='submit' value='Update'>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+               
+                    <td><input class='date_start dis_previous_dates' name='dateStart' type='date' value='". $row['date_started'] ."' required></td>
+                    <td><input class='due_date dis_previous_dates' name='dueDate' type='date' value='". $row['due_date'] ."' required=''></td>
+                    <td class='decline-td text-center'>". $row['invite_status'] ."</td>
+                    <td class=''></td>
+                    <td class=''></td>
+                </tr>";
+
+                $declineTask_count++;    
+
+
+                }
 
             }
 

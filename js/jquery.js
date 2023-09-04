@@ -2643,7 +2643,7 @@ function submit_file_path(){
 
    function viewTasksBtn() {
 
-      $('#view_project_in_charge').on('mouseenter', ()=> {
+      $('.view_project_user').on('mouseenter', ()=> {
 
          let ViewTasksBtn = document.querySelectorAll('.viewTasks');
 
@@ -2653,6 +2653,7 @@ function submit_file_path(){
 
                   $('.userId').parent().remove();
                   $('.employeeName').parent().remove();
+                  $('.addNewTaskBtn').remove();
 
                   let userContainer = $(ViewTasksBtn[i]).parent().parent().parent().parent();
                   let userId = $(userContainer).attr('value');
@@ -2664,29 +2665,31 @@ function submit_file_path(){
                   let projectName = $('#projectTitle').text();
     
                   let assigned_managers = document.querySelectorAll('.assigned_managers_id');
+                  let userid_manager = userId;
 
-                  
                   //Check all assigned manager in this phase of work
                   //Only manager assigned can I add new task 
-                  for(let i = 0; assigned_managers.length > i; i++){
+                  for(let i = 0; assigned_managers.length >= i; i++){
 
                      let assigned_managers_id = $(assigned_managers[i]).text();
-
+                    
                      $.ajax({
                         type: 'POST',
                         url: 'tasks-table.php',
                         data: {
                            'assigned_managers_id': assigned_managers_id,
+                           'userid_manager': userid_manager,
                         },
                         success: function(data){
                            $(data).appendTo('.add_new_task_wrapper');
 
                            //Add new task tooltip
-                           addNewTask_form_show();
+                           manager_add_newtask_form();
+                           pic_add_newtask_form();
                         }
                         
                      })
-                     
+
                   }
 
                   let contentInfo = `<div class="content__info d-none">
@@ -2743,6 +2746,7 @@ function submit_file_path(){
                         {
 
                      $('#view_project_in_charge .modal-left-content').addClass('move-left-22');
+                     $('#view_managers .modal-left-content').addClass('move-left-22');
 
                   }, 10);
 
@@ -2825,20 +2829,24 @@ function submit_file_path(){
   }
   addNewTask();
 
-  function addNewTask_form_show(){
+  function manager_add_newtask_form(){
 
-      $('.addNewTaskBtn').off().on('click', ()=> {
+      $('.manager_add_new_task_btn').off().on('click', ()=> {
 
          $('.addNewTask_form_container').toggle();
-
+         
+         submitNewTask_manager();
+      
       }); 
 
   }
-  addNewTask_form_show();
+  manager_add_newtask_form();
 
-  function submitNewTask(){
+  function submitNewTask_manager(){
 
-   $('.submit-new-task').off().on('click', ()=> {
+   $('.manager-submit-new-task').off().on('click', ()=> {
+
+      let contentInfo__wrapper = $('.manager-submit-new-task').parent().parent();
 
       let projectId = $('#projectTitle').attr('value');
       let projectTitle = $('#projectTitle').text();
@@ -2846,26 +2854,27 @@ function submit_file_path(){
       let employeeName = $('.employeeName').attr('value');
       let phase_of_work = $('.searchEmployee_pow').text();
       let services = $('.searchEmployee_service').text();
-      let taskTitle = $('.taskTitle_field').val();
-      let dateStart = $('.new_task_dateStart').val();
-      let dateEnd = $('.new_task_dueDate').val();
-      let newTask_notes = $('.newTask_notes').val();
+
+      let taskTitle = $(contentInfo__wrapper).find('.taskTitle_field').val();
+      let dateStart = $(contentInfo__wrapper).find('.new_task_dateStart').val();
+      let dateEnd = $(contentInfo__wrapper).find('.new_task_dueDate').val();
+      let newTask_notes = $(contentInfo__wrapper).find('.newTask_notes').val();
 
       let projectName = $('#projectTitle').text();
 
-      if(!$('.taskTitle_field').val()) {
+      if(!$('.manager_add_new_task_form .taskTitle_field').val()) {
    
          alert('Fill-up Task Title');
 
-      } else if(!$('.new_task_dateStart').val()) {
+      } else if(!$('.manager_add_new_task_form .new_task_dateStart').val()) {
 
          alert('Select Date Start');
 
-      } else if(!$('.new_task_dueDate').val()) {
+      } else if(!$('.manager_add_new_task_form .new_task_dueDate').val()) {
 
          alert('Select Due Date');
 
-      } else if(!$('.newTask_notes').val()) {
+      } else if(!$('.manager_add_new_task_form .newTask_notes').val()) {
 
          alert('Fill-up Notes');
 
@@ -2938,7 +2947,129 @@ function submit_file_path(){
    });
 
   }
-  submitNewTask();
+  submitNewTask_manager();
+
+  function pic_add_newtask_form(){
+
+   $('.pic_add_new_task_btn').off().on('click', ()=> {
+
+      $('.addNewTask_form_container').toggle();
+      
+      submitNewTask_pic();
+   
+   }); 
+
+}
+pic_add_newtask_form();
+
+function submitNewTask_pic(){
+
+   $('.pic-submit-new-task').off().on('click', ()=> {
+
+      let contentInfo__wrapper = $('.pic-submit-new-task').parent().parent();
+
+      let projectId = $('#projectTitle').attr('value');
+      let projectTitle = $('#projectTitle').text();
+      let employeeId = $('.userId').attr('value');
+      let employeeName = $('.employeeName').attr('value');
+      let phase_of_work = $('.searchEmployee_pow').text();
+      let services = $('.searchEmployee_service').text();
+
+      let taskTitle = $(contentInfo__wrapper).find('.taskTitle_field').val();
+      let dateStart = $(contentInfo__wrapper).find('.new_task_dateStart').val();
+      let dateEnd = $(contentInfo__wrapper).find('.new_task_dueDate').val();
+      let newTask_notes = $(contentInfo__wrapper).find('.newTask_notes').val();
+
+      let projectName = $('#projectTitle').text();
+
+      if(!$('.pic_add_new_task_form .taskTitle_field').val()) {
+   
+         alert('Fill-up Task Title');
+
+      } else if(!$('.pic_add_new_task_form .new_task_dateStart').val()) {
+
+         alert('Select Date Start');
+
+      } else if(!$('.pic_add_new_task_form .new_task_dueDate').val()) {
+
+         alert('Select Due Date');
+
+      } else if(!$('.pic_add_new_task_form .newTask_notes').val()) {
+
+         alert('Fill-up Notes');
+
+      } else {
+
+         $.ajax({
+            type: 'POST',
+            url: 'add-newTask.php',
+            data: {
+               'projectId': projectId,
+               'projectTitle': projectTitle,
+               'employeeId': employeeId,
+               'employeeName': employeeName,
+               'phase_of_work': phase_of_work,
+               'services': services,
+               'taskTitle': taskTitle,
+               'dateStart': dateStart,
+               'dateEnd': dateEnd,
+               'newTask_notes': newTask_notes,
+               'projectName': projectName
+            },
+            success: function (data) {
+               alert("Sent New Task", data);
+               // window.location.reload();
+               $('.user-tasks .content-table').html(data);
+               $('.addNewTask_form_container').css('display', 'none');
+
+               $('.taskTitle_field').val('');
+               $('.date_start').val('');
+               $('.date_end').val('');
+               $('.newTask_notes').val('');
+
+               setTimeout(
+
+                  function() 
+                     {
+
+                     taskStatusTooltip();
+                     statusColor();
+                     upload_file_path_tooltip();
+
+                     $('.tasks-content_container').on('mouseenter focus', taskStatus);
+                     $('.tasks-content_container').on('mouseleave blur', taskStatus);
+                     taskStatus();
+
+                     $('.tasks-content_container').on('mouseenter focus', changeStatus);
+                     $('.tasks-content_container').on('mouseleave blur', changeStatus);
+                     changeStatus();
+
+                     $('.tasks-content_container').on('mouseenter focus', check_file_path_tooltip);
+                     $('.tasks-content_container').on('mouseleave blur', check_file_path_tooltip);
+                     check_file_path_tooltip();
+
+                     task_notes();
+                     decline_task_notes();
+                     task_title_popup();
+                     updateNewTask();
+                     closeTooltip();
+                     taskChange_status();
+                     taskDone_disable();
+                     taskColor();
+
+               }, 10);
+
+            },
+         });
+ 
+      }
+    
+   });
+
+  }
+  submitNewTask_pic();
+
+
 
   function updateNewTask() {
 
