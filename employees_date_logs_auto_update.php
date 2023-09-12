@@ -23,8 +23,8 @@
             if($check_logs_rows == 0){
     
                 // Insert the total spent hours into employee_logs_hours table
-                $insertQuery = "INSERT INTO employees_logs_hours (date_logs, employee_id, employee_name, total_of_work_hours) 
-                                VALUES ('$date', '$employeeId', '$employeeName', '$totalSpendHours') 
+                $insertQuery = "INSERT INTO employees_logs_hours (date_logs, employee_id, total_of_work_hours) 
+                                VALUES ('$date', '$employeeId', '$totalSpendHours') 
                                 ON DUPLICATE KEY UPDATE total_of_work_hours = '$totalSpendHours'";
             } else {
 

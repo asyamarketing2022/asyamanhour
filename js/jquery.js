@@ -3696,9 +3696,9 @@ function submitNewTask_pic(){
 
                Array.from(update_tasks_spendhours).forEach((update_task_spendhours) => {
 
-                  update_tasks_spendhours_array.push($(update_task_spendhours).val());
-                  total_spend_hours += parseFloat($(update_task_spendhours).val().replace(/,/g, "")) || 0;
-
+                     update_tasks_spendhours_array.push($(update_task_spendhours).val());
+                     total_spend_hours += parseFloat($(update_task_spendhours).val().replace(/,/g, "")) || 0;
+               
                });
 
             if(update_tasks_id_array != 0){
@@ -3724,6 +3724,8 @@ function submitNewTask_pic(){
    
                   }
                });
+
+               setTimeout(() => {
    
                $.ajax({
                   type: 'POST',
@@ -3737,6 +3739,8 @@ function submitNewTask_pic(){
                      alert('Saved Updates');
                   }
                })
+                  
+               }, 50);
 
                // $.ajax({
                //    type: 'POST',
@@ -4383,6 +4387,82 @@ calendarLogs();
    
   }
 
+function deliverablesEmployee(){
+
+   strDate = new Date();
+
+   let dateToday = strDate.getFullYear() + "-" + ("0" + (strDate.getMonth()+1)).slice(-2) + "-" +  ("0" + (strDate.getDate()+0)).slice(-2);
+   let deliverablesDate = document.querySelectorAll('.deliverablesDate');
+   let deliverablesDay = document.querySelectorAll('.deliverablesDay');
+   let deliverablesUserId = document.querySelectorAll('.deliverablesUserId');
+   let deliverablesLogs = document.querySelectorAll('.deliverablesLogs');
+
+      for(let i = 0; deliverablesDate.length > i; i++){
+
+         $(`<span>${dateToday}</span>`).appendTo(deliverablesDate[i]);
+
+         if(strDate.getDay() == 1) {
+
+            let dayToday = 'Monday';
+
+            $(`<span>${dayToday}</span>`).appendTo(deliverablesDay[i]);
+    
+         } else if(strDate.getDay() == 2) {
+
+            let dayToday = 'Tuesday';
+
+            $(`<span>${dayToday}</span>`).appendTo(deliverablesDay[i]);
+
+         } else if(strDate.getDay() == 3) {
+
+            let dayToday = 'Wednesday';
+
+            $(`<span>${dayToday}</span>`).appendTo(deliverablesDay[i]); 
+
+         } else if(strDate.getDay() == 4) {
+
+            let dayToday = 'Thursday';
+
+            $(`<span>${dayToday}</span>`).appendTo(deliverablesDay[i]); 
+
+         } else if(strDate.getDay() == 5) {
+
+            let dayToday = 'Friday';
+
+            $(`<span>${dayToday}</span>`).appendTo(deliverablesDay[i]); 
+
+         } else if(strDate.getDay() == 6) {
+
+            let dayToday = 'Saturday';
+
+            $(`<span>${dayToday}</span>`).appendTo(deliverablesDay[i]); 
+
+         } else if(strDate.getDay() == 7) {
+
+            let dayToday = 'Sunday';
+
+            $(`<span>${dayToday}</span>`).appendTo(deliverablesDay[i]); 
+
+         }
+
+            let userId = $(deliverablesUserId[i]).attr('value');
+
+            $.ajax({
+               type: 'POST',
+               url: 'deliverables_logs_hours.php',
+               data: {
+                  'dateToday': dateToday,
+                  'userId': userId,
+               }, 
+               success: function(data){
+                  $(deliverablesLogs[i]).html(data);
+               }
+            });
+
+      }
+
+}
+deliverablesEmployee();
 
 
 });

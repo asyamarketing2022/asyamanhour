@@ -111,6 +111,8 @@
                
                 <li class="<?php if($page=='usersReport'){echo 'active';} ?>"><a href="<?php echo $URL ?>/usersReport.php"><i class="fa fa-newspaper-o"></i>Users Log</a></li>
                 <!-- <li><a href="#"><i class="fa fa-bitcoin"></i> Financial</a></li> -->
+
+                <li class="<?php if($page=='deliverables'){echo 'active';} ?>"><a href="<?php echo $URL ?>/deliverables.php"><i class="fa fa-newspaper-o"></i>Deliverables </a></li>
                 
             </ul>
         </div>
