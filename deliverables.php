@@ -7,8 +7,13 @@
         <h1 class="float-start">
             Employee Timeline
         </h1>
+
+        <div class='float-end deliverablesCalendar'>
+            <label for="">Select Date:</label>
+            <input class='deliverablesDates' type="date">
+        </div>
     </div>
-    <div class="content-table">
+    <div class="content-table deliverablesContent">
         <table>
             <tbody>
                 <tr>
@@ -39,8 +44,13 @@
                         <td><?php echo $employeeInfo['position']; ?></td>
                         <td class='deliverablesDate'></td>
                         <td class='deliverablesDay'></td> 
-                        <td class='deliverablesLogs'>9</td>
-                        <td><button>Daily Tasks</button></td>
+                        <td class='deliverablesLogs'></td>
+                        <td class='deliverablesTasks_wrapper'>
+                            <button class='deliverablesDailyTasks'>Daily Tasks</button>
+                            <div class='deliverablesTasks d-none'>
+
+                            </div>
+                        </td>
                     </tr>
 
                 <?php } while($employeeInfo = $employees->fetch_assoc()); ?>

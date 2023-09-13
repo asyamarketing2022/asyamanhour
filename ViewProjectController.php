@@ -48,7 +48,7 @@ class ViewProjectController
         $inputName = $this->name;
         $dueDate = $this->name;
 
-        $URL = 'http://asyamanhour';
+        // $URL = 'http://asyamanhour';
 
         if($row[$service_phase_of_work] == 1) {  
 
@@ -120,7 +120,7 @@ class ViewProjectController
 
                      foreach($phase_of_work_manager_image_array as $phase_of_work_manager_image){
                 
-                        echo "<img src='$URL/img/upload/$phase_of_work_manager_image' alt='' class='table_image_small photoCircle mini-photo'>";
+                        echo "<img src='/img/upload/$phase_of_work_manager_image' alt='' class='table_image_small photoCircle mini-photo'>";
 
                      };
 
@@ -142,7 +142,7 @@ class ViewProjectController
 
                 foreach($assigned_employee_image_array as $assigned_employee_image) {
 
-                    echo "<img class='photoCircle mini-photo' src='$URL/img/upload/$assigned_employee_image' alt='' class='table_image_small'>";
+                    echo "<img class='photoCircle mini-photo' src='/img/upload/$assigned_employee_image' alt='' class='table_image_small'>";
             
                 }
 

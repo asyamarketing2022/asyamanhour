@@ -4464,6 +4464,140 @@ function deliverablesEmployee(){
 }
 deliverablesEmployee();
 
+function deliverablesDailyTasks() {
+
+   let deliverablesDailyTasks = document.querySelectorAll('.deliverablesDailyTasks');
+
+   for(let i = 0; deliverablesDailyTasks.length > i; i++){
+
+      $(deliverablesDailyTasks[i]).off().on('click', ()=> {
+
+         let tableRow = $(deliverablesDailyTasks[i]).parent().parent();
+         let userId = $(tableRow).find('.deliverablesUserId').attr('value');
+         let deliverablesDate = $(tableRow).find('.deliverablesDate').text();
+         let deliverablesTasks = $(tableRow).find('.deliverablesTasks');
+         let deliverablesTooltip = document.querySelectorAll('.deliverablesTasks')
+
+         $.ajax({
+            type: 'POST',
+            url: 'deliverables_task_list.php',
+            data: {
+               'userId': userId,
+               'deliverablesDate': deliverablesDate,
+            },
+            success: function(data){
+              $(deliverablesTasks).html(data);
+            }
+         });
+         
+         if($(deliverablesTasks).hasClass('d-none')) {
+
+            $(deliverablesTooltip).addClass('d-none');
+
+            $(deliverablesTasks).removeClass('d-none');
+
+         } else {
+            
+            $(deliverablesTasks).addClass('d-none');
+
+         }
+
+      });
+
+   }
+
+}
+deliverablesDailyTasks();
+
+function deliverablesChangeDate() {
+
+   let deliverablesDates = document.querySelector('.deliverablesDates');
+   let deliverablesDate = document.querySelectorAll('.deliverablesDate');
+   let deliverablesDay = document.querySelectorAll('.deliverablesDay');
+
+   $(deliverablesDates).off().on('change', ()=> {
+
+      $(deliverablesDay).children('span').remove();
+      $(deliverablesDate).children('span').remove();
+
+      let selectedDate = $(deliverablesDates).val();
+      let strDate = new Date(selectedDate);
+
+      for(let i = 0; deliverablesDate.length > i; i++){
+
+         $(`<span>${selectedDate}</span>`).appendTo(deliverablesDate[i]);
+
+         if(strDate.getDay() == 1) {
+
+            let dayToday = 'Monday';
+
+            $(`<span>${dayToday}</span>`).appendTo(deliverablesDay[i]);
+    
+         } else if(strDate.getDay() == 2) {
+
+            let dayToday = 'Tuesday';
+
+            $(`<span>${dayToday}</span>`).appendTo(deliverablesDay[i]);
+
+         } else if(strDate.getDay() == 3) {
+
+            let dayToday = 'Wednesday';
+
+            $(`<span>${dayToday}</span>`).appendTo(deliverablesDay[i]); 
+
+         } else if(strDate.getDay() == 4) {
+
+            let dayToday = 'Thursday';
+
+            $(`<span>${dayToday}</span>`).appendTo(deliverablesDay[i]); 
+
+         } else if(strDate.getDay() == 5) {
+
+            let dayToday = 'Friday';
+
+            $(`<span>${dayToday}</span>`).appendTo(deliverablesDay[i]); 
+
+         } else if(strDate.getDay() == 6) {
+
+            let dayToday = 'Saturday';
+
+            $(`<span>${dayToday}</span>`).appendTo(deliverablesDay[i]); 
+
+         } else if(strDate.getDay() == 7) {
+
+            let dayToday = 'Sunday';
+
+            $(`<span>${dayToday}</span>`).appendTo(deliverablesDay[i]); 
+
+         }
+
+      }
+
+      // $.ajax({
+      //    type: 'POST',
+      //    url: 'deliverables_change_date.php',
+      //    data: {
+      //       'selectedDate': selectedDate,
+      //    },
+      //    success: function(data){
+      //       $('.deliverablesContent').html(data);
+      //    }
+      // });
+
+   });
+}
+deliverablesChangeDate();
+
+function loading(){
+
+   setTimeout(() => {
+      let loading = document.querySelector('.loading');
+      loading.classList.add('d-none');
+   }, 1000);
+  
+}
+$(window).on('load', loading);
+
 
 });
 

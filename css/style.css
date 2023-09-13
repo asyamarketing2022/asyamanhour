@@ -72,6 +72,26 @@ a {
     filter: invert(99%) sepia(5%) saturate(2%) hue-rotate(333deg) brightness(104%) contrast(100%); 
 }
 
+
+.loading {
+    position: fixed;
+    z-index: 999999;
+    width: 100%;
+    background-color: #fff;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+
+.loading img {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    width: 600px;
+    height: auto;
+    transform: translate(-50%, -50%);
+}
+
 .popup-btn-menu {
     font-size: 25px;
     color: #fff;
@@ -1617,11 +1637,34 @@ input.form-check-input {
 }
 
 .dot-gap {
-   visibility: hidden;
+    visibility: hidden;
     font-size: 0;
     margin: 0;
     padding: 0;
     /* position: absolute; */
+}
+
+.deliverablesCalendar {
+    display: grid;
+}
+
+.deliverablesCalendar label {
+    text-align: right;
+    font-weight: 700;
+}
+
+.deliverablesTasks_wrapper {
+    position: relative;
+}
+
+.deliverablesTasks_wrapper .deliverablesTasks {
+    position: absolute;
+    z-index: 10;
+    left: -640px;
+}
+
+.deliverablesTasks_wrapper .deliverablesTasks table {
+    box-shadow: 1px 4px 5px 3px rgba(0,0,0,0.3);
 }
 
 /* .dot-gap::before{
