@@ -2770,7 +2770,8 @@ function submit_file_path(){
                      taskDone_disable();
                      taskChange_status();
                      taskUpdate_tooltip();
-                     add_task_work_update();
+                     pic_add_task_work_update();
+                     manager_add_task_work_update();
                
                   }, 70);
                });
@@ -3450,7 +3451,8 @@ function submitNewTask_pic(){
             success: function(data){
                $('.taskUpdate_tbody').html(data);
 
-               add_task_work_update();
+               pic_add_task_work_update();
+               manager_add_task_work_update();
                delete_task_work_update();
                save_task_work_update()
             }
@@ -3479,7 +3481,7 @@ function submitNewTask_pic(){
   taskUpdate_tooltip();
 
   // Add new Task Update
-  function add_task_work_update(){
+  function pic_add_task_work_update(){
 
    let add_newUpdate_btn = document.querySelectorAll('.add_newUpdate_btn');
 
@@ -3502,8 +3504,8 @@ function submitNewTask_pic(){
             let services = $('.searchEmployee_service').text();
             let projectId = $('#projectTitle').attr('value');
             let projectName = $('#projectTitle').text();
-            let employeeId = $('.employeeId').attr('value');
-            let employeeName = $('.employee_fullName').text();
+            let employeeId = $('#view_project_in_charge .employeeId').attr('value');
+            let employeeName = $('#view_project_in_charge .employee_fullName').text();
 
             let taskTitle = $($('.taskTitle')[i]).text();
             let date = new Date();
@@ -3526,7 +3528,7 @@ function submitNewTask_pic(){
                success: function(data){
                   $('.taskUpdate_tbody').html(data);
 
-                  add_task_work_update();
+                  pic_add_task_work_update();
                   delete_task_work_update();
                   save_task_work_update();
                }
@@ -3538,6 +3540,69 @@ function submitNewTask_pic(){
       }
 
   }
+
+
+    // Add new Task Update
+    function manager_add_task_work_update(){
+
+      let add_newUpdate_btn = document.querySelectorAll('.add_newUpdate_btn');
+   
+         for(let i = 0; add_newUpdate_btn.length > i; i++){
+   
+            $(add_newUpdate_btn[i]).off().on('click', ()=> {
+   
+               // let tableRow_header = document.querySelectorAll('.taskUpdate_header');
+               // let dynamic_TableRow = `<tr>
+               //                            <td><input type='text'></td>
+               //                            <td><input type='date'></td>
+               //                            <td><input type='number'></td>
+               //                            <td>-</td>
+               //                         </tr>`;
+   
+               // $(dynamic_TableRow).insertAfter(tableRow_header[i]);
+   
+               let taskId = $($('.taskId')[i]).attr('value');
+               let phase_of_work = $('.searchEmployee_pow').text();
+               let services = $('.searchEmployee_service').text();
+               let projectId = $('#projectTitle').attr('value');
+               let projectName = $('#projectTitle').text();
+               let employeeId = $('#view_managers .employeeId').attr('value');
+               let employeeName = $('#view_managers .employee_fullName').text();
+   
+               let taskTitle = $($('.taskTitle')[i]).text();
+               let date = new Date();
+               let dateToday = date.getFullYear() + "-" + "0" + (date.getMonth()+1)  + "-" + "0" + date.getDate();
+             
+               $.ajax({
+                  type: 'POST',
+                  url: 'task_work_update.php',
+                  data: {
+                     'taskId': taskId,
+                     'phase_of_work': phase_of_work,
+                     'services': services,
+                     'projectId': projectId,
+                     'projectName': projectName,
+                     'taskTitle': taskTitle,
+                     'dateToday': dateToday,
+                     'employeeId': employeeId,
+                     'employeeName': employeeName,
+                  },
+                  success: function(data){
+                     $('.taskUpdate_tbody').html(data);
+   
+                     // pic_add_task_work_update();
+                     manager_add_task_work_update();
+                     delete_task_work_update();
+                     save_task_work_update();
+                  }
+   
+               });
+   
+            });
+   
+         }
+   
+     }
 
   // Delete new task update
   function delete_task_work_update(){
@@ -3610,7 +3675,8 @@ function submitNewTask_pic(){
                            success: function(data){
                               $('.taskUpdate_tbody').html(data);
                               delete_task_work_update();
-                              add_task_work_update();
+                              pic_add_task_work_update();
+                              manager_add_task_work_update();
                               save_task_work_update();
                            }
                         });
@@ -3720,7 +3786,8 @@ function submitNewTask_pic(){
    
                      save_task_work_update();
                      delete_task_work_update();
-                     add_task_work_update();
+                     pic_add_task_work_update();
+                     manager_add_task_work_update();
    
                   }
                });
@@ -4396,6 +4463,10 @@ function deliverablesEmployee(){
    let deliverablesDay = document.querySelectorAll('.deliverablesDay');
    let deliverablesUserId = document.querySelectorAll('.deliverablesUserId');
    let deliverablesLogs = document.querySelectorAll('.deliverablesLogs');
+   let deliverablesCalendar = document.querySelector('.deliverablesDates');
+
+   //Deliverables Calendar Default Value Date Today
+   $(deliverablesCalendar).attr('value', dateToday);
 
       for(let i = 0; deliverablesDate.length > i; i++){
 
@@ -4489,7 +4560,7 @@ function deliverablesDailyTasks() {
               $(deliverablesTasks).html(data);
             }
          });
-         
+
          if($(deliverablesTasks).hasClass('d-none')) {
 
             $(deliverablesTooltip).addClass('d-none');
@@ -4517,6 +4588,9 @@ function deliverablesChangeDate() {
 
    $(deliverablesDates).off().on('change', ()=> {
 
+      //
+      // loadingContent();
+     
       $(deliverablesDay).children('span').remove();
       $(deliverablesDate).children('span').remove();
 
@@ -4525,66 +4599,155 @@ function deliverablesChangeDate() {
 
       for(let i = 0; deliverablesDate.length > i; i++){
 
-         $(`<span>${selectedDate}</span>`).appendTo(deliverablesDate[i]);
+         // $(`<span>${selectedDate}</span>`).appendTo(deliverablesDate[i]);
 
          if(strDate.getDay() == 1) {
 
             let dayToday = 'Monday';
 
-            $(`<span>${dayToday}</span>`).appendTo(deliverablesDay[i]);
+            $.ajax({
+               type: 'POST',
+               url: 'deliverables_change_date.php',
+               data: {
+                  'selectedDate': selectedDate,
+                  'dayToday': dayToday,
+               },
+               success: function(data){
+
+                 $(window).on('load', loadingContent);
+
+                  $('.deliverablesContent').html(data);
+
+                  // Fetch daily employee task work
+                  deliverablesDailyTasks();
+
+
+
+               }
+            });
     
          } else if(strDate.getDay() == 2) {
 
             let dayToday = 'Tuesday';
 
-            $(`<span>${dayToday}</span>`).appendTo(deliverablesDay[i]);
+            $.ajax({
+               type: 'POST',
+               url: 'deliverables_change_date.php',
+               data: {
+                  'selectedDate': selectedDate,
+                  'dayToday': dayToday,
+               },
+               success: function(data){
+                  $('.deliverablesContent').html(data);
+
+                  // Fetch daily employee task work
+                  deliverablesDailyTasks();
+               }
+            });
 
          } else if(strDate.getDay() == 3) {
 
             let dayToday = 'Wednesday';
 
-            $(`<span>${dayToday}</span>`).appendTo(deliverablesDay[i]); 
+            $.ajax({
+               type: 'POST',
+               url: 'deliverables_change_date.php',
+               data: {
+                  'selectedDate': selectedDate,
+                  'dayToday': dayToday,
+               },
+               success: function(data){
+                  $('.deliverablesContent').html(data);
 
+                  // Fetch daily employee task work
+                  deliverablesDailyTasks();
+               }
+            });
+
+         
          } else if(strDate.getDay() == 4) {
 
             let dayToday = 'Thursday';
 
-            $(`<span>${dayToday}</span>`).appendTo(deliverablesDay[i]); 
+            $.ajax({
+               type: 'POST',
+               url: 'deliverables_change_date.php',
+               data: {
+                  'selectedDate': selectedDate,
+                  'dayToday': dayToday,
+               },
+               success: function(data){
+                  $('.deliverablesContent').html(data);
+
+                  // Fetch daily employee task work
+                  deliverablesDailyTasks();
+
+               }
+            });
 
          } else if(strDate.getDay() == 5) {
 
             let dayToday = 'Friday';
 
-            $(`<span>${dayToday}</span>`).appendTo(deliverablesDay[i]); 
+            $.ajax({
+               type: 'POST',
+               url: 'deliverables_change_date.php',
+               data: {
+                  'selectedDate': selectedDate,
+                  'dayToday': dayToday,
+               },
+               success: function(data){
+                  $('.deliverablesContent').html(data);
+
+                  // Fetch daily employee task work
+                  deliverablesDailyTasks();
+               }
+            });
 
          } else if(strDate.getDay() == 6) {
 
             let dayToday = 'Saturday';
 
-            $(`<span>${dayToday}</span>`).appendTo(deliverablesDay[i]); 
+            $.ajax({
+               type: 'POST',
+               url: 'deliverables_change_date.php',
+               data: {
+                  'selectedDate': selectedDate,
+                  'dayToday': dayToday,
+               },
+               success: function(data){
+                  $('.deliverablesContent').html(data);
+
+                  // Fetch daily employee task work
+                  deliverablesDailyTasks();
+               }
+            });
 
          } else if(strDate.getDay() == 7) {
 
             let dayToday = 'Sunday';
 
-            $(`<span>${dayToday}</span>`).appendTo(deliverablesDay[i]); 
+            $.ajax({
+               type: 'POST',
+               url: 'deliverables_change_date.php',
+               data: {
+                  'selectedDate': selectedDate,
+                  'dayToday': dayToday,
+               },
+               success: function(data){
+                  $('.deliverablesContent').html(data);
+
+                  // Fetch daily employee task work
+                  deliverablesDailyTasks();
+               }
+            });
 
          }
 
       }
 
-      // $.ajax({
-      //    type: 'POST',
-      //    url: 'deliverables_change_date.php',
-      //    data: {
-      //       'selectedDate': selectedDate,
-      //    },
-      //    success: function(data){
-      //       $('.deliverablesContent').html(data);
-      //    }
-      // });
-
    });
+
 }
 deliverablesChangeDate();
 
@@ -4592,11 +4755,68 @@ function loading(){
 
    setTimeout(() => {
       let loading = document.querySelector('.loading');
-      loading.classList.add('d-none');
+      $(loading).addClass('d-none');
    }, 1000);
   
 }
 $(window).on('load', loading);
+
+function loadingContent(){
+
+   setTimeout(() => {
+      let loading = document.querySelector('.loading-content');
+      $(loading).addClass('d-none');
+   }, 1000);
+
+   // $(document).on('load', ()=> {
+
+   //    setTimeout(() => {
+   //       let loading = document.querySelector('.loading-content');
+   //       $(loading).addClass('d-none');
+   
+   //    }, 1000);
+
+   // });
+
+}
+// loadingContent();
+
+function deliverablesSearch(){
+
+   let searchFilter = document.querySelector('.deliverablesSearch');
+
+   $(searchFilter).on('keydown', ()=> {
+
+      setTimeout(() => {
+
+         let searchValue = $(searchFilter).val();
+         let setDate = $('.deliverablesDates').val();
+         // let setDay = new Date(setDate);
+         
+         // console.log(setDay);
+
+         $.ajax({
+            type: 'POST',
+            url: 'deliverables_search_employee.php',
+            data: {
+               'searchValue': searchValue,
+               'setDate': setDate,
+            },
+            success: function(data){
+               $('.deliverablesContent').html(data);
+
+            }
+         });
+         
+         // console.log(deliverablesDates);
+         
+      }, 50);
+
+   });
+
+}
+deliverablesSearch();
+
 
 
 });

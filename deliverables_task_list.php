@@ -13,7 +13,7 @@ $con = $db->connection();
 
         $sql_employees_tasks = "SELECT * FROM employees_updates_task WHERE date = '$deliverablesDate' AND employee_id = '$userId'";
         $employees_tasks = $con->query($sql_employees_tasks) or die ($con->error);
-        $employee_tasks =  $employees_tasks->fetch_assoc();
+        $employee_tasks = $employees_tasks->fetch_assoc();
 
         $output = '';
         $count = 0;
@@ -47,6 +47,7 @@ $con = $db->connection();
                             </tr>";
                 
             } while($employee_tasks = $employees_tasks->fetch_assoc());
+
 
         } 
 

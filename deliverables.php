@@ -4,9 +4,13 @@
 
 <div class='grid-right__content'>
     <div class='project-title mt-4'>
-        <h1 class="float-start">
-            Employee Timeline
-        </h1>
+        <div class="float-start">
+            <h1>Employee Timeline</h1>
+            <div class="searchEmployee">
+                <label>Search Employee:</label>
+                <input class='deliverablesSearch' type="text" placeholder="Last Name">
+            </div>
+        </div>
 
         <div class='float-end deliverablesCalendar'>
             <label for="">Select Date:</label>
@@ -14,6 +18,7 @@
         </div>
     </div>
     <div class="content-table deliverablesContent">
+
         <table>
             <tbody>
                 <tr>
@@ -57,7 +62,13 @@
 
             </tbody>
         </table>
+
     </div>
+
+    <!-- <div class="loading-content-overlay"></div>   
+        <div class="loading-content">
+        <img src="/img/loading-3.gif" alt="">
+    </div>  -->
 </div>
 
 <?php include 'footer.php'; ?>
