@@ -61,6 +61,7 @@ $con = $db->connection();
                                 <td class='deliverablesTasks_wrapper'>
                                     <button class='deliverablesDailyTasks'>Daily Tasks</button>
                                     <div class='deliverablesTasks d-none'>
+                                    
                                     </div>
                                 </td>
                             </tr>";
@@ -87,10 +88,10 @@ $con = $db->connection();
 
         } while($employeeInfo = $employees->fetch_assoc());
 
-        // $output .= "<div class='loading-content'>
-        //                 <img src='/img/loading-3.gif'>
-        //                 <div class='loading-content-overlay'></div>   
-        //             </div>";
+        $output .= "<div class='loading-content'>
+                        <img src='/img/loading-3.gif'>
+                        <div class='loading-content-overlay'></div>   
+                    </div>";
 
         echo $output;
 

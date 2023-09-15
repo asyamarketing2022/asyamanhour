@@ -6,9 +6,9 @@
     <div class='project-title mt-4'>
         <div class="float-start">
             <h1>Employee Timeline</h1>
-            <div class="searchEmployee">
+            <div class="searchEmployee pb-2">
                 <label>Search Employee:</label>
-                <input class='deliverablesSearch' type="text" placeholder="Last Name">
+                <input class='deliverablesSearch' type="text" placeholder="Last Name or Department" size="25">
             </div>
         </div>
 
@@ -65,9 +65,9 @@
 
     </div>
 
-    <!-- <div class="loading-content-overlay"></div>   
-        <div class="loading-content">
-        <img src="/img/loading-3.gif" alt="">
+    <!-- <div class="loading-content-overlay"></div>    -->
+    <!-- <div class="loading-content d-none">
+        <img src="img/loading-3.gif" alt="">
     </div>  -->
 </div>
 

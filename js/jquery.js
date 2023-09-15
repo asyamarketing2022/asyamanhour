@@ -2649,7 +2649,7 @@ function submit_file_path(){
 
             for(let i = 0; ViewTasksBtn.length > i; i++){
 
-               $(ViewTasksBtn[i]).off().on('click', ()=> {
+               $(ViewTasksBtn[i]).on('click', ()=> {
 
                   $('.userId').parent().remove();
                   $('.employeeName').parent().remove();
@@ -4464,6 +4464,7 @@ function deliverablesEmployee(){
    let deliverablesUserId = document.querySelectorAll('.deliverablesUserId');
    let deliverablesLogs = document.querySelectorAll('.deliverablesLogs');
    let deliverablesCalendar = document.querySelector('.deliverablesDates');
+   
 
    //Deliverables Calendar Default Value Date Today
    $(deliverablesCalendar).attr('value', dateToday);
@@ -4528,6 +4529,7 @@ function deliverablesEmployee(){
                success: function(data){
                   $(deliverablesLogs[i]).html(data);
                }
+
             });
 
       }
@@ -4585,14 +4587,12 @@ function deliverablesChangeDate() {
    let deliverablesDates = document.querySelector('.deliverablesDates');
    let deliverablesDate = document.querySelectorAll('.deliverablesDate');
    let deliverablesDay = document.querySelectorAll('.deliverablesDay');
-
+ 
    $(deliverablesDates).off().on('change', ()=> {
 
-      //
-      // loadingContent();
-     
       $(deliverablesDay).children('span').remove();
       $(deliverablesDate).children('span').remove();
+      // $(loadingContent).removeClass('d-none');
 
       let selectedDate = $(deliverablesDates).val();
       let strDate = new Date(selectedDate);
@@ -4604,7 +4604,7 @@ function deliverablesChangeDate() {
          if(strDate.getDay() == 1) {
 
             let dayToday = 'Monday';
-
+            
             $.ajax({
                type: 'POST',
                url: 'deliverables_change_date.php',
@@ -4614,14 +4614,18 @@ function deliverablesChangeDate() {
                },
                success: function(data){
 
-                 $(window).on('load', loadingContent);
-
                   $('.deliverablesContent').html(data);
 
                   // Fetch daily employee task work
                   deliverablesDailyTasks();
 
+               },
+               complete: function() {
 
+                  setTimeout(() => {
+                     let loadingContent = document.querySelector('.loading-content');
+                     $(loadingContent).addClass('d-none');
+                  }, 100);
 
                }
             });
@@ -4642,6 +4646,14 @@ function deliverablesChangeDate() {
 
                   // Fetch daily employee task work
                   deliverablesDailyTasks();
+               },
+               complete: function() {
+
+                  setTimeout(() => {
+                     let loadingContent = document.querySelector('.loading-content');
+                     $(loadingContent).addClass('d-none');
+                  }, 100);
+
                }
             });
 
@@ -4661,6 +4673,14 @@ function deliverablesChangeDate() {
 
                   // Fetch daily employee task work
                   deliverablesDailyTasks();
+               },
+               complete: function() {
+
+                  setTimeout(() => {
+                     let loadingContent = document.querySelector('.loading-content');
+                     $(loadingContent).addClass('d-none');
+                  }, 100);
+
                }
             });
 
@@ -4682,6 +4702,14 @@ function deliverablesChangeDate() {
                   // Fetch daily employee task work
                   deliverablesDailyTasks();
 
+               },
+               complete: function() {
+
+                  setTimeout(() => {
+                     let loadingContent = document.querySelector('.loading-content');
+                     $(loadingContent).addClass('d-none');
+                  }, 100);
+
                }
             });
 
@@ -4701,6 +4729,14 @@ function deliverablesChangeDate() {
 
                   // Fetch daily employee task work
                   deliverablesDailyTasks();
+               },
+               complete: function() {
+
+                  setTimeout(() => {
+                     let loadingContent = document.querySelector('.loading-content');
+                     $(loadingContent).addClass('d-none');
+                  }, 100);
+
                }
             });
 
@@ -4720,6 +4756,14 @@ function deliverablesChangeDate() {
 
                   // Fetch daily employee task work
                   deliverablesDailyTasks();
+               },
+               complete: function() {
+
+                  setTimeout(() => {
+                     let loadingContent = document.querySelector('.loading-content');
+                     $(loadingContent).addClass('d-none');
+                  }, 100);
+
                }
             });
 
@@ -4739,6 +4783,14 @@ function deliverablesChangeDate() {
 
                   // Fetch daily employee task work
                   deliverablesDailyTasks();
+               },
+               complete: function() {
+
+                  setTimeout(() => {
+                     let loadingContent = document.querySelector('.loading-content');
+                     $(loadingContent).addClass('d-none');
+                  }, 100);
+
                }
             });
 
@@ -4790,23 +4842,156 @@ function deliverablesSearch(){
       setTimeout(() => {
 
          let searchValue = $(searchFilter).val();
-         let setDate = $('.deliverablesDates').val();
-         // let setDay = new Date(setDate);
+         let selectedDate = $('.deliverablesDates').val();
+         let setDay = new Date(selectedDate);
          
-         // console.log(setDay);
+         if(setDay.getDay() == 1){
 
-         $.ajax({
-            type: 'POST',
-            url: 'deliverables_search_employee.php',
-            data: {
-               'searchValue': searchValue,
-               'setDate': setDate,
-            },
-            success: function(data){
-               $('.deliverablesContent').html(data);
+            let daySet = 'Monday';
 
-            }
-         });
+            $.ajax({
+               type: 'POST',
+               url: 'deliverables_search_employee.php',
+               data: {
+                  'searchValue': searchValue,
+                  'selectedDate': selectedDate,
+                  'daySet': daySet,
+               },
+               success: function(data){
+                  $('.deliverablesContent').html(data);
+
+                  // Fetch daily employee task work
+                  deliverablesDailyTasks();
+   
+               }
+            });
+
+         }else if(setDay.getDay() == 2){
+
+            let daySet = 'Tuesday';
+
+            $.ajax({
+               type: 'POST',
+               url: 'deliverables_search_employee.php',
+               data: {
+                  'searchValue': searchValue,
+                  'selectedDate': selectedDate,
+                  'daySet': daySet,
+               },
+               success: function(data){
+                  $('.deliverablesContent').html(data);
+
+                  // Fetch daily employee task work
+                  deliverablesDailyTasks();
+               }
+            });
+         
+         }else if(setDay.getDay() == 3){
+
+            let daySet = 'Wednesday';
+
+            $.ajax({
+               type: 'POST',
+               url: 'deliverables_search_employee.php',
+               data: {
+                  'searchValue': searchValue,
+                  'selectedDate': selectedDate,
+                  'daySet': daySet,
+               },
+               success: function(data){
+                  $('.deliverablesContent').html(data);
+   
+                  // Fetch daily employee task work
+                  deliverablesDailyTasks();
+
+               }
+            });
+
+         } else if(setDay.getDay() == 4) {
+
+            let daySet = 'Thursday';
+
+            $.ajax({
+               type: 'POST',
+               url: 'deliverables_search_employee.php',
+               data: {
+                  'searchValue': searchValue,
+                  'selectedDate': selectedDate,
+                  'daySet': daySet,
+               },
+               success: function(data){
+                  $('.deliverablesContent').html(data);
+   
+                  // Fetch daily employee task work
+                  deliverablesDailyTasks();
+
+               }
+            });
+
+         } else if(setDay.getDay() == 5) {
+
+            let daySet = 'Friday';
+
+            $.ajax({
+               type: 'POST',
+               url: 'deliverables_search_employee.php',
+               data: {
+                  'searchValue': searchValue,
+                  'selectedDate': selectedDate,
+                  'daySet': daySet,
+               },
+               success: function(data){
+                  $('.deliverablesContent').html(data);
+   
+                  // Fetch daily employee task work
+                  deliverablesDailyTasks();
+
+               }
+            });
+
+         } else if(setDay.getDay() == 6) {
+
+            let daySet = 'Saturday';
+
+            $.ajax({
+               type: 'POST',
+               url: 'deliverables_search_employee.php',
+               data: {
+                  'searchValue': searchValue,
+                  'selectedDate': selectedDate,
+                  'daySet': daySet,
+               },
+               success: function(data){
+                  $('.deliverablesContent').html(data);
+   
+                  // Fetch daily employee task work
+                  deliverablesDailyTasks();
+
+               }
+            });
+
+         } else if(setDay.getDay() == 7) {
+
+            let daySet = 'Sunday';
+
+            $.ajax({
+               type: 'POST',
+               url: 'deliverables_search_employee.php',
+               data: {
+                  'searchValue': searchValue,
+                  'selectedDate': selectedDate,
+                  'daySet': daySet,
+               },
+               success: function(data){
+                  $('.deliverablesContent').html(data);
+   
+                  // Fetch daily employee task work
+                  deliverablesDailyTasks();
+
+               }
+            });
+
+         }
          
          // console.log(deliverablesDates);
          

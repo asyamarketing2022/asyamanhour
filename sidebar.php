@@ -109,10 +109,12 @@
 
                 <li class="<?php if($page=='project'){echo 'active';} ?>" ><a href="<?php echo $URL ?>/project.php"><i class="fa fa-clipboard"></i> Projects</a></li>
                
+                <li class="<?php if($page=='deliverables'){echo 'active';} ?>"><a href="<?php echo $URL ?>/deliverables.php"><i class="fa fa-newspaper-o"></i>Deliverables </a></li>
+
+                <li class="<?php if($page=='project-records'){echo 'active';} ?>"><a href="<?php echo $URL ?>/project-records.php"><i class="fa fa-newspaper-o"></i>Project Records</a></li>
+
                 <li class="<?php if($page=='usersReport'){echo 'active';} ?>"><a href="<?php echo $URL ?>/usersReport.php"><i class="fa fa-newspaper-o"></i>Users Log</a></li>
                 <!-- <li><a href="#"><i class="fa fa-bitcoin"></i> Financial</a></li> -->
 
-                <li class="<?php if($page=='deliverables'){echo 'active';} ?>"><a href="<?php echo $URL ?>/deliverables.php"><i class="fa fa-newspaper-o"></i>Deliverables </a></li>
-                
             </ul>
         </div>
