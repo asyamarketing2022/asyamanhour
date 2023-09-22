@@ -2146,8 +2146,8 @@ function submit_file_path(){
    
          $(searchManager).on('keydown', ()=> {
 
-            let searchManager_pow = document.querySelector('.searchManager_pow');
-            let searchManager_service = document.querySelector('.searchManager_service');
+            let searchManager_pow = document.querySelector('.searchEmployee_pow');
+            let searchManager_service = document.querySelector('.searchEmployee_service');
             let userIDs = document.querySelectorAll('.managers_container .user_container');
             let userId_container = [];
 
@@ -2193,8 +2193,8 @@ function submit_file_path(){
 
       $(addManagerBtn).on('click', ()=> {
 
-            let searchManager_pow = document.querySelector('.searchManager_pow');
-            let searchManager_service = document.querySelector('.searchManager_service');
+            let searchManager_pow = document.querySelector('.searchEmployee_pow');
+            let searchManager_service = document.querySelector('.searchEmployee_service');
             let userIDs = document.querySelectorAll('.managers_container .user_container');
             let userId_container = [];
 
@@ -2369,11 +2369,11 @@ function submit_file_path(){
 
            let contentInfo = `<div class="content__info">
                                  <span>Phase of work:</span>
-                                 <p class="searchManager_pow">${$(td_pow).text()}</p>
+                                 <p class="searchEmployee_pow">${$(td_pow).text()}</p>
                               </div>
                               <div class="content__info">
                                  <span>Service:</span>
-                                 <p class='searchManager_service'>${projectService}</p>
+                                 <p class='searchEmployee_service'>${projectService}</p>
                               </div>`;
 
            $(contentInfo).prependTo(searchManager_container);
@@ -2415,8 +2415,8 @@ function submit_file_path(){
             let managerFullname = $(userContainer).find('.user_fullname span').text();
             let projectId = $('#projectTitle').attr('value');
             let projectName = $('#projectTitle').text();
-            let searchManager_pow = $('.searchManager_pow').text()
-            let searchManager_service = $('.searchManager_service').text()
+            let searchManager_pow = $('.searchEmployee_pow').text()
+            let searchManager_service = $('.searchEmployee_service').text()
  
             $.ajax({
                type: 'POST',

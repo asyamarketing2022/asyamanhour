@@ -7,26 +7,25 @@ class ViewProjectController
 {
     public $service_phaseOfwork;
     public $phase_of_work_manager;
-    public $assinged_employee;
+    public $assigned_employee;
     public $phase_of_work;
     public $who_assigned_manager;
     public $status;
     public $name;
     public $conn;
 
-    public function __construct($service_phaseOfwork = null, $phase_of_work_manager = null, $assinged_employee = null, $phase_of_work = null, $who_assigned_manager = null, $status = null, $name = null )
+    public function __construct($service_phaseOfwork = null, $phase_of_work_manager = null, $assigned_employee = null, $phase_of_work = null, $who_assigned_manager = null, $status = null, $name = null )
     {
         $db = new DBconnection();
         $this->conn = $db->connection();
 
         $this->service_phaseOfwork = $service_phaseOfwork;
         $this->phase_of_work_manager = $phase_of_work_manager;
-        $this->assinged_employee = $assinged_employee;
+        $this->assigned_employee = $assigned_employee;
         $this->phase_of_work = $phase_of_work; 
         $this->who_assigned_manager = $who_assigned_manager;
         $this->status = $status;
         $this->name = $name;
-
     }
     
     function view_phase_of_work_status()
@@ -40,7 +39,7 @@ class ViewProjectController
 
         $service_phase_of_work = $this->service_phaseOfwork;
         $manager = $this->phase_of_work_manager;
-        $assignedEmployee = $this->assinged_employee;
+        $assignedEmployee = $this->assigned_employee;
         $phaseOfwork = $this->phase_of_work;
 
         $whoAssignedManager = $this->who_assigned_manager;

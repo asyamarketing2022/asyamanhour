@@ -30,7 +30,7 @@ if(isset($_POST['projectId'])) {
 
     $con->query($sql) or die ($con->error);
 
-    $query_employee_tasks = "SELECT * FROM `employees_tasks` WHERE employee_id = '$employeeId' AND services = '$services' AND phase_of_work = '$phase_of_work' ORDER BY id DESC";
+    $query_employee_tasks = "SELECT * FROM `employees_tasks` WHERE employee_id = '$employeeId' AND services = '$services' AND phase_of_work = '$phase_of_work' AND project_id = '$projectId' ORDER BY id DESC";
     $employee_tasks = $con->query($query_employee_tasks) or die ($con->error);
     $row = $employee_tasks->fetch_assoc();
 

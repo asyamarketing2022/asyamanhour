@@ -9,11 +9,6 @@
         <div class="float-start">
             <h1>Projects</h1>
         </div>
-
-        <div class='float-end'>
-            <label for="">Select Date:</label>
-            <input class='' type="date">
-        </div>
     </div>
 
     <div class="content-table">

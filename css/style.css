@@ -1704,6 +1704,78 @@ input.form-check-input {
     box-shadow: 1px 4px 5px 3px rgba(0,0,0,0.3);
 }
 
+.project_report_table table {
+    table-layout: fixed;
+}
+
+.project_report_table table tbody { 
+    vertical-align: baseline;
+}
+
+.project_report_table table .managers-task-container .manager-task,
+.project_report_table table .pic-task-container .pic-task {
+    background: #fff;
+    margin-bottom: 20px;
+}
+
+.project_report_table table .managers-task-container .manager-task .taskUser,
+.project_report_table table .pic-task-container .pic-task .taskUser {
+    display: flex;
+    margin: 0 15px;
+}
+
+.project_report_table table .managers-task-container .manager-task .taskUser img,
+.project_report_table table .pic-task-container .pic-task .taskUser img {
+    clip-path: circle();
+    object-fit: contain;
+    height: 90px;
+    margin-right: 20px;
+}
+
+.project_report_table table .managers-task-container .manager-task .taskUser .userInfo,
+.project_report_table table .pic-task-container .pic-task .taskUser .userInfo {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(100px,1fr));
+}
+
+.project_report_table table .managers-task-container .manager-task .taskUser .userInfo p,
+.project_report_table table .pic-task-container .pic-task .taskUser .userInfo p {
+    margin: 0;
+    font-weight: 900;
+    font-size: 20px;
+}
+
+.project_report_table table .managers-task-container .manager-task .taskUser .userInfo p span,
+.project_report_table table .pic-task-container .pic-task .taskUser .userInfo p span {
+    margin: 0;
+    font-weight: normal;
+    font-size: 20px;
+}
+
+.project_report_table table .managers-task-container .manager-task .taskTitle,
+.project_report_table table .pic-task-container .pic-task .taskTitle {
+    margin: 0 15px
+}
+
+.project_report_table table .managers-task-container .manager-task .taskUpdates,
+.project_report_table table .pic-task-container .pic-task .taskUpdates {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(100px,1fr));
+    margin: 0 15px
+}
+
+.project_report_table table .managers-task-container .manager-task .taskUpdates .updateList .Updates li span,
+.project_report_table table .pic-task-container .pic-task .taskUpdates .updateList .Updates li span {
+    font-weight: 900;
+}
+
+.project_report_table table .managers-task-container .manager-task .taskUpdates .updateHours .task_total_hours span,
+.project_report_table table .pic-task-container .pic-task .taskUpdates .updateHours .task_total_hours span {
+    font-weight: 900;
+}
+
+
+
 /* .dot-gap::before{
     content: "…";
     position: absolute;
