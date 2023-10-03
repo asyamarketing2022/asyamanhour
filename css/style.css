@@ -1712,19 +1712,19 @@ input.form-check-input {
     vertical-align: baseline;
 }
 
-.project_report_table table .managers-task-container .manager-task,
+.project_report_table table .employee-task-container .manager-task,
 .project_report_table table .pic-task-container .pic-task {
     background: #fff;
     margin-bottom: 20px;
 }
 
-.project_report_table table .managers-task-container .manager-task .taskUser,
+.project_report_table table .employee-task-container .manager-task .taskUser,
 .project_report_table table .pic-task-container .pic-task .taskUser {
     display: flex;
     margin: 0 15px;
 }
 
-.project_report_table table .managers-task-container .manager-task .taskUser img,
+.project_report_table table .employee-task-container .manager-task .taskUser img,
 .project_report_table table .pic-task-container .pic-task .taskUser img {
     clip-path: circle();
     object-fit: contain;
@@ -1732,49 +1732,62 @@ input.form-check-input {
     margin-right: 20px;
 }
 
-.project_report_table table .managers-task-container .manager-task .taskUser .userInfo,
+.project_report_table table .employee-task-container .manager-task .taskUser .userInfo,
 .project_report_table table .pic-task-container .pic-task .taskUser .userInfo {
     display: grid;
-    grid-template-columns: repeat(auto-fit,minmax(100px,1fr));
+    grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
 }
 
-.project_report_table table .managers-task-container .manager-task .taskUser .userInfo p,
+.project_report_table table .employee-task-container .manager-task .taskUser .userInfo p,
 .project_report_table table .pic-task-container .pic-task .taskUser .userInfo p {
     margin: 0;
     font-weight: 900;
     font-size: 20px;
 }
 
-.project_report_table table .managers-task-container .manager-task .taskUser .userInfo p span,
+.project_report_table table .employee-task-container .manager-task .taskUser .userInfo p span,
 .project_report_table table .pic-task-container .pic-task .taskUser .userInfo p span {
     margin: 0;
     font-weight: normal;
     font-size: 20px;
 }
 
-.project_report_table table .managers-task-container .manager-task .taskTitle,
+.project_report_table table .employee-task-container .manager-task .taskTitle,
 .project_report_table table .pic-task-container .pic-task .taskTitle {
     margin: 0 15px
 }
 
-.project_report_table table .managers-task-container .manager-task .taskUpdates,
+.project_report_table table .employee-task-container .manager-task .taskUpdates,
 .project_report_table table .pic-task-container .pic-task .taskUpdates {
     display: grid;
     grid-template-columns: repeat(auto-fit,minmax(100px,1fr));
     margin: 0 15px
 }
 
-.project_report_table table .managers-task-container .manager-task .taskUpdates .updateList .Updates li span,
+.project_report_table table .employee-task-container .manager-task .taskUpdates .updateList .Updates li span,
 .project_report_table table .pic-task-container .pic-task .taskUpdates .updateList .Updates li span {
     font-weight: 900;
 }
 
-.project_report_table table .managers-task-container .manager-task .taskUpdates .updateHours .task_total_hours span,
+.project_report_table table .employee-task-container .manager-task .taskUpdates .updateHours .task_total_hours span,
 .project_report_table table .pic-task-container .pic-task .taskUpdates .updateHours .task_total_hours span {
     font-weight: 900;
 }
 
+.project_report_table table .employee-task-container .manager-task .taskUpdates .taskUpdatesList {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    text-transform: none;
+}
 
+
+.project_report_table table .employee-task-container .manager-task .taskTotalHours {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    text-transform: none;
+    border-top: 1px solid #000;
+    margin: 0 15px;
+}
 
 /* .dot-gap::before{
     content: "…";
