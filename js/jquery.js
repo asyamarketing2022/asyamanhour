@@ -5002,7 +5002,96 @@ function deliverablesSearch(){
 }
 deliverablesSearch();
 
+function show_phase_of_work() {
 
+   let add_pow = document.querySelectorAll('.add_phase_of_work_btn');
+   // let phase_of_work = document.querySelectorAll('.phase_of_work');
+   let content_table = document.querySelectorAll('.project_services_table');
+   // let phase_of_work = $(content_table).find('')
+
+   for(let i = 0; add_pow.length > i; i++) {
+
+      $(add_pow[i]).on('click', ()=> {
+
+         let phaseOfwork = $(add_pow[i]).attr('id');
+         let projectId = $('#projectTitle').attr('value');
+
+         $.ajax({
+            type: 'POST',
+            url: 'show-phase-of-work.php',
+            data: {
+               'phaseOfwork': phaseOfwork,
+               'projectId': projectId,
+            },
+            success: function(data){
+               $(data).insertAfter(phaseOfwork);
+               // $(phase_of_work[i]).html(data);
+            }
+         });
+
+         if($(phase_of_work[i]).hasClass('d-none')) {
+
+            $(phase_of_work[i]).addClass('d-none');
+
+            $(phase_of_work[i]).removeClass('d-none');
+
+         } else {
+            
+            $(phase_of_work[i]).addClass('d-none');
+
+         }
+
+         //Add Phase Of Work
+         add_phase_of_work();
+         
+      });
+
+   }
+
+}
+show_phase_of_work();
+
+// Add phase of work in ongoing project
+function add_phase_of_work() {
+
+   setTimeout(() => {
+
+      let phase_of_work = document.querySelectorAll('.phase_of_work span');
+
+      for(let i = 0; phase_of_work.length > i; i++){
+
+         $(phase_of_work[i]).on('click', ()=> {
+
+            let pow_text = $(phase_of_work[i]).text();
+
+            if (confirm(`Are you sure to add ${pow_text}?`)) {
+
+               let add_phase_of_work = $(phase_of_work[i]).attr('class');
+               let projectId = $('#projectTitle').attr('value');
+
+               $.ajax({
+                  type: 'POST',
+                  url: 'add_phase_of_work.php',
+                  data: {
+                     'add_phase_of_work': add_phase_of_work,
+                     'projectId': projectId,
+                  },
+                  success: function(data) {
+                     window.location.reload();
+                  }
+
+               });
+
+            } 
+            
+         });
+
+      }
+      
+   }, 50);
+   
+}
+add_phase_of_work();
 
 });
 

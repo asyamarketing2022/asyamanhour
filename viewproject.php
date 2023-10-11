@@ -115,8 +115,26 @@ $row = $project->fetch_assoc();
                 $archSite->view_phase_of_work_status();
 
              } ?>
-            
+
         </table>
+
+        <?php 
+             
+             //
+             if($row['arch_conceptual'] != 1 || $row['arch_schematic'] != 1 || $row['arch_designdevelopment'] != 1 || $row['arch_construction'] != 1 || $row['arch_site'] != 1 ) {
+
+                echo "<img class='add_phase_of_work_btn' id='archi_pow' src='img/add-icon.png' width='30'>";
+
+
+             } 
+             
+        ?>
+
+        <div class='phase_of_work d-none'>
+
+
+        </div>
+    
     </div>
 
     <?php } ?>
@@ -169,8 +187,25 @@ $row = $project->fetch_assoc();
 
         } ?>
 
-            </table>
+        </table>
+
+        <?php 
+             
+            // Engineering 
+            if($row['engi_schematic'] != 1 || $row['engi_designdevelopment'] != 1 || $row['engi_construction'] != 1 ) {
+
+            echo "<img class='add_phase_of_work_btn' id='engi_pow' src='img/add-icon.png' width='30'>";
+
+
+            } 
+             
+        ?>
+
+        <div class='phase_of_work d-none'>
+
         </div>
+
+    </div>
 
     <?php } ?>
 
@@ -233,6 +268,24 @@ $row = $project->fetch_assoc();
                 } ?>
 
             </table>
+
+            
+            <?php 
+                
+                // Engineering 
+                if($row['int_conceptual'] != 1 || $row['int_designdevelopment'] != 1 || $row['int_construction'] != 1 || $row['int_site'] != 1 ) {
+    
+                echo "<img class='add_phase_of_work_btn' id='int_pow' src='img/add-icon.png' width='30'>";
+    
+    
+                } 
+                
+            ?>
+ 
+            <div class='phase_of_work d-none'>
+    
+            </div>
+
         </div>
 
     <?php } ?>

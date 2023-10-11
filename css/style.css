@@ -992,6 +992,24 @@ button.deleteTask {
     height: auto;
 }
 
+.content-table.project_services_table .phase_of_work {
+    display: inline-block;
+    position: absolute;
+    border: 1px solid #000;
+    background: #fff;
+    padding: 10px;
+}
+
+.content-table.project_services_table .phase_of_work span {
+    display: block;
+    cursor: pointer;
+}
+
+.content-table.project_services_table .phase_of_work span:hover {
+    background: #004c3f;
+    color: #fff;
+}
+
 .content-table.project_services_table table {
     table-layout: fixed;
 }
