@@ -5004,17 +5004,17 @@ deliverablesSearch();
 
 function show_phase_of_work() {
 
-   let add_pow = document.querySelectorAll('.add_phase_of_work_btn');
-   // let phase_of_work = document.querySelectorAll('.phase_of_work');
    let content_table = document.querySelectorAll('.project_services_table');
-   // let phase_of_work = $(content_table).find('')
 
-   for(let i = 0; add_pow.length > i; i++) {
+   for(let i = 0; content_table.length > i; i++) {
 
-      $(add_pow[i]).on('click', ()=> {
+     let add_pow = $(content_table[i]).find('.add_phase_of_work_btn');
 
-         let phaseOfwork = $(add_pow[i]).attr('id');
+      $(add_pow).on('click', ()=> {
+
+         let phaseOfwork = $(add_pow).attr('id');
          let projectId = $('#projectTitle').attr('value');
+         let phase_of_work = $(content_table[i]).find('.phase_of_work ');
 
          $.ajax({
             type: 'POST',
@@ -5024,20 +5024,21 @@ function show_phase_of_work() {
                'projectId': projectId,
             },
             success: function(data){
-               $(data).insertAfter(phaseOfwork);
-               // $(phase_of_work[i]).html(data);
+               // $(data).insertAfter(phaseOfwork);
+               $(phase_of_work).html(data);
             }
+
          });
 
-         if($(phase_of_work[i]).hasClass('d-none')) {
+         if($(phase_of_work).hasClass('d-none')) {
 
-            $(phase_of_work[i]).addClass('d-none');
+            $(phase_of_work).addClass('d-none');
 
-            $(phase_of_work[i]).removeClass('d-none');
+            $(phase_of_work).removeClass('d-none');
 
          } else {
             
-            $(phase_of_work[i]).addClass('d-none');
+            $(phase_of_work).addClass('d-none');
 
          }
 
@@ -5092,6 +5093,33 @@ function add_phase_of_work() {
    
 }
 add_phase_of_work();
+
+function show_services(){
+
+   let add_services = document.querySelector('.add-services');
+   let add_services_container = document.querySelector('.add_services_container');
+
+   $(add_services).on('click', ()=> {
+
+      let projectId = $('#projectTitle').attr('value');
+
+
+      if($(add_services_container).hasClass('d-none')) {
+
+         $(add_services_container).addClass('d-none');
+
+         $(add_services_container).removeClass('d-none');
+
+      } else {
+         
+         $(add_services_container).addClass('d-none');
+
+      }
+      
+   });
+
+}
+show_services()
 
 });
 

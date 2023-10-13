@@ -38,10 +38,19 @@ $row = $project->fetch_assoc();
 <!-- </div> -->
 
 <div class="grid-right__content">
-    <div class="project-title mt-4">
-        <h1 class="float-start" id="projectTitle" value='<?php echo $projectID ?>'><?php echo $row['project_name'] ?></h1>
-        <div class="float-end info-icon" data-toggle="modal" data-target="#projectInfo"><img src="img/info-icon.png" alt="" width="30"></div>
+    <div class="project-title mt-4 row">
+        <div class="col-6">
+            <h1 class="float-start" id="projectTitle" value='<?php echo $projectID ?>'><?php echo $row['project_name'] ?></h1>
+        </div>
+        <div class="col-6">
+            <div class="btn-container float-end">
+                <button type='button' class='btn btn-primary add-services'>Add Services</button>
+                <div class="add_services_container d-none">
 
+                </div>
+                <div class="info-icon mx-2" data-toggle="modal" data-target="#projectInfo"><img src="img/info-icon.png" alt="" width="30"></div>
+            </div>
+        </div>
     </div>
 
     <!-- Architecture table  -->
@@ -124,7 +133,6 @@ $row = $project->fetch_assoc();
              if($row['arch_conceptual'] != 1 || $row['arch_schematic'] != 1 || $row['arch_designdevelopment'] != 1 || $row['arch_construction'] != 1 || $row['arch_site'] != 1 ) {
 
                 echo "<img class='add_phase_of_work_btn' id='archi_pow' src='img/add-icon.png' width='30'>";
-
 
              } 
              
@@ -330,6 +338,23 @@ $row = $project->fetch_assoc();
                 } ?>
 
             </table>
+
+            <?php 
+                
+                // Engineering 
+                if($row['masterplanning_conceptual'] != 1 || $row['masterplanning_schematic'] != 1) {
+    
+                echo "<img class='add_phase_of_work_btn' id='masterplanning_pow' src='img/add-icon.png' width='30'>";
+    
+    
+                } 
+                
+            ?>
+ 
+            <div class='phase_of_work d-none'>
+    
+            </div>
+
         </div>
 
     <?php } ?>

@@ -110,6 +110,29 @@ if(isset($_POST['phaseOfwork'])) {
 
         echo $output;
 
+    } else if($_POST['phaseOfwork'] == 'masterplanning_pow') {
+
+        $query_projects = "SELECT * FROM pms_projects WHERE id = '$projectId'";
+        $project = $con->query($query_projects) or die ($con->error);
+        $row = $project->fetch_assoc();
+
+        $output = '';
+
+
+        if($row['masterplanning_conceptual'] == 0) {
+
+            $output .= "<span class='masterplanning_conceptual'>Conceptual</span>";
+
+        }
+
+        if($row['masterplanning_schematic'] == 0) {
+
+            $output .= "<span class='masterplanning_schematic'>Schematic</span>";
+
+        }
+
+        echo $output;
+
     }
 
 }

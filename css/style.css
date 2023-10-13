@@ -883,9 +883,23 @@ button.deleteTask {
 .search-action__wrapper,
 .select-action__wrapper,
 .project-title {
-    width: 100%;
+    /* width: 100%;
     display: block;
-    height: 50px;
+    height: 50px; */
+}
+
+.project-title .btn-container {
+    display: inline-flex;
+    position: relative;
+}
+
+.project-title .btn-container .add_services_container {
+    display: inline-block;
+    position: absolute;
+    border: 1px solid #000;
+    background: #fff;
+    padding: 10px;
+    left: -100px;
 }
 
 .select-action__wrapper ul.select-action {
