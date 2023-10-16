@@ -207,7 +207,7 @@ function refreshPage() {
 refreshPage();
 
 function download_csv() {
-    
+
     let dl_csv = document.querySelector('.dl_csv');
 
     dl_csv.addEventListener('click', (e) => {
@@ -223,7 +223,7 @@ function download_csv() {
         let td_array = row.children;
         let td_text = [];
         let td_container = [];
- 
+
             for (let i = 0; i < td_array.length; i++) {
 
                 td_text.push(td_array[i].innerText);
@@ -247,7 +247,6 @@ function download_csv() {
         hiddenElement.download = 'Users History.csv';
         hiddenElement.click();
 
-  
     }); 
 }
 download_csv();

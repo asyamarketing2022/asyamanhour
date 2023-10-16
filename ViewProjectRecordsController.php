@@ -36,9 +36,10 @@ class ViewProjectRecordsController
         $row = $project->fetch_assoc();
 
         // $service_phase_of_work = $this->service_phaseOfwork;
-        $employee = $this->assigned_employee;
+     
         $services = $this->services;
         $phase_of_work = $this->phase_of_work;
+        $employee = $this->assigned_employee;
 
         // if($row[$service_phase_of_work] == 1) {
 
@@ -51,7 +52,7 @@ class ViewProjectRecordsController
 
                     $phase_of_work_employee = $phase_of_work_employees[$i];
 
-                    $query_users_tasks = "SELECT * FROM employees_tasks WHERE services = '$services' AND phase_of_work = '$phase_of_work' AND employee_id = '$phase_of_work_employee' AND project_id = '$projectID'";
+                    $query_users_tasks = "SELECT * FROM employees_tasks WHERE services = '$services' AND phase_of_work = '$phase_of_work' AND employee_id = '$phase_of_work_employee' AND project_id = '$projectID' AND invite_status = 'accept'";
                     $users_tasks = $this->conn->query($query_users_tasks) or die ($this->conn->error);
                     $user_task = $users_tasks->fetch_assoc();
 

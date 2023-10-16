@@ -5094,6 +5094,7 @@ function add_phase_of_work() {
 }
 add_phase_of_work();
 
+
 function show_services(){
 
    let add_services = document.querySelector('.add-services');
@@ -5102,6 +5103,17 @@ function show_services(){
    $(add_services).on('click', ()=> {
 
       let projectId = $('#projectTitle').attr('value');
+
+      $.ajax({
+         type: 'POST',
+         url: 'show-services.php',
+         data: {
+            'projectId': projectId,
+         },
+         success: function(data){
+            $('.add_services_container').html(data);
+         }
+      })
 
 
       if($(add_services_container).hasClass('d-none')) {
@@ -5115,11 +5127,54 @@ function show_services(){
          $(add_services_container).addClass('d-none');
 
       }
+
+      //Add Services
+      add_services_func(); 
       
    });
 
 }
-show_services()
+show_services();
+
+function add_services_func(){
+
+   setTimeout(() => {
+
+      let services = document.querySelectorAll('.add_services_container span');
+
+      for(let i = 0; services.length > i; i++){
+
+         $(services[i]).on('click', ()=> {
+
+            let services_text = $(services[i]).text();
+
+            if (confirm(`Are you sure to add ${services_text}?`)) {
+
+            let add_services = $(services[i]).attr('class');
+            let projectId = $('#projectTitle').attr('value');
+
+               $.ajax({
+                  type: 'POST',
+                  url: 'add_services.php',
+                  data: {
+                     'add_services': add_services,
+                     'projectId': projectId,
+                  },
+                  success: function(data){
+                        window.location.reload();
+                  }
+               });
+
+            }
+
+         }); 
+
+      }
+
+   }, 50);
+
+}
+add_services_func();
 
 });
 

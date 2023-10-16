@@ -894,12 +894,22 @@ button.deleteTask {
 }
 
 .project-title .btn-container .add_services_container {
-    display: inline-block;
+    display: grid;
     position: absolute;
     border: 1px solid #000;
     background: #fff;
     padding: 10px;
-    left: -100px;
+    left: -135px;
+    z-index: 10;
+}
+
+.project-title .btn-container .add_services_container span {
+    cursor: pointer;
+}
+
+.project-title .btn-container .add_services_container span:hover {
+    background: #004c3f;
+    color: #fff;
 }
 
 .select-action__wrapper ul.select-action {
