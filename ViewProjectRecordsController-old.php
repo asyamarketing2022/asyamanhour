@@ -11,10 +11,9 @@ class ViewProjectRecordsController
     public $services;
     public $phase_of_work;
     public $assigned_employee;
-    public $assigned_pic;
     public $conn;
 
-    public function __construct($services = null, $phase_of_work = null, $assigned_employee = null, $assigned_pic = null)
+    public function __construct($services = null, $phase_of_work = null, $assigned_employee = null)
     {
         $db = new DBconnection();
         $this->conn = $db->connection();
@@ -23,7 +22,6 @@ class ViewProjectRecordsController
         $this->services = $services;
         $this->phase_of_work = $phase_of_work;
         $this->assigned_employee = $assigned_employee;
-        $this->assigned_pic = $assigned_pic;
 
     }
 
@@ -162,129 +160,6 @@ class ViewProjectRecordsController
 
         } 
 
-    }
-
-    function service_report()
-    {
-        $projectID = $_GET['ID'];
-        $output = '';
-        // $spend_hours = 0;
-       
-        $query_projects = "SELECT * FROM pms_projects WHERE id = '$projectID'";
-        $project = $this->conn->query($query_projects) or die ($this->conn->error);
-        $row = $project->fetch_assoc();
-
-        $services = $this->services;
-        $phase_of_work = $this->phase_of_work;
-        $employee_manager = $this->assigned_employee;
-        $employee_pic = $this->assigned_pic;
-        // $pic = $this->$assigned_pic;
-
-        $managers_spend_hours = 0;
-        $pic_total_hours = 0;
-        $total_spend_hours = 0;
-
-        $output .= "<table>
-                        <tbody>
-                            <tr>
-                                <th>$services</th>
-                                <th>Name</th>
-                                <th>Department</th>
-                                <th>Position</th>
-                                <th>Task Name</th>
-                                <th>Task Update</th>
-                                <th>Task Spend Hours</th>
-                            </tr>";
-
-        if(!empty($row[$employee_manager])) {
-
-            $phase_of_work_employee_manager = (explode(" ", $row[$employee_manager]));
-            $phase_of_work_employee_manager_count = (empty($phase_of_work_employee_manager) ? "" : count($phase_of_work_employee_manager));
-
-            for ($i = 0; $phase_of_work_employee_manager_count > $i; $i++) {
-
-                $phase_of_work_manager = $phase_of_work_employee_manager[$i];
-
-                $query_users_tasks = "SELECT * FROM employees_updates_task WHERE services = '$services' AND phase_of_work = '$phase_of_work' AND employee_id = '$phase_of_work_manager' AND project_id = '$projectID'";
-                $users_tasks = $this->conn->query($query_users_tasks) or die ($this->conn->error);
-                $user_task = $users_tasks->fetch_assoc();
-
-                if ($users_tasks->num_rows > 0 ) {
-
-                    do {
-                    
-                        $output .= "<tr>
-                                <td>" . $user_task['phase_of_work'] . "</td>
-                                <td>" . $user_task['employee_name'] . "</td>
-                                <td>Department</td>
-                                <td>Position</td>
-                                <td>" . $user_task['task_title'] . "</td>
-                                <td>" . $user_task['task_update'] . "</td>
-                                <td>" . $user_task['spend_hours'] . "</td>
-                                </tr>";
-
-                        $managers_spend_hours += empty($user_task['spend_hours']) ? 0 : $user_task['spend_hours'];
-
-                    } while($user_task = $users_tasks->fetch_assoc());  
-
-                }
- 
-            }
-        }
-
-        if(!empty($row[$employee_pic])) {
-
-            $phase_of_work_employee_pic = (explode(" ", $row[$employee_pic]));
-            $phase_of_work_employee_pic_count = (empty($phase_of_work_employee_pic) ? "" : count($phase_of_work_employee_pic));
-
-            for ($a = 0; $phase_of_work_employee_pic_count > $a; $a++) {
-
-                $phase_of_work_pic = $phase_of_work_employee_pic[$a];
-               
-                $query_pic_tasks = "SELECT * FROM employees_updates_task WHERE services = '$services' AND phase_of_work = '$phase_of_work' AND employee_id = '$phase_of_work_pic' AND project_id = '$projectID'";
-                $query_pic = $this->conn->query($query_pic_tasks) or die ($this->conn->error);
-                $pic_task = $query_pic->fetch_assoc();
-
-                if ($query_pic->num_rows > 0 ) {
-
-                    do {
-                    
-                        $output .= "<tr>
-                                <td>" . $pic_task['phase_of_work'] . "</td>
-                                <td>" . $pic_task['employee_name'] . "</td>
-                                <td>Department</td>
-                                <td>Position</td>
-                                <td>" . $pic_task['task_title'] . "</td>
-                                <td>" . $pic_task['task_update'] . "</td>
-                                <td>" . $pic_task['spend_hours'] . "</td>
-                                </tr>";
-
-                        // echo empty($address['street2']) ? "Street2 is empty!" : $address['street2'];
-
-                        $pic_total_hours += empty($pic_task['spend_hours']) ? 0 : $pic_task['spend_hours'];
-
-                    } while($pic_task = $query_pic->fetch_assoc());  
-
-                }
-
-            }
-
-        }
-
-        $total_spend_hours = $managers_spend_hours += $pic_total_hours;
-
-        $output .= "<tr>
-                    <td></td>            
-                    <td></td>            
-                    <td></td>            
-                    <td></td>            
-                    <td></td>            
-                    <td><strong>Total Hours:</strong></td>            
-                    <td>" . $total_spend_hours . "  </td>            
-                </tr>";
-
-        echo $output;
-        
     }
 
 }

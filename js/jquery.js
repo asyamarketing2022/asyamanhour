@@ -3779,7 +3779,6 @@ function submitNewTask_pic(){
                      'update_tasks_date_array': update_tasks_date_array,
                      'update_tasks_spendhours_array': update_tasks_spendhours_array,
                      'total_spend_hours': total_spend_hours,
-   
                   },
                   success: function(data){
                      $('.taskUpdate_tbody').html(data);
