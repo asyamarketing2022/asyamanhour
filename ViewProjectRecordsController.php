@@ -187,7 +187,8 @@ class ViewProjectRecordsController
         $output .= "<table>
                         <tbody>
                             <tr>
-                                <th>$services</th>
+                                <th>Services</th>
+                                <th>Phase Of Work</th>
                                 <th>Name</th>
                                 <th>Department</th>
                                 <th>Position</th>
@@ -211,13 +212,20 @@ class ViewProjectRecordsController
 
                 if ($users_tasks->num_rows > 0 ) {
 
+                   $employeeId = $user_task['employee_id'];
+
+                   $query_employees = "SELECT * FROM registered_users WHERE ID = '$employeeId'";
+                   $employees = $this->conn->query($query_employees) or die ($this->conn->error);
+                   $employee = $employees->fetch_assoc();
+
                     do {
                     
-                        $output .= "<tr>
+                        $output .= "<tr class='record-update'>
+                                <td>$services</td>
                                 <td>" . $user_task['phase_of_work'] . "</td>
                                 <td>" . $user_task['employee_name'] . "</td>
-                                <td>Department</td>
-                                <td>Position</td>
+                                <td>" . $employee['department'] . "</td>
+                                <td>" . $employee['position'] . "</td>
                                 <td>" . $user_task['task_title'] . "</td>
                                 <td>" . $user_task['task_update'] . "</td>
                                 <td>" . $user_task['spend_hours'] . "</td>
@@ -247,13 +255,20 @@ class ViewProjectRecordsController
 
                 if ($query_pic->num_rows > 0 ) {
 
+                   $employeeId = $pic_task['employee_id'];
+
+                   $query_employees = "SELECT * FROM registered_users WHERE ID = '$employeeId'";
+                   $employees = $this->conn->query($query_employees) or die ($this->conn->error);
+                   $employee = $employees->fetch_assoc();
+
                     do {
                     
-                        $output .= "<tr>
+                        $output .= "<tr class='record-update'>
+                                <td>$services</td>
                                 <td>" . $pic_task['phase_of_work'] . "</td>
                                 <td>" . $pic_task['employee_name'] . "</td>
-                                <td>Department</td>
-                                <td>Position</td>
+                                <td>" . $employee['department'] . "</td>
+                                <td>" . $employee['position'] . "</td>
                                 <td>" . $pic_task['task_title'] . "</td>
                                 <td>" . $pic_task['task_update'] . "</td>
                                 <td>" . $pic_task['spend_hours'] . "</td>
@@ -273,7 +288,8 @@ class ViewProjectRecordsController
 
         $total_spend_hours = $managers_spend_hours += $pic_total_hours;
 
-        $output .= "<tr>
+        $output .= "<tr class='record-update'>
+                    <td></td>            
                     <td></td>            
                     <td></td>            
                     <td></td>            
@@ -281,6 +297,17 @@ class ViewProjectRecordsController
                     <td></td>            
                     <td><strong>Total Hours:</strong></td>            
                     <td>" . $total_spend_hours . "  </td>            
+                </tr>";
+
+        $output .= "<tr class='record-update'>
+                    <td></td>            
+                    <td></td>            
+                    <td></td>            
+                    <td></td>            
+                    <td></td>            
+                    <td></td>            
+                    <td></td>            
+                    <td></td>            
                 </tr>";
 
         echo $output;

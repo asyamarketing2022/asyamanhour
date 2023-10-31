@@ -1002,6 +1002,10 @@ button.deleteTask {
     height: 75vh;
 }
 
+.content-table .table-row_projects {
+    cursor: pointer;
+}
+
 .content-table .delete {
     position: absolute;
     top: -40px;

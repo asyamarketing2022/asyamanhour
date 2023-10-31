@@ -1533,12 +1533,20 @@ jQuery(function () {
          $(manager_photo_id[i]).on('click', ()=> {
 
             let managerPhotoId = $(manager_photo_id[i]).attr('value');
-
+            let tbody = $(manager_photo_id[i]).parent().parent();
+            let tableRow = $(manager_photo_id[i]).parent();
+            let projectId = $('#projectTitle').attr('value');
+            let services = $(tbody).find('.th_services').text();
+            let phase_of_work = $(tableRow).find('.td_phase_of_work').text();
+            
             $.ajax({   
               type: 'POST',
               url: 'postUsersManager_in_modal.php',
               data: {
                  'managerPhotoId': managerPhotoId,
+                 'projectId' : projectId,
+                 'services' : services,
+                 'phase_of_work' : phase_of_work,
                },
                success:function(data){
                    $('.managers_container').html(data);
@@ -2417,7 +2425,31 @@ function submit_file_path(){
             let projectName = $('#projectTitle').text();
             let searchManager_pow = $('.searchEmployee_pow').text()
             let searchManager_service = $('.searchEmployee_service').text()
- 
+            // let managerAlot_time = $(userContainer).find('.manager_alot_time').val();
+            let managerAlot_time = $('.manager_alot_time').val();
+
+            // To give alot time for manager
+            $.ajax({
+               type: 'POST',
+               url: 'alot_time_for_manager.php',
+               data: {
+                  'managerId' : managerId,
+                  'projectId' : projectId,
+                  'projectName' : projectName,
+                  'searchManager_pow' : searchManager_pow,
+                  'searchManager_service' : searchManager_service,
+                  'managerAlot_time' : managerAlot_time,
+                  'managerFullname' : managerFullname,
+               },
+               success: function(data){
+               
+               },
+               
+            });
+
+            console.log(managerFullname);
+
+            // Assign Manager 
             $.ajax({
                type: 'POST',
                url: 'assign-manager.php',
@@ -2428,7 +2460,7 @@ function submit_file_path(){
                   'searchManager_service' : searchManager_service,
                },
                success: function(data){
-                   // alert("success", data);
+
                   setTimeout(
                      function()
                      {
@@ -2436,28 +2468,11 @@ function submit_file_path(){
                         window.location.reload();
 
                      }, 100);
+
+
                },
             });
 
-            // $.ajax({
-            //    type: 'POST',
-            //    url: 'task-manager.php',
-            //    data: {
-            //       'managerId' : managerId,
-            //       'managerFullname' : managerFullname,
-            //       'projectId': projectId,
-            //       'projectName': projectName,
-            //       'searchManager_pow' : searchManager_pow,
-            //       'searchManager_service' : searchManager_service,
-            //    },
-            //    success: function(data){
-            //       setTimeout(
-            //       function()
-            //       {
-            //          window.location.reload();
-            //       }, 100);
-            //    },
-            // });
 
 
          });
@@ -2666,6 +2681,35 @@ function submit_file_path(){
     
                   let assigned_managers = document.querySelectorAll('.assigned_managers_id');
                   let userid_manager = userId;
+            
+                  setTimeout(
+                     
+                     function() {
+
+                        let decline_pic_allot_time = document.querySelectorAll('.decline_pic_allot_time');
+
+                        $.ajax({
+                           type: 'POST',
+                           url: 'decline_allot_time.php',
+                           data: {
+                              'projectId': projectId,
+                              'services': services,
+                              'phase_of_work': phase_of_work,
+                           },
+                           success: function (data){
+      
+                              Array.from(decline_pic_allot_time).forEach((allot_time) => {
+      
+                                 $(allot_time).attr("max", `${data}`);
+      
+                              });
+      
+                           }
+                        });
+
+                  }, 100);
+
+
 
                   //Check all assigned manager in this phase of work
                   //Only manager assigned can I add new task 
@@ -2774,7 +2818,13 @@ function submit_file_path(){
                      manager_add_task_work_update();
                
                   }, 70);
+
+
+                  
                });
+
+ 
+
          }
       
       });
@@ -2954,7 +3004,25 @@ function submit_file_path(){
 
    $('.pic_add_new_task_btn').off().on('click', ()=> {
 
+      let phase_of_work = $('.searchEmployee_pow').text();
+      let services = $('.searchEmployee_service').text();
+      let projectId = $('#projectTitle').attr('value');
+
       $('.addNewTask_form_container').toggle();
+      
+      // Set maximum alot time
+      $.ajax({
+         type: 'POST',
+         url: 'show_allot_time.php',
+         data: {
+            'projectId': projectId,
+            'services': services,
+            'phase_of_work': phase_of_work,
+         },
+         success: function (data){
+            $('.pic_allot_time').attr("max", `${data}`);
+         }
+      });
       
       submitNewTask_pic();
    
@@ -2980,8 +3048,13 @@ function submitNewTask_pic(){
       let dateStart = $(contentInfo__wrapper).find('.new_task_dateStart').val();
       let dateEnd = $(contentInfo__wrapper).find('.new_task_dueDate').val();
       let newTask_notes = $(contentInfo__wrapper).find('.newTask_notes').val();
+      let pic_allot_time = $('.pic_allot_time').val();
 
       let projectName = $('#projectTitle').text();
+
+      let max_allot_time = $('.pic_allot_time').attr('max');
+      let allot_time = $('.pic_allot_time').val();
+
 
       if(!$('.pic_add_new_task_form .taskTitle_field').val()) {
    
@@ -2994,6 +3067,10 @@ function submitNewTask_pic(){
       } else if(!$('.pic_add_new_task_form .new_task_dueDate').val()) {
 
          alert('Select Due Date');
+
+      } else if(parseInt(max_allot_time) < parseInt(allot_time)) {
+
+         alert(`Your Remaining Time is ${max_allot_time} Hours`)
 
       } else if(!$('.pic_add_new_task_form .newTask_notes').val()) {
 
@@ -3015,7 +3092,8 @@ function submitNewTask_pic(){
                'dateStart': dateStart,
                'dateEnd': dateEnd,
                'newTask_notes': newTask_notes,
-               'projectName': projectName
+               'projectName': projectName,
+               'pic_allot_time': pic_allot_time,
             },
             success: function (data) {
                alert("Sent New Task", data);
@@ -3137,40 +3215,55 @@ function submitNewTask_pic(){
             let taskId = $(tableRow).find('.taskId').attr('value');
             let dateStart = $(tableRow).find('.date_start').val();
             let dueDate = $(tableRow).find('.due_date').val();
+            let pic_allot_time = $(tableRow).find('.decline_pic_allot_time').val();
 
             let newText = 'new';
+
+            let max_allot_time = $(tableRow).find('.decline_pic_allot_time').attr('max');
+            let allot_time = $(tableRow).find('.decline_pic_allot_time').val();
+
+            console.log(max_allot_time);
+
+            if(parseInt(max_allot_time) < parseInt(allot_time)) {
+      
+               alert(`Your Remaining Time is ${max_allot_time} Hours`)
             
-            $.ajax({
-               type: 'POST',
-               url: 'update-newTask.php',
-               data: {
-                  'employeeId': employeeId,
-                  'phase_of_work': phase_of_work,
-                  'services': services,
-                  'projectId': projectId,
-                  'projectName': projectName,
-                  'newText': newText,
-                  'taskId': taskId,
-                  'taskTitle': taskTitle,
-                  'taskNotes': taskNotes,
-                  'dateStart': dateStart,
-                  'dueDate': dueDate
-               },
-               success: function(data) {
-                  $('.user-tasks .content-table').html(data);
-                  // alert("success", data);
+            } else {
 
-                  statusColor();
-                  disable_previous_dates();
-                  tooltip();
-                  task_notes();
-                  decline_task_notes();
-                  task_title_popup();
-                  updateNewTask();
-                  closeTooltip();
-               },
-            });
+               $.ajax({
+                  type: 'POST',
+                  url: 'update-newTask.php',
+                  data: {
+                     'employeeId': employeeId,
+                     'phase_of_work': phase_of_work,
+                     'services': services,
+                     'projectId': projectId,
+                     'projectName': projectName,
+                     'newText': newText,
+                     'taskId': taskId,
+                     'taskTitle': taskTitle,
+                     'taskNotes': taskNotes,
+                     'dateStart': dateStart,
+                     'dueDate': dueDate,
+                     'allot_time': allot_time,
+                  },
+                  success: function(data) {
+                     $('.user-tasks .content-table').html(data);
+                     // alert("success", data);
 
+                     statusColor();
+                     disable_previous_dates();
+                     tooltip();
+                     task_notes();
+                     decline_task_notes();
+                     task_title_popup();
+                     updateNewTask();
+                     closeTooltip();
+                  },
+               });
+
+            }
+            
          });
 
       }
@@ -5174,6 +5267,21 @@ function add_services_func(){
 
 }
 add_services_func();
+
+function table_form_link(){
+
+   let projectLink = document.querySelectorAll('.select_project');
+
+   for (let i = 0; projectLink.length > i; i++ ){
+
+      $(projectLink[i]).on('click', ()=> {
+         window.location = $(projectLink[i]).data("href");
+     });
+
+   }
+
+}
+table_form_link();
 
 });
 

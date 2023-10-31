@@ -92,7 +92,7 @@ if(isset($_POST['userId'])) {
                         <th>Task Notes</th>
                         <th>Date Started</th>
                         <th>Due Date</th>
-                        <th>Status</th>
+                        <th>Allot Time</th>
                         <th></th>
                         <th></th>
                     </tr>";
@@ -351,7 +351,7 @@ if(isset($_POST['userId'])) {
                
                     <td><input class='date_start dis_previous_dates' name='dateStart' type='date' value='". $row['date_started'] ."' required></td>
                     <td><input class='due_date dis_previous_dates' name='dueDate' type='date' value='". $row['due_date'] ."' required=''></td>
-                    <td class='decline-td text-center'>". $row['invite_status'] ."</td>
+                    <td class='allot_time_td text-center'><input class='decline_pic_allot_time' type='number' min='0' value='" . $row['allot_time'] . "'></td>
                     <td class=''><button class='updateTask'>Update</button></td>
                     <td class=''><button class='deleteTask'>Delete</button></td>
                 </tr>";
@@ -421,7 +421,7 @@ if(isset($_POST['userId'])) {
                
                     <td><input class='date_start dis_previous_dates' name='dateStart' type='date' value='". $row['date_started'] ."' required></td>
                     <td><input class='due_date dis_previous_dates' name='dueDate' type='date' value='". $row['due_date'] ."' required=''></td>
-                    <td class='decline-td text-center'>". $row['invite_status'] ."</td>
+                    <td class='allot_time_td'><input class='decline_pic_allot_time' type='number' min='0' value='" . $row['allot_time'] . "'></td>
                     <td class=''></td>
                     <td class=''></td>
                 </tr>";

@@ -7,6 +7,7 @@
 <?php include_once("ViewProjectController.php"); ?>
 <?php include_once("SearchManagerController.php"); ?>
 <?php include_once('login.php'); ?>
+<?php include_once('postUsersManager_in_modal.php'); ?>
 <?/*php include_once("employees_auto_create_date_logs.php"); */?>
 
 
@@ -490,25 +491,29 @@ $row = $project->fetch_assoc();
                                 
                             <div class="addNewTask_form_container pic_add_new_task_form">
                                 <div class='content-info__wrapper'>
-                                        <div class='content__info'>
-                                            <span>Task Title:</span>
-                                            <input class='taskTitle_field' type='text' name='taskTitle' required>
-                                        </div>
-                                        <div class='content__info'>
-                                            <span>Date Start:</span>
-                                            <input class='date_start dis_previous_dates new_task_dateStart' name='dateStart' type='date' required>
-                                        </div>
-                                        <div class='content__info'>
-                                            <span>Due Date:</span>
-                                            <input class='date_end dis_previous_dates new_task_dueDate' name='dueDate' type='date' required>
-                                        </div>
-                                        <div class='content__info'>
-                                            <span>Notes</span>
-                                            <textarea class='newTask_notes' name='notes' id='' cols='30' rows='10' required></textarea>
-                                        </div>
-                                        <div class='button-wrapper'>
-                                            <input class='submit-button pic-submit-new-task' type="button" value='Submit' required>
-                                        </div>
+                                    <div class='content__info'>
+                                        <span>Task Title:</span>
+                                        <input class='taskTitle_field' type='text' name='taskTitle' required>
+                                    </div>
+                                    <div class='content__info'>
+                                        <span>Date Start:</span>
+                                        <input class='date_start dis_previous_dates new_task_dateStart' name='dateStart' type='date' required>
+                                    </div>
+                                    <div class='content__info'>
+                                        <span>Due Date:</span>
+                                        <input class='date_end dis_previous_dates new_task_dueDate' name='dueDate' type='date' required>
+                                    </div>
+                                    <div class='content__info'>
+                                        <span>Alot Time:</span>
+                                        <input class='pic_allot_time' type='number' min='0' required>
+                                    </div>
+                                    <div class='content__info'>
+                                        <span>Notes</span>
+                                        <textarea class='newTask_notes' name='notes' id='' cols='30' rows='10' required></textarea>
+                                    </div>
+                                    <div class='button-wrapper'>
+                                        <input class='submit-button pic-submit-new-task' type="button" value='Submit'>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -622,6 +627,10 @@ $row = $project->fetch_assoc();
             <div class="_container">
                 <!-- view-Filepath_in_modal.php -->
                 <div class="search-manager_container content-info__wrapper tab-position_right">
+                    <div class="content__info">
+                        <span>Alot Time:</span>
+                        <span><input class='manager_alot_time' type='number'></span>
+                    </div>
                     <div class="content__info">
                         <span>Search Manager:</span>
                         <div class="search_wrapper" style="max-width: 500px;">

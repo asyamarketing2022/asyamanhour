@@ -55,6 +55,8 @@ class SearchManagerController
                         } else {
     
                             if($num == 0){
+
+                                $minLength = PHP_INT_MAX;
     
                                 echo "<div class='user_container' value='" . $query_manager['ID'] . "'>
                                     <div class='user_photo'>

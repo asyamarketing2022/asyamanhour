@@ -52,9 +52,26 @@ $row = $project->fetch_assoc();
 
                 <?php 
                                         
-                    // Architecture Design Development Phase Of Work (Manager)
+                    // Architecture Design Development Phase Of Work
                     $archDesign = new ViewProjectRecordsController('Architecture', 'Design Development', 'arch_designdevelopment_manager', 'arch_designdevelopment_assigned_employee');
                     $archDesign->service_report();
+    
+                ?>
+
+
+                <?php 
+                                        
+                    // Architecture Construction Drawing Phase Of Work
+                    $archConstruction = new ViewProjectRecordsController('Architecture', 'Construction Drawing', 'arch_construction_manager', 'arch_construction_assigned_employee');
+                    $archConstruction->service_report();
+    
+                ?>
+
+                <?php 
+                                        
+                    // Architecture Site Supervision Phase Of Work
+                    $archSite = new ViewProjectRecordsController('Architecture', 'Site Supervision', 'arch_site_manager', 'arch_site_assigned_employee');
+                    $archSite->service_report();
     
                 ?>
 

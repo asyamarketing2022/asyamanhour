@@ -98,6 +98,7 @@
                                     <th>Task Notes</th>
                                     <th>Date Started</th>
                                     <th>Due Date</th>
+                                    <th>Allot Time</th>
                                     <th>Status</th>
                                     <th></th>
                                 </tr>
@@ -119,6 +120,7 @@
                                                         <td><?php echo $tasks_info['notes']; ?></td>
                                                         <td><?php echo $newTasks_info['date_started']; ?></td>
                                                         <td><?php echo $newTasks_info['due_date']; ?></td>
+                                                        <td><?php echo $newTasks_info['allot_time']; ?></td>
                                                         <td><?php echo $newTasks_info['status']; ?></td>
                                                         <td class='invite_status_td'>
                                                             <button class='new-task-btn'>

@@ -41,6 +41,10 @@ if(isset($_POST['projectId'])) {
                 <span>Client Name:</span>
                 <p>" . $projectInfo['client_name'] . "</p>
             </div>
+            <div class='profile-info__content'>
+                <span>Budget Hours:</span>
+                <p>" . $projectInfo['allotted_hours'] . "</p>
+            </div>
         </div>";
 
 }

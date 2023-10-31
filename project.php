@@ -45,7 +45,7 @@
                         <th>Typology</th>
                         <th>Company Name</th>
                         <th>Client Name</th>
-                        <th></th>
+                        <!-- <th></th> -->
                     </tr>
                     
                     <!-- project-table.php for SQL -->
@@ -55,7 +55,7 @@
                         <?php if(!empty($projectInfo['id'])) { ?>
 
                             <?php do { ?>
-                                <tr class="table-row_projects table-form" value="<?php echo $projectInfo['id'] ?>">
+                                <tr class="table-row_projects select_project table-form" value="<?php echo $projectInfo['id'] ?>" data-href="viewproject.php?ID=<?php echo $projectInfo['id'] ?>">
                                     <td><?php echo $projectInfo['project_name'] ?></td>
                                     <td><?php echo $projectInfo['location'] ?></td>
                                     <td><?php echo $projectInfo['lot_areas'] ?></td>
@@ -65,7 +65,7 @@
 
                                     <?/* php if(isset($_SESSION['UserLogin']) && $_SESSION['Access'] == "admin") { */?>
          
-                                        <td><a class="" href="viewproject.php?ID=<?php echo $projectInfo['id'] ?>">View</a></td>
+                                        <!-- <td><a class="" href="viewproject.php?ID=<?/*php echo $projectInfo['id'] */?>">View</a></td> -->
                                         
                                     <?/*php } */?>
 
