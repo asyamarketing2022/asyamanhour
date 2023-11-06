@@ -26,11 +26,11 @@ if(isset($_POST['managerPhotoId'])) {
         $managerInfo = $manager->fetch_assoc();
 
         //Query Managers Alot Time
-        $query_alot_time = "SELECT * FROM managers_alot_time WHERE employee_id = '$userID' AND project_id = '$projectId' AND services = '$services' AND phase_of_work = '$phase_of_work'";
-        $managers_alot_time = $con->query($query_alot_time) or die ($con->error);
-        $alot_time = $managers_alot_time->fetch_assoc();
+        $query_allot_time = "SELECT * FROM managers_allot_time WHERE employee_id = '$userID' AND project_id = '$projectId' AND services = '$services' AND phase_of_work = '$phase_of_work'";
+        $managers_allot_time = $con->query($query_allot_time) or die ($con->error);
+        $allot_time = $managers_allot_time->fetch_assoc();
 
-        if($managers_alot_time->num_rows != 0){
+        if($managers_allot_time->num_rows != 0){
 
             echo "<div class='user_container' value='" . $managerInfo['ID'] . "'>
                     <div class='user_photo'>
@@ -40,7 +40,7 @@ if(isset($_POST['managerPhotoId'])) {
                     <div class='user_info'>
                         <div class='user_fullname'>
                             <label>Remaining Time:</label>
-                            <span>" . $alot_time['alot_time'] ."</span>
+                            <span>" . $allot_time['allot_time'] ."</span>
                         </div>
 
                         <div class='user_fullname'>

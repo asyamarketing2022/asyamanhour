@@ -5,9 +5,10 @@
 $db = new DBconnection();
 $con = $db->connection();
 
-    if(isset($_POST['managerAlot_time'])) {
+    if(isset($_POST['managerAllot_time'])) {
 
-        $alotTime = $_POST['managerAlot_time'];
+        $allotTime = $_POST['managerAllot_time'];
+        $ramainingTime = $allotTime;
         $managerId = $_POST['managerId'];
         $projectId = $_POST['projectId'];
         $phase_of_work = $_POST['searchManager_pow'];
@@ -15,7 +16,7 @@ $con = $db->connection();
         $projectName = $_POST['projectName'];
         $managerFullname = $_POST['managerFullname'];
 
-        $sql = "INSERT INTO `managers_alot_time`(`employee_id`, `employee_name`, `project_id`, `project_name`, `services`, `phase_of_work`, `alot_time`) VALUE ('$managerId', '$managerFullname', '$projectId', '$projectName', '$service', '$phase_of_work', '$alotTime')";
+        $sql = "INSERT INTO `managers_allot_time`(`employee_id`, `employee_name`, `project_id`, `project_name`, `services`, `phase_of_work`, `allot_time`, `remaining_time`) VALUE ('$managerId', '$managerFullname', '$projectId', '$projectName', '$service', '$phase_of_work', '$allotTime', '$ramainingTime')";
 
         $con->query($sql) or die ($con->error);
 

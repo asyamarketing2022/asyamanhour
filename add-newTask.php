@@ -35,6 +35,19 @@ if(isset($_POST['projectId'])) {
     $employee_tasks = $con->query($query_employee_tasks) or die ($con->error);
     $row = $employee_tasks->fetch_assoc();
 
+    //Fetch managers allot time
+    $query_managers_allot_time = "SELECT * FROM `managers_allot_time` WHERE employee_id = '$managerId' AND project_id = '$projectId' AND services = '$services' AND phase_of_work = '$phase_of_work'";
+    $managers_allot_time = $con->query($query_managers_allot_time) or die ($con->error);
+    $managers_remaining_time = $managers_allot_time->fetch_assoc();
+
+    //Subtract managers remaining allot time and the time given to pic
+    $remaining_time = $managers_remaining_time['remaining_time'] - $pic_allot_time;
+
+    //Update the managers allot remaining time 
+    $update_managers_remaining_time = "UPDATE `managers_allot_time` SET `remaining_time` = '$remaining_time' WHERE employee_id = '$managerId' AND project_id = '$projectId' AND services = '$services' AND phase_of_work = '$phase_of_work'";
+
+    $con->query($update_managers_remaining_time) or die ($con->error);
+
     $output = '';
     $declineTask = '';
     $declineTask_count = 0;
@@ -50,9 +63,9 @@ if(isset($_POST['projectId'])) {
                     <th>Task Title</th>
                     <th>Decline Notes</th>
                     <th>Task Notes</th>
-                    <th>Date Started</th>
                     <th>Due Date</th>
-                    <th>Status</th>
+                    <th>Date Started</th>
+                    <th>Allot Time</th>
                     <th></th>
                     <th></th>
                 </tr>";
@@ -64,8 +77,8 @@ if(isset($_POST['projectId'])) {
                                     <th class='d-none'>Manager Id</th>
                                     <th>Task Title</th>
                                     <th>Task Notes</th>
-                                    <th>Date Started</th>
-                                    <th>Due Date</th>
+                                    <th>Task Update</th>
+                                    <th>Date Started</th>   
                                     <th>Status</th>
                                     <th>Upload File Path</th>
                                     <th>File Lists</th>
@@ -289,7 +302,9 @@ if(isset($_POST['projectId'])) {
         
                 <td><input class='date_start dis_previous_dates' name='dateStart' type='date' value='". $row['date_started'] ."' required></td>
                 <td><input class='due_date dis_previous_dates' name='dueDate' type='date' value='". $row['due_date'] ."' required=''></td>
-                <td class='decline-td text-center'>". $row['invite_status'] ."</td>
+                <td class='allot_time_td text-center'>
+                    <input class='decline_pic_allot_time' type='number' min='0' value='". $row['allot_time'] ."'>
+                </td>
                 <td class=''><button class='updateTask'>Update</button></td>
                 <td class=''><button class='deleteTask'>Delete</button></td>
             </tr>";
@@ -359,7 +374,9 @@ if(isset($_POST['projectId'])) {
             
                     <td><input class='date_start dis_previous_dates' name='dateStart' type='date' value='". $row['date_started'] ."' required></td>
                     <td><input class='due_date dis_previous_dates' name='dueDate' type='date' value='". $row['due_date'] ."' required=''></td>
-                    <td class='decline-td text-center'>". $row['invite_status'] ."</td>
+                    <td class='allot_time_td text-center'>
+                        <input class='decline_pic_allot_time' type='number' min='0' value='". $row['allot_time'] ."'>
+                    </td>
                     <td class=''></td>
                     <td class=''></td>
                 </tr>";

@@ -106,6 +106,7 @@ if(isset($_POST['userId'])) {
                                     <th>Task Title</th>
                                     <th>Task Notes</th>
                                     <th>Task Update</th>
+                                    <th>Allot Time</th>
                                     <th>Date Started</th>
                                     <th>Status</th>
                                     <th>Upload File Path</th>
@@ -141,6 +142,7 @@ if(isset($_POST['userId'])) {
                             </table>
                         </div>
                     </td>
+                    <td>". $row['allot_time'] ."</td>
                     <td class='taskStarted'>". $row['date_started'] ."</td>
                     <td class='pow_status'>
                         <div class='text_status'>
@@ -250,6 +252,7 @@ if(isset($_POST['userId'])) {
                             </table>
                         </div>
                     </td>
+                    <td>". $row['allot_time'] ."</td>
                     <td class='taskStarted'>". $row['date_started'] ."</td>
                     <td class='pow_status'>
                         <div class='text_status'>

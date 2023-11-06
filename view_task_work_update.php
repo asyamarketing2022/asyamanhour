@@ -12,7 +12,7 @@ $con = $db->connection();
         $employee_id = $_POST['employee_id'];
         $login_userId = $_SESSION['UserId'];
 
-        $query_employees_update_tasks = "SELECT * FROM `employees_updates_task` WHERE task_id = $taskId ORDER BY id ASC";
+        $query_employees_update_tasks = "SELECT * FROM `employees_updates_task` WHERE task_id = $taskId ORDER BY id";
         $employee_update_tasks = $con->query($query_employees_update_tasks) or die ($con->error);
         $row = $employee_update_tasks->fetch_assoc();
 

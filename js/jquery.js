@@ -1553,6 +1553,13 @@ jQuery(function () {
                  }
             });
 
+            setTimeout(() => {
+               
+               //Call view task button
+               viewTasksBtn();
+
+            }, 50);
+
          });
          
       }
@@ -2095,6 +2102,8 @@ function submit_file_path(){
             let taskId = $(submit_decline_btn[i]).parents('.task-table_row').attr('value');
             let declineNotes = $(decline[i]).val();
             let declineText = 'decline';
+            let tableRow = $(submit_decline_btn[i]).closest('tr');
+            let allotTime = $(tableRow).find('.allot_time').text();
 
             if($(decline[i]).val() == '') {
 
@@ -2106,6 +2115,7 @@ function submit_file_path(){
                      type: 'POST',
                      url: 'task-decline.php',
                      data: {
+                        'allotTime': allotTime,
                         'taskId': taskId,
                         'declineText': declineText,
                         'declineNotes': declineNotes,
@@ -2353,7 +2363,13 @@ function submit_file_path(){
            $(contentInfo).appendTo(searchEmployee_container);
          //   $(contentInfo).prependTo(contentInfoWrapper);
 
-   
+            setTimeout(() => {
+
+               //Call view task button
+               viewTasksBtn();
+
+            }, 50);
+
          });
 
       }
@@ -2401,6 +2417,10 @@ function submit_file_path(){
             }
          });
 
+         console.log('okay');
+
+          //Call view task button
+          viewTasksBtn();
 
          });
 
@@ -2426,19 +2446,19 @@ function submit_file_path(){
             let searchManager_pow = $('.searchEmployee_pow').text()
             let searchManager_service = $('.searchEmployee_service').text()
             // let managerAlot_time = $(userContainer).find('.manager_alot_time').val();
-            let managerAlot_time = $('.manager_alot_time').val();
+            let managerAllot_time = $('.manager_allot_time').val();
 
             // To give alot time for manager
             $.ajax({
                type: 'POST',
-               url: 'alot_time_for_manager.php',
+               url: 'allot_time_for_manager.php',
                data: {
                   'managerId' : managerId,
                   'projectId' : projectId,
                   'projectName' : projectName,
                   'searchManager_pow' : searchManager_pow,
                   'searchManager_service' : searchManager_service,
-                  'managerAlot_time' : managerAlot_time,
+                  'managerAllot_time' : managerAllot_time,
                   'managerFullname' : managerFullname,
                },
                success: function(data){
@@ -2446,8 +2466,6 @@ function submit_file_path(){
                },
                
             });
-
-            console.log(managerFullname);
 
             // Assign Manager 
             $.ajax({
@@ -2658,7 +2676,7 @@ function submit_file_path(){
 
    function viewTasksBtn() {
 
-      $('.view_project_user').on('mouseenter', ()=> {
+      // $('.view_project_user').on('mouseenter', ()=> {
 
          let ViewTasksBtn = document.querySelectorAll('.viewTasks');
 
@@ -2708,8 +2726,6 @@ function submit_file_path(){
                         });
 
                   }, 100);
-
-
 
                   //Check all assigned manager in this phase of work
                   //Only manager assigned can I add new task 
@@ -2779,7 +2795,6 @@ function submit_file_path(){
                         'userPhoto': userPhoto
                      },
                      success: function (data) {
-                        // $('.user-tasks .content-table').html(data);
                         $('.tasks-content .user_photo').html(data);
                      },
                   });
@@ -2827,7 +2842,7 @@ function submit_file_path(){
 
          }
       
-      });
+      // });
   }
   viewTasksBtn();
 
@@ -3068,6 +3083,14 @@ function submitNewTask_pic(){
 
          alert('Select Due Date');
 
+      } else if(!$('.pic_add_new_task_form .pic_allot_time').val()) {
+
+         alert('Fill-up Allot Time');
+
+      } else if(allot_time <= 0) {
+   
+         alert('You can only allot 1 hour or more');
+
       } else if(parseInt(max_allot_time) < parseInt(allot_time)) {
 
          alert(`Your Remaining Time is ${max_allot_time} Hours`)
@@ -3135,11 +3158,40 @@ function submitNewTask_pic(){
                      taskChange_status();
                      taskDone_disable();
                      taskColor();
+                     taskUpdate_tooltip()
 
                }, 10);
 
             },
          });
+
+         //Add maximum allot time in decline task after submit new task
+         setTimeout(
+                     
+            function() {
+
+               let decline_pic_allot_time = document.querySelectorAll('.decline_pic_allot_time');
+
+               $.ajax({
+                  type: 'POST',
+                  url: 'decline_allot_time.php',
+                  data: {
+                     'projectId': projectId,
+                     'services': services,
+                     'phase_of_work': phase_of_work,
+                  },
+                  success: function (data){
+
+                     Array.from(decline_pic_allot_time).forEach((allot_time) => {
+
+                        $(allot_time).attr("max", `${data}`);
+
+                     });
+
+                  }
+               });
+
+         }, 100);
  
       }
     
@@ -3184,6 +3236,10 @@ function submitNewTask_pic(){
                   $('.user-tasks .content-table').html(data);
                   // alert("success", data);
 
+                  taskChange_status();
+                  taskDone_disable();
+                  taskColor();
+
                   statusColor();
                   disable_previous_dates();
                   tooltip();
@@ -3192,9 +3248,38 @@ function submitNewTask_pic(){
                   task_title_popup();
                   updateNewTask();
                   closeTooltip();
+                  taskUpdate_tooltip()
 
                },
             });
+
+            // Add maximum time can give by manager
+            setTimeout(
+                     
+               function() {
+
+                  let decline_pic_allot_time = document.querySelectorAll('.decline_pic_allot_time');
+
+                  $.ajax({
+                     type: 'POST',
+                     url: 'decline_allot_time.php',
+                     data: {
+                        'projectId': projectId,
+                        'services': services,
+                        'phase_of_work': phase_of_work,
+                     },
+                     success: function (data){
+
+                        Array.from(decline_pic_allot_time).forEach((allot_time) => {
+
+                           $(allot_time).attr("max", `${data}`);
+
+                        });
+
+                     }
+                  });
+
+            }, 100);
 
          });
       }
@@ -3222,12 +3307,14 @@ function submitNewTask_pic(){
             let max_allot_time = $(tableRow).find('.decline_pic_allot_time').attr('max');
             let allot_time = $(tableRow).find('.decline_pic_allot_time').val();
 
-            console.log(max_allot_time);
-
             if(parseInt(max_allot_time) < parseInt(allot_time)) {
       
                alert(`Your Remaining Time is ${max_allot_time} Hours`)
             
+            } else if (allot_time <= 0) {
+
+               alert('You can only allot 1 hour or more');
+       
             } else {
 
                $.ajax({
@@ -3263,6 +3350,34 @@ function submitNewTask_pic(){
                });
 
             }
+
+            // Add maximum time can give by manager
+            setTimeout(
+                     
+               function() {
+
+                  let decline_pic_allot_time = document.querySelectorAll('.decline_pic_allot_time');
+
+                  $.ajax({
+                     type: 'POST',
+                     url: 'decline_allot_time.php',
+                     data: {
+                        'projectId': projectId,
+                        'services': services,
+                        'phase_of_work': phase_of_work,
+                     },
+                     success: function (data){
+
+                        Array.from(decline_pic_allot_time).forEach((allot_time) => {
+
+                           $(allot_time).attr("max", `${data}`);
+
+                        });
+
+                     }
+                  });
+
+            }, 100);
             
          });
 
@@ -3521,8 +3636,8 @@ function submitNewTask_pic(){
 
   function taskUpdate_tooltip(){
 
-   let taskUpdate_btn = document.querySelectorAll('.taskUpdate_btn');
-   let taskUpdate_tooltip_all = document.querySelectorAll('.taskUpdate_tooltip');
+   let taskUpdate_btn = document.querySelectorAll('#view_project_in_charge .taskUpdate_btn');
+   let taskUpdate_tooltip_all = document.querySelectorAll('#view_project_in_charge .taskUpdate_tooltip');
 
    for(let i = 0; taskUpdate_btn.length > i; i++){
 

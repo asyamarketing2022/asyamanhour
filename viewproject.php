@@ -504,7 +504,7 @@ $row = $project->fetch_assoc();
                                         <input class='date_end dis_previous_dates new_task_dueDate' name='dueDate' type='date' required>
                                     </div>
                                     <div class='content__info'>
-                                        <span>Alot Time:</span>
+                                        <span>Allot Time:</span>
                                         <input class='pic_allot_time' type='number' min='0' required>
                                     </div>
                                     <div class='content__info'>
@@ -629,7 +629,7 @@ $row = $project->fetch_assoc();
                 <div class="search-manager_container content-info__wrapper tab-position_right">
                     <div class="content__info">
                         <span>Alot Time:</span>
-                        <span><input class='manager_alot_time' type='number'></span>
+                        <span><input class='manager_allot_time' type='number'></span>
                     </div>
                     <div class="content__info">
                         <span>Search Manager:</span>
