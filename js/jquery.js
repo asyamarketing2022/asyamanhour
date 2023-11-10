@@ -2122,6 +2122,7 @@ function submit_file_path(){
                      },
                      success:function(data){
                         window.location.reload();
+                        // $('.myprojects h1').html(data);
                   }
                });
 
@@ -2417,8 +2418,6 @@ function submit_file_path(){
             }
          });
 
-         console.log('okay');
-
           //Call view task button
           viewTasksBtn();
 
@@ -2448,50 +2447,60 @@ function submit_file_path(){
             // let managerAlot_time = $(userContainer).find('.manager_alot_time').val();
             let managerAllot_time = $('.manager_allot_time').val();
 
-            // To give alot time for manager
-            $.ajax({
-               type: 'POST',
-               url: 'allot_time_for_manager.php',
-               data: {
-                  'managerId' : managerId,
-                  'projectId' : projectId,
-                  'projectName' : projectName,
-                  'searchManager_pow' : searchManager_pow,
-                  'searchManager_service' : searchManager_service,
-                  'managerAllot_time' : managerAllot_time,
-                  'managerFullname' : managerFullname,
-               },
-               success: function(data){
-               
-               },
-               
-            });
+            if(!$('.manager_allot_time').val()) {
 
-            // Assign Manager 
-            $.ajax({
-               type: 'POST',
-               url: 'assign-manager.php',
-               data: {
-                  'managerId' : managerId,
-                  'projectId' : projectId,
-                  'searchManager_pow' : searchManager_pow,
-                  'searchManager_service' : searchManager_service,
-               },
-               success: function(data){
+               alert('Fill-up Allot Time');
 
-                  setTimeout(
-                     function()
-                     {
+            } else if (managerAllot_time <= 0) {
 
-                        window.location.reload();
+               alert('You can only allot 1 hour or more');
 
-                     }, 100);
+            } else {
+
+               // To give alot time for manager
+               $.ajax({
+                  type: 'POST',
+                  url: 'allot_time_for_manager.php',
+                  data: {
+                     'managerId' : managerId,
+                     'projectId' : projectId,
+                     'projectName' : projectName,
+                     'searchManager_pow' : searchManager_pow,
+                     'searchManager_service' : searchManager_service,
+                     'managerAllot_time' : managerAllot_time,
+                     'managerFullname' : managerFullname,
+                  },
+                  success: function(data){
+                  
+                  },
+                  
+               });
+
+               // Assign Manager 
+               $.ajax({
+                  type: 'POST',
+                  url: 'assign-manager.php',
+                  data: {
+                     'managerId' : managerId,
+                     'projectId' : projectId,
+                     'searchManager_pow' : searchManager_pow,
+                     'searchManager_service' : searchManager_service,
+                  },
+                  success: function(data){
+
+                     setTimeout(
+                        function()
+                        {
+
+                           window.location.reload();
+
+                        }, 100);
 
 
-               },
-            });
+                  },
+               });
 
-
+            }
 
          });
 
@@ -3336,8 +3345,8 @@ function submitNewTask_pic(){
                   },
                   success: function(data) {
                      $('.user-tasks .content-table').html(data);
-                     // alert("success", data);
-
+                     // alert(data);
+                     
                      statusColor();
                      disable_previous_dates();
                      tooltip();
@@ -3346,8 +3355,15 @@ function submitNewTask_pic(){
                      task_title_popup();
                      updateNewTask();
                      closeTooltip();
+                     taskColor()
+                     taskDone_disable();
+                     taskChange_status();
+                     taskUpdate_tooltip();
+                     pic_add_task_work_update();
+                     manager_add_task_work_update();
                   },
                });
+               
 
             }
 
@@ -3644,6 +3660,7 @@ function submitNewTask_pic(){
       $(taskUpdate_btn[i]).off().on('click', ()=> {
 
          let tdContainer = $(taskUpdate_btn[i]).parent();
+         let taskUpdate_tbody = $(tdContainer).find('.taskUpdate_tbody');
          let taskUpdate_tooltip = $(tdContainer).find('.taskUpdate_tooltip');
          let taskId = $($('.taskId')[i]).attr('value');
          let tasks_content = $(taskUpdate_btn[i]).parent().parent().parent().parent().parent().parent().parent();
@@ -3657,12 +3674,13 @@ function submitNewTask_pic(){
                'employee_id': employee_id,
             },
             success: function(data){
-               $('.taskUpdate_tbody').html(data);
+
+               $(taskUpdate_tbody).html(data);
 
                pic_add_task_work_update();
                manager_add_task_work_update();
                delete_task_work_update();
-               save_task_work_update()
+               save_task_work_update()                           
             }
          });
 
@@ -3681,6 +3699,32 @@ function submitNewTask_pic(){
             $(taskUpdate_tooltip).addClass('d-none');
 
          }
+
+         //Task remaining time
+         setTimeout(() => {
+
+            let update_task_spendhours = document.querySelectorAll('.update_task_spendhours');
+
+            $.ajax({
+               type: 'POST',
+               url: 'show_task_allot_remaining_time.php',
+               data: {
+                  'taskId': taskId,
+               },
+               success: function(data){
+
+                  Array.from(update_task_spendhours).forEach((update_task_time) => {
+
+                     $(update_task_time).attr("max", `${data}`);
+           
+                  });
+         
+               }
+      
+            });
+
+         }, 200);
+
       });
 
    }
@@ -3691,11 +3735,15 @@ function submitNewTask_pic(){
   // Add new Task Update
   function pic_add_task_work_update(){
 
-   let add_newUpdate_btn = document.querySelectorAll('.add_newUpdate_btn');
+   let view_project_in_charge = document.querySelectorAll('#view_project_in_charge');
+   let add_newUpdate_btn = $(view_project_in_charge).find('.add_newUpdate_btn');
+   // let add_newUpdate_btn = document.querySelectorAll('#view_project_in_charge .modal-right-content .add_newUpdate_btn');
 
       for(let i = 0; add_newUpdate_btn.length > i; i++){
 
          $(add_newUpdate_btn[i]).off().on('click', ()=> {
+
+            console.log('okay');
 
             // let tableRow_header = document.querySelectorAll('.taskUpdate_header');
             // let dynamic_TableRow = `<tr>
@@ -3707,7 +3755,9 @@ function submitNewTask_pic(){
 
             // $(dynamic_TableRow).insertAfter(tableRow_header[i]);
 
-            let taskId = $($('.taskId')[i]).attr('value');
+            let tableRow = $(add_newUpdate_btn[i]).closest('tr');
+            let taskId = $(tableRow).find('.taskId');
+            // let taskId = $($('.taskId')[i]).attr('value');
             let phase_of_work = $('.searchEmployee_pow').text();
             let services = $('.searchEmployee_service').text();
             let projectId = $('#projectTitle').attr('value');
@@ -3743,6 +3793,7 @@ function submitNewTask_pic(){
 
             });
 
+
          });
 
       }
@@ -3753,7 +3804,7 @@ function submitNewTask_pic(){
     // Add new Task Update
     function manager_add_task_work_update(){
 
-      let add_newUpdate_btn = document.querySelectorAll('.add_newUpdate_btn');
+      let add_newUpdate_btn = document.querySelectorAll('#view_managers .modal-right-content .add_newUpdate_btn');
    
          for(let i = 0; add_newUpdate_btn.length > i; i++){
    
@@ -3805,6 +3856,7 @@ function submitNewTask_pic(){
                   }
    
                });
+
    
             });
    
@@ -3975,59 +4027,82 @@ function submitNewTask_pic(){
                
                });
 
-            if(update_tasks_id_array != 0){
+            //Check the PIC remaining time task before to add new updates
+            let remainingTime = $('.update_task_spendhours').attr('max');
 
-               $.ajax({
-                  type: 'POST',
-                  url: 'save_task_work_update.php',
-                  data: {
-                     'taskId': taskId,
-                     'update_tasks_id_array': update_tasks_id_array,
-                     'update_tasks_input_array': update_tasks_input_array,
-                     'update_tasks_date_array': update_tasks_date_array,
-                     'update_tasks_spendhours_array': update_tasks_spendhours_array,
-                     'total_spend_hours': total_spend_hours,
-                  },
-                  success: function(data){
-                     $('.taskUpdate_tbody').html(data);
-   
-                     save_task_work_update();
-                     delete_task_work_update();
-                     pic_add_task_work_update();
-                     manager_add_task_work_update();
-   
-                  }
-               });
+            if(total_spend_hours > remainingTime) {
 
-               setTimeout(() => {
+               alert(`Your remaining time for this task is ${remainingTime}. Kindly contact your manager to add more hours`);
+
+            } else {
+
+               if(update_tasks_id_array != 0){
+
+                  $.ajax({
+                     type: 'POST',
+                     url: 'save_task_work_update.php',
+                     data: {
+                        'taskId': taskId,
+                        'update_tasks_id_array': update_tasks_id_array,
+                        'update_tasks_input_array': update_tasks_input_array,
+                        'update_tasks_date_array': update_tasks_date_array,
+                        'update_tasks_spendhours_array': update_tasks_spendhours_array,
+                        'total_spend_hours': total_spend_hours,
+                     },
+                     success: function(data){
+                        $('.taskUpdate_tbody').html(data);
+      
+                        save_task_work_update();
+                        delete_task_work_update();
+                        pic_add_task_work_update();
+                        manager_add_task_work_update();
+      
+                     }
+                  });
    
-               $.ajax({
-                  type: 'POST',
-                  url: 'spend_task_work_update.php',
-                  data: {
-                     'taskId': taskId,
-                     'total_spend_hours': total_spend_hours,
-                  },
-                  success: function(data){
-                     // $($('.total_spend_hours')[i]).html(data);
-                     alert('Saved Updates');
-                  }
-               })
+                  setTimeout(() => {
+      
+                     $.ajax({
+                        type: 'POST',
+                        url: 'spend_task_work_update.php',
+                        data: {
+                           'taskId': taskId,
+                           'total_spend_hours': total_spend_hours,
+                        },
+                        success: function(data){
+                           // $($('.total_spend_hours')[i]).html(data);
+                           alert('Saved Updates');
+                        }
+                     })
+                     
+                  }, 50);
+
+                  //Task remaining time
+                  setTimeout(() => {
+
+                        let update_task_spendhours = document.querySelectorAll('.update_task_spendhours');
+
+                        $.ajax({
+                           type: 'POST',
+                           url: 'show_task_allot_remaining_time.php',
+                           data: {
+                              'taskId': taskId,
+                           },
+                           success: function(data){
+
+                              Array.from(update_task_spendhours).forEach((update_task_time) => {
+
+                                 $(update_task_time).attr("max", `${data}`);
+                     
+                              });
+                     
+                           }
                   
-               }, 50);
+                        });
 
-               // $.ajax({
-               //    type: 'POST',
-               //    url : 'employees_auto_update_date_logs.php',
-               //    data: {
-               //       'update_tasks_date_array': update_tasks_date_array,
-               //       'update_tasks_spendhours_array': update_tasks_spendhours_array,
-               //    },
-               //    success: function(data){
-               //       $('.totalworkhours').html(data);
-               //       // console.log(data);
-               //    }
-               // });
+                  }, 200);
+               
+               }
 
             }
 

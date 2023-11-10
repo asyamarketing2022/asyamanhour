@@ -57,6 +57,7 @@ if(isset($_POST['deleteText'])){
                                     <th>Task Title</th>
                                     <th>Task Notes</th>
                                     <th>Task Update</th>
+                                    <th>Allot Time</th>
                                     <th>Date Started</th>
                                     <th>Status</th>
                                     <th>Upload File Path</th>
@@ -90,6 +91,7 @@ if(isset($_POST['deleteText'])){
                                     </table>
                                 </div>
                             </td>
+                            <td>". $row['allot_time'] ."</td>
                             <td class='taskStarted'>". $row['date_started'] ."</td>
                            
                             <td class='pow_status'>
@@ -356,7 +358,7 @@ if(isset($_POST['deleteText'])){
 }
 
 
-// Update The new task
+// Update the new task
 if(isset($_POST['newText'])){
 
     $newText = $_POST['newText'];
@@ -371,6 +373,10 @@ if(isset($_POST['newText'])){
     $taskNotes = $_POST['taskNotes'];
     $dateStart = $_POST['dateStart'];
     $dueDate = $_POST['dueDate'];
+    $allot_time = $_POST['allot_time'];
+
+    //UserId
+    $login_userId = $_SESSION['UserId'];
 
     $sql = "UPDATE `employees_tasks` SET `invite_status` = '$newText', `task_title` = '$taskTitle', `notes` = '$taskNotes', `date_started` = '$dateStart', `due_date` = '$dueDate' WHERE id = '$taskId'";
 
@@ -384,7 +390,19 @@ if(isset($_POST['newText'])){
     $declineTask = '';
     $declineTask_count = 0;
 
-    $login_userId = $_SESSION['UserId'];
+    //Fetch managers allot time
+    $query_managers_allot_time = "SELECT * FROM `managers_allot_time` WHERE employee_id = '$login_userId' AND project_id = '$projectId' AND services = '$services' AND phase_of_work = '$phase_of_work'";
+    $managers_allot_time = $con->query($query_managers_allot_time) or die ($con->error);
+    $managers_remaining_time = $managers_allot_time->fetch_assoc();
+
+    //Subtract managers remaining allot time and the time given to pic
+    $remaining_time = $managers_remaining_time['remaining_time'] - $allot_time;
+
+    //Update the managers allot remaining time 
+    $update_managers_remaining_time = "UPDATE `managers_allot_time` SET `remaining_time` = '$remaining_time' WHERE employee_id = '$login_userId' AND project_id = '$projectId' AND services = '$services' AND phase_of_work = '$phase_of_work'";
+
+    $con->query($update_managers_remaining_time) or die ($con->error);
+    
 
     if($employee_tasks->num_rows != 0){
 
@@ -411,8 +429,9 @@ if(isset($_POST['newText'])){
                                     <th class='d-none'>Manager Id</th>
                                     <th>Task Title</th>
                                     <th>Task Notes</th>
+                                    <th>Task Update</th>
+                                    <th>Allot Time</th>
                                     <th>Date Started</th>
-                                    <th>Due Date</th>
                                     <th>Status</th>
                                     <th>Upload File Path</th>
                                     <th>File Lists</th>
@@ -422,13 +441,32 @@ if(isset($_POST['newText'])){
 
             if($row['invite_status'] == 'accept'){
 
+            //HERE
             $output .= "<tr>
                             <td class='managerId d-none' value='". $row['manager_id'] ."'>". $row['manager_id'] ."</td>
                             <td class='taskId d-none' value='". $row['id'] ."'>". $row['id'] ."</td>
                             <td class='taskTitle'>". $row['task_title'] ."</td>
                             <td>". $row['notes'] ."</td>
+                            <td class='taskUpdate'>
+                                <button class='taskUpdate_btn'>Task Update</button>
+                                <div class='taskUpdate_tooltip d-none'>
+                                    <table>
+                                        <tbody class='taskUpdate_tbody'>
+                                            <tr class='taskUpdate_header'>
+                                                <th>Updates</th>
+                                                <th>Date</th>
+                                                <th>Spend Hour</th>
+                                                <th></th>
+                                            </tr>
+                                            <tr>
+                                                <td><img class='add_newUpdate_btn' src='img/add-icon.png' width='25'></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </td>
+                            <td>". $row['allot_time'] ."</td>
                             <td class='taskStarted'>". $row['date_started'] ."</td>
-                            <td class='taskDue-Date'>". $row['due_date'] ."</td>
                             <td class='pow_status'>
                                 <div class='text_status'>
                                     <span>" . $row['status'] . "</span> 

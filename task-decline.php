@@ -16,7 +16,7 @@ if(isset($_POST['taskId'])){
 
   $con->query($sql) or die ($con->error);
 
-  echo $acceptText;
+  // echo $acceptText;
 
   //Fetch employee task info
   $query_employee_task_info = "SELECT * FROM employees_tasks WHERE id = '$taskId'";
@@ -36,11 +36,13 @@ if(isset($_POST['taskId'])){
 
   $remainingTime = $remaining_time['remaining_time'];
 
+  // echo $remainingTime;
+
   //Add the manager remaining allot time and the declined PIC task allot time
-  $total_remaining_time = $allotTime + $remainingTime
+  $total_remaining_time = $allotTime + $remainingTime;
 
   //Update the manager remaining time
-  $update_remaining_time = "UPDATE `managers_allot_time` SET `remaining_time` = '$total_remaining_time', WHERE employee_id = '$managerId' AND project_id = '$projectId' AND services = '$services' AND phase_of_work = '$phase_of_work'";
+  $update_remaining_time = "UPDATE `managers_allot_time` SET `remaining_time` = '$total_remaining_time' WHERE employee_id = '$managerId' AND project_id = '$projectId' AND services = '$services' AND phase_of_work = '$phase_of_work'";
 
   $con->query($update_remaining_time) or die ($con->error);
 
