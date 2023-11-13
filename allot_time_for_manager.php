@@ -20,7 +20,6 @@ $con = $db->connection();
 
         $con->query($sql) or die ($con->error);
 
-
     }
 
 ?>

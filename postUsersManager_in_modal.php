@@ -38,9 +38,21 @@ if(isset($_POST['managerPhotoId'])) {
                         <button><a href='#'>View Profile</a></button>
                     </div>
                     <div class='user_info'>
-                        <div class='user_fullname'>
-                            <label>Remaining Time:</label>
+                        <div class='user_allot_time'>
+                            <label>Allot Time:</label>
                             <span>" . $allot_time['allot_time'] ."</span>
+                            <div class='additional_time'>
+                                <img class='additional_time_btn' src='img/add-icon.png' width='25'>
+                                <div class='add_time_input d-none'>
+                                    <input type='number' class='additional_time_value' value='0' min='1'>
+                                    <button type='button' class='btn btn-primary submit_additional_time'>Submit</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class='user_remaining_time'>
+                            <label>Remaining Time:</label>
+                            <span>" . $allot_time['remaining_time'] . "</span>
                         </div>
 
                         <div class='user_fullname'>
