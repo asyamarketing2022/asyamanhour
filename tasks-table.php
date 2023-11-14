@@ -254,8 +254,14 @@ if(isset($_POST['userId'])) {
                             </table>
                         </div>
                     </td>
-                    <td>". $row['allot_time'] ."</td>
-                    
+                    <td class='pic_task_allot_time'>". $row['allot_time'] ." 
+                        <img class='additional_time_btn' src='img/add-icon.png' width='25'>
+                        <div class='add_time_input d-none'>
+                            <input type='number' class='additional_time_value' value='0' min='1'>
+                            <button type='button' class='btn btn-primary submit_additional_time'>Submit</button>
+                        </div>
+                    </td>
+                    <td class='pic_task_remaining_time'>". $row['remaining_time'] ."</td>
                     <td class='taskStarted'>". $row['date_started'] ."</td>
                     <td class='pow_status'>
                         <div class='text_status'>

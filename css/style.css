@@ -289,6 +289,45 @@ button.deleteTask {
     max-height: 500px;
 }
 
+.tasks-content .user-tasks .content-table .pic_task_allot_time {
+    position: relative;
+    width: 10%;
+}
+
+.tasks-content .user-tasks .content-table .pic_task_allot_time .add_time_input {
+    position: absolute;
+    right: 0px;
+    padding: 20px;
+    border: 1px solid #afaaaa;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    box-shadow: 10px 11px 5px -8px rgba(0,0,0,0.75);
+    background: #fff;
+    z-index: 10;
+}
+
+.tasks-content .user-tasks .content-table .pic_task_allot_time .add_time_input .additional_time_value {
+    width: 60px;
+    border-radius: 0;
+    border: 1px solid #000000;
+}
+
+.tasks-content .user-tasks .content-table .pic_task_allot_time .add_time_input .submit_additional_time {
+    font-size: 10px;
+    border-radius: 0;
+    border: 1px;
+}
+
+.tasks-content .user-tasks .content-table .pic_task_allot_time img {
+    background: #fff;
+    border-radius: 15px;
+}
+
 .tasks-content .user-tasks .addNewTaskBtn {
     position: absolute;
     top: 0;

@@ -2841,6 +2841,7 @@ function submit_file_path(){
                      taskUpdate_tooltip();
                      pic_add_task_work_update();
                      manager_add_task_work_update();
+                     pic_add_allot_time();
                
                   }, 70);
 
@@ -3219,6 +3220,7 @@ function submitNewTask_pic(){
 
       for(let i = 0; deleteTaskBtn.length > i; i++){
 
+         //Delete the task decline
          $(deleteTaskBtn[i]).off().on('click', ()=> {
 
             let projectId = $('#projectTitle').attr('value');
@@ -5541,7 +5543,7 @@ function manager_add_allot_time(){
 
          }
 
-         submit_additional_time();
+         submit_manager_additional_time();
          
       });
 
@@ -5550,7 +5552,7 @@ function manager_add_allot_time(){
 }
 manager_add_allot_time();
 
-function submit_additional_time() {
+function submit_manager_additional_time() {
 
    let submit_additional_time = document.querySelectorAll('.submit_additional_time');
    let user_container = document.querySelectorAll('.user_container');
@@ -5604,7 +5606,62 @@ function submit_additional_time() {
    }
    
 }
-submit_additional_time();
+submit_manager_additional_time();
+
+function pic_add_allot_time(){
+
+   let additional_time_btn = document.querySelectorAll('#view_project_in_charge .pic_task_allot_time .additional_time_btn');
+   let add_time_input_all = document.querySelectorAll('#view_project_in_charge .pic_task_allot_time .add_time_input');
+
+   for(let i = 0; additional_time_btn.length > i; i++){
+
+      $(additional_time_btn[i]).off().on('click', ()=> {
+
+         let additionalTime = $(additional_time_btn[i]).parent();
+         let add_time_input = $(additionalTime).find('.add_time_input');
+
+         if($(add_time_input).hasClass('d-none')) {
+
+            Array.from(add_time_input_all).forEach((all_add_time_btn) => {
+
+               $(all_add_time_btn).addClass('d-none');
+   
+            });
+
+            $(add_time_input).removeClass('d-none');
+ 
+         } else {
+            
+            $(add_time_input).addClass('d-none');
+
+         }
+
+         submit_pic_add_allot_time();
+         
+      });
+
+   }
+
+}
+pic_add_allot_time();
+
+function submit_pic_add_allot_time(){
+
+   let submit_additional_time = document.querySelectorAll('#view_project_in_charge .pic_task_allot_time .add_time_input .submit_additional_time');
+   let additional_time_value = document.querySelectorAll('#view_project_in_charge .pic_task_allot_time .add_time_input .additional_time_value')
+
+   for(let i = 0; submit_additional_time.length > i; i++){
+
+      $(submit_additional_time[i]).off().on('click', ()=> {
+
+         console.log($(additional_time_value[i]).val());
+
+      });
+
+   }
+ 
+}
+submit_pic_add_allot_time()
 
 });
 
