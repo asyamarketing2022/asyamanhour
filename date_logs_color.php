@@ -18,7 +18,11 @@ $con = $db->connection();
 
         if(!empty($date_logs_hours->num_rows)){
 
-            if($row['total_of_work_hours'] >= 9){
+            if($row['total_of_work_hours'] >= 10) {
+
+                echo "bg-blue";
+
+            } else if($row['total_of_work_hours'] >= 9){
 
                 echo "bg-green";
 

@@ -39,6 +39,18 @@ a {
     background: #95ef85;
 }
 
+.bg-blue {
+    background: #737ed5;
+}
+
+.bg-blue.bg-green  {
+    background: #95ef85;
+}
+
+.bg-blue.bg-red {
+    background: #f77d7d;
+}
+
 .bg-green.bg-red {
     background: #f77d7d;
 }

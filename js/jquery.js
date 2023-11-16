@@ -3991,6 +3991,31 @@ function submitNewTask_pic(){
                }
             });
 
+            //Task remaining time
+            setTimeout(() => {
+
+               let update_task_spendhours = document.querySelectorAll('.update_task_spendhours');
+
+               $.ajax({
+                  type: 'POST',
+                  url: 'show_task_allot_remaining_time.php',
+                  data: {
+                     'taskId': taskId,
+                  },
+                  success: function(data){
+
+                     Array.from(update_task_spendhours).forEach((update_task_time) => {
+
+                        $(update_task_time).attr("max", `${data}`);
+            
+                     });
+            
+                  }
+         
+               });
+
+            }, 200);
+
             // Call a function to change the date color
             dateColor();
 
@@ -5608,6 +5633,7 @@ function submit_manager_additional_time() {
 }
 submit_manager_additional_time();
 
+//Show maximum additional time for PIC tasks
 function pic_add_allot_time(){
 
    let additional_time_btn = document.querySelectorAll('#view_project_in_charge .pic_task_allot_time .additional_time_btn');
@@ -5619,6 +5645,29 @@ function pic_add_allot_time(){
 
          let additionalTime = $(additional_time_btn[i]).parent();
          let add_time_input = $(additionalTime).find('.add_time_input');
+         let tableRow = $(additional_time_btn[i]).parent().parent();
+         let additional_time_value = $(tableRow).find('.additional_time_value');
+         let taskId = $(tableRow).find('.taskId').attr('value');
+         let managerId = $(tableRow).find('.managerId').attr('value');
+         let searchEmployee_service = $('.searchEmployee_service').text();
+         let searchEmployee_pow = $('.searchEmployee_pow').text();
+         let projectId = $('#projectTitle').attr('value');
+
+         $.ajax({
+            type: 'POST',
+            url: 'max_additional_time_value.php',
+            data: {
+               'taskId': taskId,
+               'managerId': managerId,
+               'services': searchEmployee_service,
+               'phase_of_work': searchEmployee_pow,
+               'projectId': projectId,
+            },
+            success: function(data){
+               $(additional_time_value).attr("max", `${data}`);
+            }
+         });
+         
 
          if($(add_time_input).hasClass('d-none')) {
 
@@ -5645,16 +5694,63 @@ function pic_add_allot_time(){
 }
 pic_add_allot_time();
 
+//Submit additional time for PIC tasks
 function submit_pic_add_allot_time(){
 
    let submit_additional_time = document.querySelectorAll('#view_project_in_charge .pic_task_allot_time .add_time_input .submit_additional_time');
-   let additional_time_value = document.querySelectorAll('#view_project_in_charge .pic_task_allot_time .add_time_input .additional_time_value')
+   let additional_time_value = document.querySelectorAll('#view_project_in_charge .pic_task_allot_time .add_time_input .additional_time_value');
+   
+   let searchEmployee_service = $('.searchEmployee_service').text();
+   let searchEmployee_pow = $('.searchEmployee_pow').text();
+   let projectId = $('#projectTitle').attr('value');
 
    for(let i = 0; submit_additional_time.length > i; i++){
 
       $(submit_additional_time[i]).off().on('click', ()=> {
 
-         console.log($(additional_time_value[i]).val());
+         let tableRow = $(submit_additional_time[i]).parent().parent().parent();
+         let taskId = $(tableRow).find('.taskId').attr('value');
+         let span = $(tableRow).find('.pic_task_allot_time span');
+         let pic_task_remaining_time = $(tableRow).find('.pic_task_remaining_time');
+
+         let max_allot_time = $(additional_time_value[i]).attr('max');
+         let additional_allot_time = $(additional_time_value[i]).val();
+
+         if(additional_allot_time <= 0) {
+      
+            alert('You can only allot 1 hour or more');
+
+         } else if(parseInt(max_allot_time) < parseInt(additional_allot_time)) {
+
+            alert(`Your Remaining Time is ${max_allot_time} Hours`)
+
+         } else {
+
+            $.ajax({
+               type: 'POST',
+               url: 'submit_pic_add_allot_time.php',
+               data: {
+                  'projectId': projectId,
+                  'taskId': taskId,
+                  'services': searchEmployee_service,
+                  'phase_of_work': searchEmployee_pow,
+                  'additional_allot_time': additional_allot_time,
+               },
+               success: function(data){
+                  $(span).text(data);
+
+                  //Update remaining time
+                  let update_remaining_time = parseFloat($(pic_task_remaining_time).text()) + parseFloat(additional_allot_time);
+
+                  $($(pic_task_remaining_time)).text(update_remaining_time);
+
+                  //Add class after submit
+                  $(submit_additional_time[i]).parent().addClass('d-none');
+               }
+
+            });
+
+         }
 
       });
 

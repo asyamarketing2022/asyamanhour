@@ -229,6 +229,72 @@ if(isset($_POST['userId'])) {
                     </td>
                 </tr>";
                     
+                } else if($login_userId == $row['manager_id']) {
+
+                    $output .= "<tr>
+                    <td class='managerId d-none' value='". $row['manager_id'] ."'>". $row['manager_id'] ."</td>
+                    <td class='taskId d-none' value='". $row['id'] ."'>". $row['id'] ."</td>
+                    <td class='taskTitle'>". $row['task_title'] ."</td>
+                    <td>". $row['notes'] ."</td>
+                    <td class='taskUpdate'>
+                        <button class='taskUpdate_btn'>Task Update</button>
+                        <div class='taskUpdate_tooltip d-none'>
+                            <table>
+                                <tbody class='taskUpdate_tbody'>
+                                    <tr class='taskUpdate_header'>
+                                        <th>Updates</th>
+                                        <th>Date</th>
+                                        <th>Spend Hour</th>
+                                        <th></th>
+                                    </tr>
+                                    <tr>
+                                        <td><img class='add_newUpdate_btn' src='img/add-icon.png' width='25'></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </td>
+                    <td class='pic_task_allot_time'><span>". $row['allot_time'] ."</span>
+                        <img class='additional_time_btn' src='img/add-icon.png' width='25'>
+                        <div class='add_time_input d-none'>
+                            <input type='number' class='additional_time_value' value='0' min='1'>
+                            <button type='button' class='btn btn-primary submit_additional_time'>Submit</button>
+                        </div>
+                    </td>
+                    <td class='pic_task_remaining_time'>". $row['remaining_time'] ."</td>
+                    <td class='taskStarted'>". $row['date_started'] ."</td>
+                    <td class='pow_status'>
+                        <div class='text_status'>
+                            <span>" . $row['status'] . "</span> 
+                        </div>
+                        <div class='status_tooltip d-none'>
+                            <span class='status orangeStatus'>Working on it</span>
+                            <span class='status redStatus'>Stuck</span>
+                            <span class='status greenStatus'>Done</span>
+                            <input onkeypress='return /[ A-Za-z0-9]/i.test(event.key)' onpaste='return false;' ondrop='return false;' autocomplete='off'>
+                        </div>
+                    </td>
+                    <td class='upload_filepath_td'>
+                        <button class='button-disable'>Upload File Path</button>
+                        <div class='upload_filepath_tooltip d-none'>
+                            <div class='upload_filepath_wrapper'>
+                                
+                            </div>
+                        </div>
+                    </td>
+                    <td class='check_filepath_td'>
+                        <button class='checkfilepathBtn'>Check Files</button>
+                        <div class='check_filepath_tooltip d-none'>
+                        <div class='check_filepath_wrapper'>
+                            <span>Check File Path</span>
+                            <div class='content-table'>
+
+                            </div>
+                        </div>
+                        </div>
+                    </td>
+                </tr>";
+
                 } else {
 
                     $output .= "<tr>
@@ -255,11 +321,6 @@ if(isset($_POST['userId'])) {
                         </div>
                     </td>
                     <td class='pic_task_allot_time'>". $row['allot_time'] ." 
-                        <img class='additional_time_btn' src='img/add-icon.png' width='25'>
-                        <div class='add_time_input d-none'>
-                            <input type='number' class='additional_time_value' value='0' min='1'>
-                            <button type='button' class='btn btn-primary submit_additional_time'>Submit</button>
-                        </div>
                     </td>
                     <td class='pic_task_remaining_time'>". $row['remaining_time'] ."</td>
                     <td class='taskStarted'>". $row['date_started'] ."</td>
