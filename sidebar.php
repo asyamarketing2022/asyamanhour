@@ -99,7 +99,7 @@
         <div class="grid-left__menu">
             <span class='close-btn-menu'><img src="img/x-solid.svg" alt=""></span>
             <ul>
-                <li class="<?php if($page=='homepage'){echo 'active';} ?>" ><a href="<?php echo $URL ?>/homepage.php"><i class="fa fa-clipboard"></i> Homepage</a></li>
+                <li class="<?php if($page=='homepage'){echo 'active';} ?>" ><a href="<?php echo $URL ?>/homepage.php"><i class="fa fa-check"></i> Homepage</a></li>
                 <li class="<?php if($page=='profile'){echo 'active';} ?>"><a href="<?php echo $URL ?>/profile.php"> <i class="fa fa-users"></i> Profile</a></li>
                 <?php if(isset($_SESSION['UserLogin']) && $_SESSION['Access'] == "admin" ) { ?>
 
@@ -111,9 +111,9 @@
                
                 <li class="<?php if($page=='deliverables'){echo 'active';} ?>"><a href="<?php echo $URL ?>/deliverables.php"><i class="fa fa-newspaper-o"></i>Deliverables </a></li>
 
-                <li class="<?php if($page=='project-records'){echo 'active';} ?>"><a href="<?php echo $URL ?>/project-records.php"><i class="fa fa-newspaper-o"></i>Project Records</a></li>
+                <li class="<?php if($page=='project-records'){echo 'active';} ?>"><a href="<?php echo $URL ?>/project-records.php"><i class="fa fa-file"></i>Project Records</a></li>
 
-                <li class="<?php if($page=='usersReport'){echo 'active';} ?>"><a href="<?php echo $URL ?>/usersReport.php"><i class="fa fa-newspaper-o"></i>Users Log</a></li>
+                <li class="<?php if($page=='usersReport'){echo 'active';} ?>"><a href="<?php echo $URL ?>/usersReport.php"><i class="fa fa-book"></i>Users Logs</a></li>
                 <!-- <li><a href="#"><i class="fa fa-bitcoin"></i> Financial</a></li> -->
 
             </ul>
