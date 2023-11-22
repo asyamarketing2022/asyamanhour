@@ -46,10 +46,11 @@ if(isset($_POST['login'])){
     }  else {
 
         echo "<p>email or password is incorrect!</p>";
+        // echo "<script type='text/javascript'>
+        // sample();
+        // </script>";
 
     }
-
-    
 
 }
 

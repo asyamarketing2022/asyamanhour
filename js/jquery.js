@@ -4081,7 +4081,12 @@ function submitNewTask_pic(){
 
             if(total_spend_hours > remainingTime && total_spend_hours != remainingTime ) {
 
-               alert(`Your remaining time for this task is ${remainingTime}. Kindly contact your manager to add more hours`);
+               Swal.fire({
+                  icon: "info",
+                  html: `
+                  Your remaining time for this task is ${remainingTime}. Kindly contact your manager to add more hours
+                  `,
+                });
 
             } else {
 
@@ -4120,7 +4125,13 @@ function submitNewTask_pic(){
                         },
                         success: function(data){
                            // $($('.total_spend_hours')[i]).html(data);
-                           alert('Saved Updates');
+                           Swal.fire({
+                              position: "center",
+                              icon: "success",
+                              title: "Successful Save Updates!",
+                              showConfirmButton: false,
+                              timer: 1500
+                            });
                         }
                      })
                      
@@ -5600,6 +5611,14 @@ function submit_manager_additional_time() {
 
          } else {
 
+            Swal.fire({
+               position: "center",
+               icon: "success",
+               title: "Successful Added Time!",
+               showConfirmButton: false,
+               timer: 1500
+             });
+
             //Update the allot and remaining time
             $.ajax({
                type: 'POST',
@@ -5717,14 +5736,34 @@ function submit_pic_add_allot_time(){
          let additional_allot_time = $(additional_time_value[i]).val();
 
          if(additional_allot_time <= 0) {
-      
-            alert('You can only allot 1 hour or more');
 
+            Swal.fire({
+               icon: "info",
+               html: `You can add 1 hour or more`,
+               showCloseButton: true,
+               showCancelButton: true,
+               focusConfirm: false,
+             });
+ 
          } else if(parseInt(max_allot_time) < parseInt(additional_allot_time)) {
-
-            alert(`Your Remaining Time is ${max_allot_time} Hours`)
+            Swal.fire({
+               icon: "info",
+               html: `Your Remaining Time is ${max_allot_time} Hours`,
+               showCloseButton: true,
+               showCancelButton: true,
+               focusConfirm: false,
+             });
+            // alert(`Your Remaining Time is ${max_allot_time} Hours`)
 
          } else {
+
+            Swal.fire({
+               position: "center",
+               icon: "success",
+               title: "Successful Added Time!",
+               showConfirmButton: false,
+               timer: 1500
+            });
 
             $.ajax({
                type: 'POST',
@@ -5758,6 +5797,17 @@ function submit_pic_add_allot_time(){
  
 }
 submit_pic_add_allot_time()
+
+// function sample() {
+
+//    Swal.fire({
+//       icon: "info",
+//       html: `Your Remaining Time is ${max_allot_time} Hours`,
+//       showCloseButton: true,
+//       showCancelButton: true,
+//       focusConfirm: false,
+//     });
+// }
 
 });
 
