@@ -532,6 +532,85 @@ button.deleteTask {
     z-index: 10;
 }
 
+.content-table td.pow_status .status_tooltip .employees_task_list_container {
+    width: 500px;
+    height: 500px;
+    overflow-y: auto;
+}
+
+.content-table td.pow_status .status_tooltip .employees_task_list_container .employee_container {
+    
+}
+
+.content-table td.pow_status .status_tooltip .employees_task_list_container .employee_container .employee_tasks_status {
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+
+.content-table td.pow_status .status_tooltip .employees_task_list_container .employee_container .employee_tasks_status .done {
+    background: #a4e7a4;
+    width: 80%;
+    border-radius: 50px;
+    color: #3bb52e;
+    text-align: center;
+    font-weight: 600;
+    padding: 2px 0;
+}
+
+.content-table td.pow_status .status_tooltip .employees_task_list_container .employee_container .employee_tasks_status .working {
+    background: #f3ccaac7;
+    width: 80%;
+    border-radius: 50px;
+    color: #ff7800;
+    text-align: center;
+    font-weight: 600;
+    padding: 2px 0;
+}
+
+.content-table td.pow_status .status_tooltip .employees_task_list_container .employee_container .employee_tasks_status .stuck {
+    background: #f3aaaac7;
+    width: 80%;
+    border-radius: 50px;
+    color: #e90101;
+    text-align: center;
+    font-weight: 600;
+    padding: 2px 0;
+}
+
+.content-table td.pow_status .status_tooltip .employees_task_list_container .employee_container .employee_tasks_status .blue {
+    background: #cffdf9c7;
+    width: 80%;
+    border-radius: 50px;
+    color: #31e1ff;
+    text-align: center;
+    font-weight: 600;
+    padding: 2px 0;
+}
+
+.content-table td.pow_status .status_tooltip .employees_task_list_container .employee_container .employee_details img {
+    width: 60px;
+    height: 60px;
+    clip-path: circle();
+    object-fit: contain;
+}
+
+.content-table td.pow_status .status_tooltip .employees_task_list_container .employee_container .employee_details h3 {
+    color: #6e6e6e;
+    font-weight: 700;
+    font-size: 16px;
+}
+
+.content-table td.pow_status .status_tooltip .employees_task_list_container .employee_container .employee_tasks_status h3 {
+    color: rgb(0 0 0 / 50%);
+    font-size: 14px;
+}
+
+.content-table td.pow_status .status_tooltip .employees_task_list_container .employee_container .employee_tasks_status h4 {
+    color: rgb(0 0 0 / 65%);
+    font-size: 17px;
+    font-weight: 500;
+}
+
 .content-table td.pow_status .status_tooltip span {
     padding: 5px;
     border: 1px solid rgba(0, 0, 0, 0.3);
@@ -871,7 +950,7 @@ button.deleteTask {
     max-height: 100%;
     overflow-y: auto;
     height: 94vh;
-    padding-top: 100px;
+    /* padding-top: 100px; */
 }
 
 .manage-employee__content {
@@ -981,6 +1060,13 @@ button.deleteTask {
     /* width: 100%;
     display: block;
     height: 50px; */
+    position: relative;
+    height: 150px;
+}
+
+.project-title h1 {
+    position: absolute;
+    top: 6%;
 }
 
 .project-title .btn-container {
@@ -1104,7 +1190,7 @@ button.deleteTask {
     position: relative;
     width: 100%;
     /* height: 100%; */
-    overflow-y: auto;
+    /* overflow-y: auto; */
     height: 75vh;
 }
 
@@ -1141,6 +1227,7 @@ button.deleteTask {
     box-shadow: 17px -2px 16px 0px rgba(0,0,0,0.23);
     background: #7a7a7a;
     color: #fff;
+    z-index: 10;
 }
 
 .content-table.project_services_table .phase_of_work span {

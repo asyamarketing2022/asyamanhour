@@ -40,16 +40,18 @@ $row = $project->fetch_assoc();
 
 <div class="grid-right__content">
     <div class="project-title mt-4 row">
-        <div class="col-6">
-            <h1 class="float-start" id="projectTitle" value='<?php echo $projectID ?>'><?php echo $row['project_name'] ?></h1>
+    <h1 id="projectTitle" value='<?php echo $projectID ?>'><?php echo $row['project_name'] ?></h1>
+        <div class="col-6 d-flex align-items-end">
+            <div class="info-icon mx-2 mb-2" data-toggle="modal" data-target="#projectInfo"><img src="img/info-icon.png" alt="" width="30"></div>
         </div>
-        <div class="col-6">
+        <div class="col-6 mt-auto p-2 bd-highlight">
             <div class="btn-container float-end">
-                <button type='button' class='btn btn-primary add-services'>Add Services</button>
+                <button type='button' class='btn btn-primary add-services mx-2'>Add Services</button>
+                <button type='button' class='btn btn-secondary add-services'>Add Revise</button>
                 <div class="add_services_container d-none">
 
                 </div>
-                <div class="info-icon mx-2" data-toggle="modal" data-target="#projectInfo"><img src="img/info-icon.png" alt="" width="30"></div>
+              
             </div>
         </div>
     </div>

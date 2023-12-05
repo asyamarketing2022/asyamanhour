@@ -71,6 +71,7 @@ class ViewProjectController
 
             } else {
 
+                //If on manager assign creating variable with empty array
                 $phase_of_work_manager_image_array = [];
                 $phase_of_work_manager_id_array = [];
             }
@@ -133,8 +134,8 @@ class ViewProjectController
 
                 foreach($assigned_employeeId_array as $assigned_employeeId) {
 
-                echo "$assigned_employeeId ";
-
+                    echo "$assigned_employeeId ";
+                    
                 };
 
                 echo "'>";
@@ -150,11 +151,11 @@ class ViewProjectController
                 echo "<td class='pow_status' value='$currentStatus'>
                     <div class='text_status'><span>$row[$currentStatus]</span></div>
                     <div class='status_tooltip d-none'>
-                        <span class='status orangeStatus'>Working on it</span>
-                        <span class='status redStatus'>Stuck</span>
-                        <span class='status greenStatus'>Done</span>
-                       <input type='text' onkeypress='return /[ A-Za-z0-9]/i.test(event.key)' onpaste='return false;' ondrop='return false;' autocomplete='off' >
-                        
+
+                        <div class='employees_task_list_container'>
+                            
+                        </div>
+                       
                     </div>
                 </td>
                 <td>" . $row['added_at'] . "</td>
@@ -162,6 +163,22 @@ class ViewProjectController
                 <td><button class='uploadPathBtn' data-toggle='modal' data-target='#uploadPath'>Upload File Path</button></td>
                 <td><button class='viewfilepathBtn' data-toggle='modal' data-target='#viewfilepath'>Check Files</button></td>
             </tr>";
+
+            //     echo "<td class='pow_status' value='$currentStatus'>
+            //         <div class='text_status'><span>$row[$currentStatus]</span></div>
+            //         <div class='status_tooltip d-none'>
+            //             <span class='status orangeStatus'>Working on it</span>
+            //             <span class='status redStatus'>Stuck</span>
+            //             <span class='status greenStatus'>Done</span>
+            //             <input type='text' onkeypress='return /[ A-Za-z0-9]/i.test(event.key)' onpaste='return false;' ondrop='return false;' autocomplete='off' >
+                        
+            //         </div>
+            //     </td>
+            //     <td>" . $row['added_at'] . "</td>
+            //     <td><input class='dueDate dis_previous_dates' name='$inputName' type='date' value='" . $row[$dueDate] . "'></td>
+            //     <td><button class='uploadPathBtn' data-toggle='modal' data-target='#uploadPath'>Upload File Path</button></td>
+            //     <td><button class='viewfilepathBtn' data-toggle='modal' data-target='#viewfilepath'>Check Files</button></td>
+            // </tr>";
            
         }
     }

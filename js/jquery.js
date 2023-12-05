@@ -1289,10 +1289,26 @@ jQuery(function () {
 
          let textStatus = $(td_powStatus[i]).children('.text_status');
          let tooltip = $(td_powStatus[i]).children('.status_tooltip');
+         let status_tooltip = document.querySelectorAll('.status_tooltip');
+         let projectId = $('#projectTitle').attr('value');
+
+         let tbody = $(td_powStatus[i]).parent().parent();
+         let tableRow = $(td_powStatus[i]).parent();
+         let services = $(tbody).find('.th_services').text()
+         let phase_of_work = $(tableRow).find('.td_phase_of_work').text()
+         let tasksContainer = $(tableRow).find('.employees_task_list_container');
+         let PIC_ids = $(tableRow).find('.projectIncharge_table_row').attr('value')
+         let manager_ids = $(tableRow).find('.manager_photo_id').attr('value')
 
          $(textStatus).on('click', ()=> {
 
             if($(tooltip).hasClass('d-none')) {
+
+               Array.from(status_tooltip).forEach((statusTooltip) => {
+   
+                  $(statusTooltip).addClass('d-none');
+      
+               });
 
                $(tooltip).removeClass('d-none');
     
@@ -1302,8 +1318,25 @@ jQuery(function () {
 
             }
 
+            $.ajax({
+               type: 'POST',
+               url: 'employees_task_list_container.php',
+               data: {
+                  'projectId': projectId,
+                  'services': services,
+                  'phase_of_work': phase_of_work,
+                  'PIC_ids': PIC_ids,
+                  'manager_ids': manager_ids,
+               },
+               success: function(data){
+                  $(tasksContainer).html(data);
+               }
+            })
+
+   
+
          });
-         
+ 
       }
    }
    statusTooltip();
@@ -2842,7 +2875,7 @@ function submit_file_path(){
                      pic_add_task_work_update();
                      manager_add_task_work_update();
                      pic_add_allot_time();
-               
+
                   }, 70);
 
 
@@ -2878,7 +2911,7 @@ function submit_file_path(){
                   $(tooltip).addClass('d-none');
    
                }
-   
+
             });
             
          }
@@ -3560,16 +3593,34 @@ function submitNewTask_pic(){
          let uploadPathBtn = $(tableRow).find('.uploadPathBtn');
 
          // let statusBtn = $(statusTooltip[i]).find('.status');
-
          $(taskContainer).on('click', ()=> {
 
             let taskStatus = $(taskWrapper[i]).children('span').text();
 
-            if(!$(statusTooltip).hasClass('d-none') && taskStatus == 'Done'){
+            // if(!$(statusTooltip).hasClass('d-none') && taskStatus == 'Done'){
 
-               alert("Be careful in changing the task status. When you change the task status in it's due date the task report will be marked as delay.");
+            //    alert("Be careful in changing the task status. When you change the task status in it's due date the task report will be marked as delay.");
          
-            }
+            // }
+            
+            //Gather tasks status
+            let projectId = $('#projectTitle').attr('value');
+            let phase_of_work = $('.searchEmployee_pow').text();
+            let services = $('.searchEmployee_service').text();
+
+            $.ajax({
+               type: 'POST',
+               url: 'gather_tasks_status.php',
+               data: {
+                  'projectId': projectId,
+                  'phase_of_work': phase_of_work,
+                  'services': services,
+               },
+               success: function(data){
+                  // $('#projectTitle').html(data);
+               }
+
+            });
 
          });
 
@@ -3910,6 +3961,7 @@ function submitNewTask_pic(){
             let index = 2;
             let loop = 1;
 
+
             for(let a = 0; loop > a; a++){
 
                if(loop != index) {
@@ -3991,16 +4043,17 @@ function submitNewTask_pic(){
                }
             });
 
-            //Task remaining time
+            //Update task remaining time after delete the update
             setTimeout(() => {
 
                let update_task_spendhours = document.querySelectorAll('.update_task_spendhours');
 
                $.ajax({
                   type: 'POST',
-                  url: 'show_task_allot_remaining_time.php',
+                  url: 'show_task_allot_remaining_time_after_update.php',
                   data: {
                      'taskId': taskId,
+                     'spendhours': spendhours,
                   },
                   success: function(data){
 
@@ -4812,6 +4865,10 @@ calendarLogs();
 
             // Call a function to change the date color
             dateColor();
+
+            //Update the task remaining time after the update
+         
+
          });
 
       }
@@ -5808,6 +5865,26 @@ submit_pic_add_allot_time()
 //       focusConfirm: false,
 //     });
 // }
+
+function gatherStatus(){
+
+   // let status = document.querySelectorAll('#view_project_in_charge .status');
+
+   // for(let i = 0; status.length > i; i++){
+
+   //    $(status[i]).off().on('click', ()=> {
+
+   //       // console.log('okay');
+         
+   //    });
+
+   // }
+
+   // console.log(status);
+
+}
+// gatherStatus();
+
 
 });
 

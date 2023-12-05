@@ -24,7 +24,6 @@ class ViewProjectRecordsController
         $this->phase_of_work = $phase_of_work;
         $this->assigned_employee = $assigned_employee;
         $this->assigned_pic = $assigned_pic;
-
     }
 
     function view_tasks_report()
