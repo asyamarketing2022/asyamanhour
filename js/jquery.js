@@ -5599,6 +5599,52 @@ function add_services_func(){
 }
 add_services_func();
 
+function add_project_revise(){
+
+   let addRevice = document.querySelector('.add-revice');
+
+   $(addRevice).on('click', ()=> {
+
+      let projectId = $('#projectTitle').attr('value');
+
+         Swal.fire({
+            title: "Do you want to save the changes?",
+            showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: "Save",
+            denyButtonText: `No`
+         }).then((result) => {
+         /* Read more about isConfirmed, isDenied below */
+         if (result.isConfirmed) {
+
+            $.ajax({
+               type: 'POST',
+               url: 'add_project_revise.php',
+               data: {
+                  'projectId': projectId,
+               },
+               success: function(data){
+                  Swal.fire("Successful Added Revise!", "", "success");
+                  
+                  setTimeout(() => {
+                     window.location.href = `/viewproject.php?ID=${data}`;
+                  }, 1000);
+                  
+               }
+            });
+           
+         } else if (result.isDenied) {
+
+           Swal.fire("cancel success", "", "info");
+
+         }
+       });
+
+   });
+
+}
+add_project_revise();
+
 function table_form_link(){
 
    let projectLink = document.querySelectorAll('.select_project');

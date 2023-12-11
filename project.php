@@ -12,6 +12,9 @@
 
         <div class="grid-right__content">
             <div class="search-action__wrapper mt-4">
+                <div class="float-start">
+                    <h1>Projects</h1>
+                </div>
                 <!-- <div class="search-action">
                     <input class="search" type="text">
                     <div class="search-button">Search</div>
@@ -19,7 +22,7 @@
 
                 <?php if(isset($_SESSION['UserLogin']) && $_SESSION['Access'] == "admin") { ?>
 
-                <button type="button" class="btn" data-toggle="modal" data-target="#add_project"><i class="fa fa-plus"></i> Add Project</button>
+                <button type="button" class="btn add_project" data-toggle="modal" data-target="#add_project"><i class="fa fa-plus"></i> Add Project</button>
 
                 <?php } ?>
             </div>

@@ -47,7 +47,7 @@ $row = $project->fetch_assoc();
         <div class="col-6 mt-auto p-2 bd-highlight">
             <div class="btn-container float-end">
                 <button type='button' class='btn btn-primary add-services mx-2'>Add Services</button>
-                <button type='button' class='btn btn-secondary add-services'>Add Revise</button>
+                <button type='button' class='btn btn-secondary add-revice'>Add Revise</button>
                 <div class="add_services_container d-none">
 
                 </div>

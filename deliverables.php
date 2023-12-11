@@ -6,13 +6,15 @@
     <div class='project-title mt-4'>
         <div class="float-start">
             <h1>Employee Timeline</h1>
-            <div class="searchEmployee pb-2">
-                <label>Search Employee:</label>
+            <div class="searchEmployee">
+               
                 <input class='deliverablesSearch' type="text" placeholder="Last Name or Department" size="25">
+                <label>Search Employee:</label>
+         
             </div>
         </div>
 
-        <div class='float-end deliverablesCalendar'>
+        <div class='deliverablesCalendar'>
             <label for="">Select Date:</label>
             <input class='deliverablesDates' type="date">
         </div>

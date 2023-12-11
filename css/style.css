@@ -752,6 +752,10 @@ button.deleteTask {
     height: 100vh;
 }
 
+.manage-project__wrapper {
+    background: #f3f4f8;
+}
+
 .top-bar {
     display: grid;
     grid-template-columns: 100%;
@@ -1064,6 +1068,47 @@ button.deleteTask {
     height: 150px;
 }
 
+.employee_filter {
+    position: relative;
+    /* height: 150px; */
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(400px,1fr));
+    width: 100%;
+    /* width: 55%; */
+    padding-top: 130px;
+    margin-bottom: 10px;
+}
+
+.employee_filter .input-group input.searchFilter {
+    height: 40px;
+    box-shadow: 0px 0px 2px 1px rgba(0,0,0,0.1);
+    border: none;
+}
+
+.employee_filter .input-group .dl_csv {
+    height: 40px;
+    box-shadow: 0px 0px 2px 1px rgba(0,0,0,0.1);
+    margin-left: 10px !important;
+    padding: 0 15px;
+    border: 0;
+    background: #6e7e95;
+    color: #fff;
+    font-weight: 600;
+}
+
+.employee_filter .input-group .submitFilter {
+    height: 40px;
+    box-shadow: 0px 0px 2px 1px rgba(0,0,0,0.1);
+}
+
+.employee_filter select.dataLimit {
+    border: 0;
+    border-radius: 0;
+    height: 40px;
+    width: 50%;
+    box-shadow: 0px 0px 2px 1px rgba(0,0,0,0.1);
+}
+
 .project-title h1 {
     position: absolute;
     top: 6%;
@@ -1102,6 +1147,36 @@ button.deleteTask {
 .project-title .btn-container .add_services_container span:hover {
     background: #004c3f;
     color: #fff;
+}
+
+.project-title .searchEmployee {
+    position: absolute;
+    bottom: 6px;
+    left: 0;
+}
+
+.project-title .searchEmployee .deliverablesSearch {
+    height: 40px;
+    box-shadow: 0px 0px 2px 1px rgba(0,0,0,0.1);
+    border: none;
+}
+
+.project-title .deliverablesCalendar {
+    position: absolute;
+    right: 0;
+    bottom: 6px;
+}
+
+.search-action__wrapper .add_employee {
+    position: absolute;
+    bottom: 6px;
+    right: 0;
+}
+
+.search-action__wrapper .add_project {
+    position: absolute;
+    bottom: 6px;
+    right: 0;
 }
 
 .select-action__wrapper ul.select-action {
@@ -1510,17 +1585,30 @@ input.form-check-input {
     /* grid-template-columns: repeat(auto-fit,minmax(400px,1fr)); */
     grid-template-columns: 40% 60%;
     grid-gap: 30px;
-    padding: 20px;
+    /* padding: 20px; */
     background: #f3f4f8;
 }
 
 .profile .myprofile-info {
     display: grid;
     grid-template-columns: 35% 65%;
-    grid-template-areas: 'myphoto profileinfo profileinfo'
-    'mydesc mydesc mydesc';
+    grid-template-areas: 'myphoto myphoto' 'profileinfo profileinfo' 'mydesc mydesc';
     height: 0;
     grid-row-gap: 15px;
+    height: 0;
+}
+
+@media (min-width: 767px) {
+    .profile .myprofile-info {
+        grid-template-areas: 'myphoto profileinfo profileinfo'
+        'mydesc mydesc mydesc';
+    }
+}
+
+@media (max-width: 1600px) {
+    .profile .myprofile-info {
+        height: 100%;
+    }
 }
 
 .profile .myprofile-info .profile-info__content {
@@ -1655,6 +1743,7 @@ input.form-check-input {
 
 .profile .myprojects .content-table {
     padding-top: 50px;
+    overflow-y: auto;
 }
 
 .profile .myprojects .content-table .search-action__wrapper {
@@ -1742,8 +1831,8 @@ input.form-check-input {
 .profile .myprojects .calendar-logs img { 
     width: 25px;
     height: 25px;
-    position: relative;
-    left: 95%;
+    position: absolute;
+    right: 0;
 }
 
 .calendar {
@@ -1753,12 +1842,11 @@ input.form-check-input {
     border: 1px solid #ccc;
     border-radius: 5px;
     padding: 10px;
-
     background: #fff;
-    top: 7%;
+    top: 2px;
     left: 5%;
     position: absolute;
-    height: 92%;
+    height: auto;
 }
 
 .calendar .calendar-header {
@@ -1783,7 +1871,8 @@ input.form-check-input {
 .calendar .dates {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    grid-template-rows: 125px 125px 125px 125px 125px 125px;
+    grid-template-rows: 0;
+    
 }
 
 .calendar .date {
@@ -1797,6 +1886,7 @@ input.form-check-input {
     align-items: flex-start; /* Add this line */
     justify-content: flex-start; /* Add this line */
     position: relative; /* Add this line */
+    height: 150px;
 }
 
 .calendar .date:hover {
@@ -1838,6 +1928,28 @@ input.form-check-input {
     background: rgba(0, 0, 0, 0.62);
 }
 
+@media (max-width: 767px) {
+    /* .calendar .dates {
+        grid-template-rows: 125px 125px 125px 125px 125px 125px;
+    } */
+}
+
+@media (max-width: 991px) {
+    .calendar .date {
+        height: 50px;
+    }
+}
+
+@media (min-width: 768px) {
+    /* .calendar .dates {
+        grid-template-rows: 125px 125px 125px 125px 125px 125px;
+    } */
+
+    /* .calendar .date {
+        height: 80px;
+    } */
+}
+
 .modal-logs {
     position: fixed;
     left: 0;
@@ -1860,6 +1972,12 @@ input.form-check-input {
     padding: 1rem 1.5rem;
     width: 50rem;
     border-radius: 0.5rem;
+}
+
+@media (max-width: 991px) {
+    .modal-logs .modal-content {
+        width: 80%;
+    }
 }
 
 .close-button {
@@ -2167,9 +2285,9 @@ input.form-check-input {
         grid-template-columns: 100%;
     }
 
-    .profile .myprofile-info {
+    /* .profile .myprofile-info {
         height: 350px;
-    }
+    } */
 }
 
 @media (min-width: 992px) and (max-width: 1400px){

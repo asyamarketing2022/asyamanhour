@@ -28,34 +28,9 @@ if(isset($_POST['userID'])) {
                     <input class="search" type="text">
                     <div class="search-button">Search</div>
                 </div> -->
-                <button type="button" class="btn" data-toggle="modal" data-target="#add_employee"><i class="fa fa-plus"></i> Add Employee</button>
+                <button type="button" class="btn add_employee" data-toggle="modal" data-target="#add_employee"><i class="fa fa-plus"></i> Add Employee</button>
             </div>
-
-            <!-- <div class="select-action__wrapper mt-4">
-                <div class="select-action__sort">
-                    <span><i class="fa fa-sort-amount-desc"></i> Sort by</span>
-                    <select class="form-select" aria-label="Default select example">
-                        <option selected>Name</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
-                    </select>
-                </div>
-            </div> -->
-
-            <!-- <div class="select-action__sort">
-                    <span><i class="fa fa-sort-amount-desc"></i> Sort by</span>
-                    <select class="form-select" aria-label="Default select example">
-                        <option selected>Name</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
-                    </select>
-                </div>
-            <div class="search-action">
-                    <input class="search" type="text">
-                    <div class="search-button">Search</div>
-                </div> -->
+            
             <div class="content-table">
                 <table>
                     <tr>
@@ -177,6 +152,7 @@ if(isset($_POST['userID'])) {
                                         <option value="plumbing">Plumbing</option>
                                         <option value="fire protection">Fire Protection</option>
                                         <option value="structural">Structural</option>
+                                        <option value="contract & billing">Contract & Billing</option>
                                     </select>
                                 </div>
                                 <div class="profile-info__content">

@@ -7,7 +7,7 @@
 <div class='grid-right__content'>
     <div class='project-title mt-4'>
         <div class="float-start">
-            <h1>Projects</h1>
+            <h1>Project Records</h1>
         </div>
     </div>
 
