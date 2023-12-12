@@ -8,7 +8,7 @@
 <div class="grid-right__content">
 
     <div class="employee_filter">
-        <div class="input-group search-action">
+        <div class="search-action">
             <input class="searchFilter" name="search" value="" type="text">
             <button type="submit" class="search-button submitFilter">Search</button>
             &nbsp;
@@ -16,16 +16,17 @@
             <!-- <p type="text" class="submit-button dl_csv">Download CSV</p> -->
 
             <button type="submit" class="submit-button dl_csv">Download</button>
+            <div class="select-action__sort show float-start float-sm-end">
+                <select class="form-select dataLimit" aria-label="Default select dataLimit">
+                    <option value="100" selected disabled>Sort By</option>
+                    <option value="3">3</option>
+                    <option value="5">5</option>
+                    <option value="8">8</option>
+                    <option value="100">100</option>
+                </select>
+            </div>
         </div>
-        <div class="select-action__sort d-flex flex-row-reverse show">
-            <select class="form-select dataLimit" aria-label="Default select dataLimit">
-                <option value="" selected disabled>Sort By</option>
-                <option value="3">3</option>
-                <option value="5">5</option>
-                <option value="8">8</option>
-                <option value="100">100</option>
-            </select>
-        </div>
+
     </div>
     <div class="content-table">
         <table>

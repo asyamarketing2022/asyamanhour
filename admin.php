@@ -167,6 +167,7 @@ if(isset($_POST['userID'])) {
                                     <span>Access</span>
                                     <select name="access" id="access" class="">
                                         <option value="admin">Admin</option>
+                                        <option value="contract & billing">Contract & Billing</option>
                                         <option value="manager">Manager</option>
                                         <option value="employee" selected>Employee</option>
                                     </select>

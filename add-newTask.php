@@ -25,10 +25,10 @@ if(isset($_POST['projectId'])) {
     $userlastName = $_SESSION['Userlname'];
     $managerId = $_SESSION['UserId'];
     $login_userId = $_SESSION['UserId'];
-    $pic_allot_time = $_POST['pic_allot_time'];
-    $remaining_time = $pic_allot_time;
+    $allot_time = $_POST['allot_time'];
+    $remaining_time = $allot_time;
 
-    $sql = "INSERT INTO `employees_tasks`(`project_id`, `project_name`, `services`, `phase_of_work`, `employee_id`, `employee_name`, `task_title`, `notes`, `date_started`, `due_date`, `status`, `invite_status`, `sent_by`, `manager_id`, `allot_time`, `remaining_time`) VALUES ('$projectId', '$projectTitle', '$services', '$phase_of_work', '$employeeId', '$employeeName', '$taskTitle', '$new_task_notes', '$dateStart', '$dateEnd', '$status', '$invite_status', '$userfirstName $userlastName', '$managerId', '$pic_allot_time', '$remaining_time')";
+    $sql = "INSERT INTO `employees_tasks`(`project_id`, `project_name`, `services`, `phase_of_work`, `employee_id`, `employee_name`, `task_title`, `notes`, `date_started`, `due_date`, `status`, `invite_status`, `sent_by`, `manager_id`, `allot_time`, `remaining_time`) VALUES ('$projectId', '$projectTitle', '$services', '$phase_of_work', '$employeeId', '$employeeName', '$taskTitle', '$new_task_notes', '$dateStart', '$dateEnd', '$status', '$invite_status', '$userfirstName $userlastName', '$managerId', '$allot_time', '$remaining_time')";
 
     $con->query($sql) or die ($con->error);
 
@@ -42,7 +42,7 @@ if(isset($_POST['projectId'])) {
     $managers_remaining_time = $managers_allot_time->fetch_assoc();
 
     //Subtract managers remaining allot time and the time given to pic
-    $remaining_time = $managers_remaining_time['remaining_time'] - $pic_allot_time;
+    $remaining_time = $managers_remaining_time['remaining_time'] - $allot_time;
 
     //Update the managers allot remaining time 
     $update_managers_remaining_time = "UPDATE `managers_allot_time` SET `remaining_time` = '$remaining_time' WHERE employee_id = '$managerId' AND project_id = '$projectId' AND services = '$services' AND phase_of_work = '$phase_of_work'";

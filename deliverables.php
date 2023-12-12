@@ -8,8 +8,8 @@
             <h1>Employee Timeline</h1>
             <div class="searchEmployee">
                
-                <input class='deliverablesSearch' type="text" placeholder="Last Name or Department" size="25">
                 <label>Search Employee:</label>
+                <input class='deliverablesSearch' type="text" placeholder="Last Name or Department" size="25">
          
             </div>
         </div>

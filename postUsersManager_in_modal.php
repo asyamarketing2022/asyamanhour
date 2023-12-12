@@ -16,6 +16,7 @@ if(isset($_POST['managerPhotoId'])) {
     $projectId = $_POST['projectId'];
     $services = $_POST['services'];
     $phase_of_work = $_POST['phase_of_work'];
+    $access = $_SESSION['Access'];
 
     for ($i = 0; $i < $photosIdCount; $i++) {
 
@@ -32,6 +33,9 @@ if(isset($_POST['managerPhotoId'])) {
 
         if($managers_allot_time->num_rows != 0){
 
+           if($access == 'admin') {
+
+            
             echo "<div class='user_container' value='" . $managerInfo['ID'] . "'>
                     <div class='user_photo'>
                         <img class='photoCircle' src='img/upload/" . $managerInfo['user_image'] . "' alt='' width='200'>
@@ -42,7 +46,7 @@ if(isset($_POST['managerPhotoId'])) {
                             <label>Allot Time:</label>
                             <span>" . $allot_time['allot_time'] ."</span>
                             <div class='additional_time'>
-                                <img class='additional_time_btn' src='img/add-icon.png' width='25'>
+                                <img class='manager_additional_time_btn' src='img/add-icon.png' width='25'>
                                 <div class='add_time_input d-none'>
                                     <input type='number' class='additional_time_value' value='0' min='1'>
                                     <button type='button' class='btn btn-primary submit_additional_time'>Submit</button>
@@ -74,6 +78,55 @@ if(isset($_POST['managerPhotoId'])) {
                         </div>
                     </div>
                 </div>";
+
+           } else {
+
+                echo "<div class='user_container' value='" . $managerInfo['ID'] . "'>
+                        <div class='user_photo'>
+                            <img class='photoCircle' src='img/upload/" . $managerInfo['user_image'] . "' alt='' width='200'>
+                            <button><a href='#'>View Profile</a></button>
+                        </div>
+                    <div class='user_info'>
+                        <div class='user_allot_time'>
+                            <label>Allot Time:</label>
+                            <span>" . $allot_time['allot_time'] ."</span>
+                            <div class='additional_time'>
+                             
+                                <div class='add_time_input d-none'>
+                                    <input type='number' class='additional_time_value' value='0' min='1'>
+                                    <button type='button' class='btn btn-primary submit_additional_time'>Submit</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class='user_remaining_time'>
+                            <label>Remaining Time:</label>
+                            <span>" . $allot_time['remaining_time'] . "</span>
+                        </div>
+
+                        <div class='user_fullname'>
+                            <label>Name:</label>
+                            <span>" . $managerInfo['first_name'] . " " . $managerInfo['last_name'] . "</span>
+                        </div>
+            
+                        <div class='user_position'>
+                            <label>Position:</label>
+                            <span>" . $managerInfo['position'] . "</span>
+                        </div>
+
+                        <div class='user_department'>
+                            <label>Department:</label>
+                            <span>" . $managerInfo['department'] . "</span>
+                        </div>
+                        <div class='user_tasks border-0'>
+                            <button class='border-0'><a href='#' class='viewTasks m-3'>View Tasks</a></button>
+                        </div>
+                    </div>
+                </div>";
+
+           }
+
+
 
         } else {
 

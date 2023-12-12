@@ -425,6 +425,10 @@ $row = $project->fetch_assoc();
                                                 <input class='date_end dis_previous_dates new_task_dueDate' name='dueDate' type='date' required>
                                             </div>
                                             <div class='content__info'>
+                                                <span>Allot Hours:</span>
+                                                <input class='manager_allot_time' type='number' min='0' required>
+                                            </div>
+                                            <div class='content__info'>
                                                 <span>Notes</span>
                                                 <textarea class='newTask_notes' name='notes' id='' cols='30' rows='10' required></textarea>
                                             </div>
@@ -506,7 +510,7 @@ $row = $project->fetch_assoc();
                                         <input class='date_end dis_previous_dates new_task_dueDate' name='dueDate' type='date' required>
                                     </div>
                                     <div class='content__info'>
-                                        <span>Allot Time:</span>
+                                        <span>Allot Hours:</span>
                                         <input class='pic_allot_time' type='number' min='0' required>
                                     </div>
                                     <div class='content__info'>

@@ -94,9 +94,11 @@ if(isset($_POST['tableID'])) {
                             <div class='profile-info__content'>
                                 <span>Access</span>
                                 <select name='update_access' id='access'>
-                                    <option value='employee' " . ($updateUser['access'] == 'employee' ? ' selected ' : '') . ">Employee</option>
+                                   
                                     <option value='admin' " . ($updateUser['access'] == 'admin' ? ' selected ' : '') . ">Admin</option>
+                                    <option value='contract & billing' " . ($updateUser['access'] == 'contract & billing' ? ' selected ' : '') . ">Contract & Billing</option>
                                     <option value='manager' " . ($updateUser['access'] == 'manager' ? ' selected ' : '') . ">Manager</option>
+                                    <option value='employee' " . ($updateUser['access'] == 'employee' ? ' selected ' : '') . ">Employee</option>
                                 </select>
                             </div>
                         </div>

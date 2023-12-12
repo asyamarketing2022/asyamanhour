@@ -70,6 +70,7 @@ if(isset($_POST['userId'])) {
     $services = $_POST['services'];
     $projectId = $_POST['projectId'];
     $projectName = $_POST['projectName'];
+    $access = $_SESSION['Access'];
 
     $query_employee_tasks = "SELECT * FROM `employees_tasks` WHERE employee_id = '$userId' AND services = '$services' AND phase_of_work = '$phase_of_work' AND project_id = '$projectId' ORDER BY id DESC";
     $employee_tasks = $con->query($query_employee_tasks) or die ($con->error);

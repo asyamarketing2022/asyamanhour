@@ -80,7 +80,7 @@
                         <div class="search-action__wrapper">
                             <div class="search-action">
                                 <input class="search" type="text">
-                                <div class="search-button">Search</div>
+                                <div class="search-task">Search</div>
                             </div>
 
                             <div class="calendar-logs">
@@ -103,6 +103,8 @@
                                     <th>Status</th>
                                     <th></th>
                                 </tr>
+                        </tbody>
+                        <tbody class="usertasks-table">
 
                                 <!-- tasks-new.php -->
 
