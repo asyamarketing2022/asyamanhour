@@ -4,8 +4,11 @@
 <!-- Login Form -->
     <div class="form-body">
         <div class="form-wrapper">
+            <div class="asyamanhour-logo">
+                <img src="/img/asya-manhours-logo.png" alt="">
+            </div>
             <form class="login-form" action="" method="post">
-                <h1>Log in</h1>
+                <!-- <h1>Log in</h1> -->
                 <div class="email">
                     <!-- <label class="form-label" for="email">Email</label> -->
                     <input type="email" name="email" id="login-email" placeholder="Email" required>

@@ -30,7 +30,7 @@ if (mysqli_num_rows($project) > 0){
     }
 } 
 
-//New Fil Path Notification 
+//New File Path Notification 
 $sql = "SELECT file_path_status FROM upload_file_path WHERE manager_id = $userID";
 $new_file_path = $con->query($sql) or die ($con->error);
 

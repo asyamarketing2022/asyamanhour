@@ -258,21 +258,27 @@ jQuery(function () {
    //Search Filter (User tasks)
    function searchTask() {
       $('.search-task').on('click', (e)=> {
-         let searchFilter = $(".searchFilter").val();
-         // let val = $('.dataLimit option:selected').attr('value');
-
+         let searchFilter = $(".search-task-input").val();
+         let profile_userId = $(".profile-userId").text()
+      
             $.ajax({
                type: 'POST',
                url: 'userTasks-table.php',
                data: {
                   'searchFilter': searchFilter,
+                  'profile_userId': profile_userId,
                },
                success:function(data){
+
                   $('.usertasks-table').html(data);
+
+                  //Function link
+                  linkTask();
                }
             });
 
             e.preventDefault();
+        
       });
    }
    searchTask()
@@ -4483,7 +4489,7 @@ calendarLogs();
       }
 
   }
-  linkTask()
+  linkTask();
 
   function loading(){
 

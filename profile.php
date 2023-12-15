@@ -32,6 +32,10 @@
                     </div>
                     <div class="profile-info">
                         <?php if(isset($_SESSION['UserLogin'])){ ?>
+                            <div class="profile-info__content d-none">
+                                <span>User Id</span>
+                                <p class='profile-userId'><?php echo $user_profile['ID']; ?></p>
+                            </div>
                             <div class="profile-info__content">
                                 <span>Name</span>
                                 <p ><?php echo $_SESSION['UserLogin']; ?> <?php echo $_SESSION['Userlname']; ?></p>
@@ -79,7 +83,7 @@
                     <div class="content-table">
                         <div class="search-action__wrapper">
                             <div class="search-action">
-                                <input class="search" type="text">
+                                <input class="search-task-input" type="text">
                                 <div class="search-task">Search</div>
                             </div>
 
@@ -103,8 +107,8 @@
                                     <th>Status</th>
                                     <th></th>
                                 </tr>
-                        </tbody>
-                        <tbody class="usertasks-table">
+                            </tbody>
+                        <tbody>
 
                                 <!-- tasks-new.php -->
 
@@ -165,8 +169,8 @@
                                         
 
                                     <?php } ?>
-
-                                <!-- tasks-table-profile.php -->
+                                </tbody>
+                                <tbody  class="usertasks-table">
 
                                 <?php if(!empty($tasks_info['id'])) { ?>
 
@@ -174,7 +178,7 @@
 
                                         <?php if($tasks_info['invite_status'] == 'accept' || $tasks_info['invite_status'] == 'decline') { ?>
 
-                                                <tr class="task-table_row clickable-row" data-href='<?php echo $URL ?>/viewproject.php?ID=<?php echo $tasks_info['project_id'] ?>' value="<?php echo $tasks_info['id']; ?>">
+                                                <tr class="task-table_row clickable-row" data-href='/viewproject.php?ID=<?php echo $tasks_info['project_id'] ?>' value="<?php echo $tasks_info['id']; ?>">
                                                     <td><?php echo $tasks_info['project_name']; ?></td>
                                                     <td><?php echo $tasks_info['services']; ?></td>
                                                     <td><?php echo $tasks_info['phase_of_work']; ?></td>
@@ -184,8 +188,9 @@
                                                     </td>
                                                     <td><?php echo $tasks_info['date_started']; ?></td>
                                                     <td><?php echo $tasks_info['due_date']; ?></td>
-                                                    <td><?php echo $tasks_info['status']; ?></td>
+                                                    <td class='allot_time'><?php echo $tasks_info['allot_time']; ?></td>
                                                     <td><?php echo $tasks_info['sent_by']; ?></td>
+                                                    <td><?php echo $tasks_info['status']; ?></td>
                                                     <td><?php echo $tasks_info['invite_status'] ?></td>
                                                 </tr>
                                        

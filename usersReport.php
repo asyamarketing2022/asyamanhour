@@ -10,7 +10,7 @@
     <div class="employee_filter">
         <div class="search-action">
             <input class="searchFilter" name="search" value="" type="text">
-            <button type="submit" class="search-button submitFilter">Search</button>
+            <button type="button" class="search-button submitFilter">Search</button>
             &nbsp;
             <!-- <a href="usersReport-table_csv.php" class="submit-button download button">Download CSV</a> -->
             <!-- <p type="text" class="submit-button dl_csv">Download CSV</p> -->

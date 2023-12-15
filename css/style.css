@@ -18,7 +18,7 @@ ul {
 }
 
 p {
-   font-family: NunitoFont;
+   /* font-family: NunitoFont; */
 }
 
 a {
@@ -460,8 +460,8 @@ button.deleteTask {
 
 .content-table tbody {
     background: #fff;
-    background: linear-gradient(45deg, #49a09d, #786c81);
-    color: #fff;
+    /* background: linear-gradient(45deg, #49a09d, #786c81); */
+    /* color: #fff; */
 }
   
 .content-table td, .content-table th {
@@ -471,18 +471,35 @@ button.deleteTask {
     text-transform: capitalize;
 }
 
+.content-table td.deliverablesTasks_wrapper {
+    text-align: center;
+}
+
+.content-table td.deliverablesTasks_wrapper .deliverablesDailyTasks {
+    padding: 0px 6px;
+    background: #3E3E3E;
+    color: #fff;
+}
+
 .content-table th {
-    background-color: #362f4b;
+    background-color: #3E3E3E;
     color: #fff;
     border: none;
 }
 
 .content-table tr:nth-child(even) {
-    /* background-color: #f7f7f7 */
+    background-color: #f7f7f7
 }
 
 .content-table tr {
     border-bottom: 1px solid rgb(230 230 230 / 50%) !important;
+    /* font-weight: 600; */
+}
+
+.content-table tr:hover {
+    background: #B91D2B;
+    color: #fff;
+    font-weight: 400;
 }
 
 .content-table th:first-of-type {
@@ -704,23 +721,47 @@ button.deleteTask {
 
 .form-body {
     height: 100vh;
-    background-color: #021b21;
+    /* background-color: #021b21; */
+    background: url('/img/background-25dim.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center -35px;
 }
 
 .form-body .form-wrapper {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     flex-wrap: nowrap;
     justify-content: center;
     align-items: center;
-    align-content: stretch;
     height: 100%;
+    gap: 15px;
+}
+
+@media (min-width: 600px) {
+    .form-body .form-wrapper {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: center;
+        align-items: center;
+        align-content: stretch;
+    }
+}
+
+/* .form-body .form-wrapper .asyamanhour-logo {
+
+} */
+
+.form-body .form-wrapper .asyamanhour-logo img {
+    height: 200px;
 }
 
 .form-body .form-wrapper .login-form {
     background-color: #fff;
     padding: 30px;
     border-radius: 5px;
+    box-shadow: 0px 0px 2px 1px rgba(0,0,0,0.1);
 }
 
 .form-body .form-wrapper .login-form input[type=email],
@@ -739,13 +780,23 @@ button.deleteTask {
 .form-body .form-wrapper .login-form button {
     width: 100%;
     text-align: center;
-    background-color: #3fa4be;
+    /* background-color: #3fa4be; */
+    background-color: #3e3e3e;
     border-radius: 3px;
     color: #fff;
 }
 
+.form-body .form-wrapper .login-form button:focus {
+    background-color: #ac0e2f;
+}
+
 .form-body .form-wrapper .login-form h1 {
     font-weight: 700;
+    color: #ac0e2f;
+}
+
+.form-body .form-wrapper .login-form input:hover {
+    border: 1px solid #ac0e2f;
 }
 
 .manage-employee__wrapper {
@@ -759,6 +810,18 @@ button.deleteTask {
 .top-bar {
     display: grid;
     grid-template-columns: 100%;
+}
+
+.top-bar .asyamanhour-logo {
+    position: relative;
+    left: 20px;
+    top: 2px;
+}
+
+.top-bar .asyamanhour-logo img {
+    width: 50px;
+    height: 50px;
+    position: absolute;
 }
 
 .top-bar .back-to-homepage {
@@ -781,9 +844,9 @@ button.deleteTask {
 
 .top-bar .userLog {
     float: right;
-    /* background-color: #fff; */
-    background-color: #80cbc4;
+    background-color: #fff;
     height: 55px;
+    border-bottom: 1px solid #3e3e3e;
 }
 
 .top-bar .userLog .top-profile-photo {
@@ -806,7 +869,11 @@ button.deleteTask {
 
 .top-bar .userLog ul li {
     margin-right: 20px;
-    color: #004c3f;
+    color: #3E3E3E;
+}
+
+.top-bar .userLog ul li:hover {
+    color: #636363;
 }
 
 .top-bar .userLog ul li .fa-bell {
@@ -815,8 +882,12 @@ button.deleteTask {
 }
 
 .top-bar .userLog ul li .fa-bell:before {
-    color: #004c3f;
+    color: #3E3E3E;
     font-size: 16px;
+}
+
+.top-bar .userLog ul li .fa-bell:hover {
+    color: #636363
 }
 
 .top-bar .userLog ul li .fa-bell .notif_count {
@@ -863,7 +934,7 @@ button.deleteTask {
 
 .notif-list .notif_container  .notif_box {
     padding: 5px 20px;
-    width: 300px;
+    width: 400px;
     border-radius: 5px;
 }
 
@@ -873,18 +944,55 @@ button.deleteTask {
 
 .notif-list .notif_container  .notif_box a {
     color: #000;
+    display: flex;
+    align-items: stretch;
+    gap: 20px;
+}
+
+.notif-list .notif_container .notif_box a img {
+    height: 50px;
+    width: 50px;
+    clip-path: circle();
+    object-fit: contain;
+}
+
+.notif-list .notif_container  .notif_box .notif-date {
+    flex-shrink: 1;
+}
+
+.notif-list .notif_container  .notif_box .notif-photo {
+    flex-shrink: 1;
 }
 
 .notif-list .notif_container  .notif_box:hover a {
     color: #000;
 }
 
+.notif-list .notif_container  .notif_box a .notif-photo {
+
+}
+
 .notif-list .notif_container  .notif_box .notif-text {
     padding-bottom: 0.5rem;
+    flex-shrink: 0;
+    margin: 0 10px;
+    width: 150px;
+}
+
+.notif-list .notif_container  .notif_box .notif-text p {
+    margin-bottom: 0;
+}
+
+.notif-list .notif_container  .notif_box .notif-text p.sent_by {
+    margin-bottom: 0;
+    color: #3E3E3E;
 }
 
 .notif-list .notif_container  .notif_box .notif-text .notif-message {
-    font-size: 20px;
+    font-size: 18px;
+    color: #3E3E3E;
+    letter-spacing: -1px;
+    margin-bottom: 10px;
 }
 
 .notif-list .notif_container  .notif_box .notif-text .newTask-date {
@@ -895,7 +1003,7 @@ button.deleteTask {
 
 .grid-left__menu {
     /* background-color: #eff6fe; */
-    background-color: #004c3f;
+    background-color: #3e3e3e;
     /* height: calc(100vh - 60px); */
     height: 100%;
 }
@@ -932,11 +1040,11 @@ button.deleteTask {
 }
 
 .grid-left__menu ul li.active {
-    background-color: #fff;
+    background-color: #ac0e2f;
 }
 
 .grid-left__menu ul li.active a {
-    color: #004c3f;
+    color: #fff;
 }
 
 .grid-left__menu ul li i {
@@ -950,11 +1058,16 @@ button.deleteTask {
 .grid-right__content {
     padding: 0 20px 20px 20px;
     /* background-color: #f6f6f6; */
-    background-color: #f3f4f8;
+    /* background-color: #f3f4f8; */
     max-height: 100%;
     overflow-y: auto;
     height: 94vh;
+    background: url(/img/background-25dim.jpg);
+    background-size: cover;
+    background-position: center -35px;
+    background-repeat: no-repeat;
     /* padding-top: 100px; */
+    background-attachment: fixed;
 }
 
 .manage-employee__content {
@@ -1080,7 +1193,7 @@ button.deleteTask {
 }
 
 .employee_filter input.searchFilter {
-    height: 40px;
+    height: 38px;
     box-shadow: 0px 0px 2px 1px rgba(0,0,0,0.1);
     border: none;
     border-radius: 0;
@@ -1101,6 +1214,13 @@ button.deleteTask {
     height: 40px;
     box-shadow: 0px 0px 2px 1px rgba(0,0,0,0.1);
     border-radius: 0;
+
+    color: #fff;
+    background-color: #1b8dff;
+    font-weight: 700;
+    padding: 5px;
+    border: none;
+    width: 100px;
 }
 
 .employee_filter select.dataLimit {
@@ -1280,6 +1400,10 @@ button.deleteTask {
     cursor: pointer;
 }
 
+.content-table .table-row_projects:hover {
+    color: #fff;
+}
+
 .content-table .delete {
     position: absolute;
     top: -40px;
@@ -1296,8 +1420,8 @@ button.deleteTask {
 
 .content-table.project_services_table table tbody {
     box-shadow: 17px -2px 16px 0px rgba(0,0,0,0.23);
-    background: linear-gradient(45deg, #49a09d, #786c81);
-    color: #fff;
+    /* background: linear-gradient(45deg, #49a09d, #786c81); */
+    /* color: #fff; */
 }
 
 .content-table.project_services_table .phase_of_work {
@@ -1330,6 +1454,12 @@ button.deleteTask {
 
 .content-table.project_services_table table td {
     width: 11%;
+    /* color: #000; */
+}
+
+.content-table.project_services_table table td:hover {
+    width: 11%;
+    /* color: #000; */
 }
 
 /* .content-table .pageBtn .pagination_link:nth-child(2)  {
@@ -1593,7 +1723,7 @@ input.form-check-input {
     grid-template-columns: 40% 60%;
     grid-gap: 30px;
     /* padding: 20px; */
-    background: #f3f4f8;
+    /* background: #f3f4f8; */
 }
 
 .profile .myprofile-info {
@@ -1620,6 +1750,7 @@ input.form-check-input {
 
 .profile .myprofile-info .profile-info__content {
     grid-gap: 10px;
+    text-transform: capitalize;
 }
 
 .photoCircle {
@@ -1637,12 +1768,10 @@ input.form-check-input {
     grid-area: myphoto;
     position: relative;
     text-align: center;
-    /* top: 20px; */
     background: #fff;
     border-left: 1px solid rgb(0 0 0 / 10%);
     border-bottom: 1px solid rgb(0 0 0 / 10%);
     border-top: 1px solid rgb(0 0 0 / 10%);
-    /* margin-bottom: 20px; */
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
     padding: 20px 10px 10px 10px;
@@ -1764,7 +1893,7 @@ input.form-check-input {
 }
 
 .profile .myprojects .content-table table tr:hover {
-    background: #dfdbdb;
+    /* background: #dfdbdb; */
     cursor: pointer;
 }
 
@@ -1878,7 +2007,7 @@ input.form-check-input {
 .calendar .dates {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    grid-template-rows: 0;
+    /* grid-template-rows: 0; */
     
 }
 
@@ -1893,7 +2022,7 @@ input.form-check-input {
     align-items: flex-start; /* Add this line */
     justify-content: flex-start; /* Add this line */
     position: relative; /* Add this line */
-    height: 150px;
+    height: 100px;
 }
 
 .calendar .date:hover {
@@ -2102,6 +2231,7 @@ input.form-check-input {
     position: absolute;
     z-index: 10;
     left: -640px;
+    color: #000;
 }
 
 .deliverablesTasks_wrapper .deliverablesTasks table {

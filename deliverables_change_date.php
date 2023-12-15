@@ -89,7 +89,7 @@ $con = $db->connection();
         } while($employeeInfo = $employees->fetch_assoc());
 
         $output .= "<div class='loading-content'>
-                        <img src='/img/loading-3.gif'>
+                        <img src='/img/ASYA-MANHOUR-LOADING-2.gif'>
                         <div class='loading-content-overlay'></div>   
                     </div>";
 
