@@ -14,9 +14,11 @@
 <div class="manage-project__wrapper">
 
     <div class="top-bar">
-        <div class="asyamanhour-logo">
+        <a href="/homepage.php">
+            <div class="asyamanhour-logo">
                 <img src="img/asya-manhours-logo.png" alt="">
             </div>
+        </a>
         <div class="userLog">
             <ul>
                 <li><i class="fa fa-wechat"></i></li>
@@ -29,13 +31,21 @@
 
                 <?php if(isset($_SESSION['UserLogin'])){ ?>
 
-                    <li style='margin-left: 20px; margin-right: 0; font-weight: 900;'><span><?php echo $_SESSION['UserLogin']; ?></span> <span><?php echo $_SESSION['Userlname']; ?></span></li>
+                    <li style='margin-left: 20px; margin-right: 0; font-weight: 900;'>
+                        <a href="/profile.php">
+                            <span><?php echo $_SESSION['UserLogin']; ?></span> <span><?php echo $_SESSION['Userlname']; ?></span>
+                        </a>
+                    </li>
 
                 <?php } ?>
 
 
                 <!-- for php code users-table.php -->
-                <li><img class='top-profile-photo' src="img/upload/<?php echo $user_profile['user_image']; ?>"  width="50px" alt=""></li>
+                <li>
+                    <a href="/profile.php">
+                        <img class='top-profile-photo' src="img/upload/<?php echo $user_profile['user_image']; ?>"  width="50px" alt="">
+                    </a>
+                </li>
 
                 <!-- <li><a href="logout.php"><i class="fa fa-arrow-down"></i></a></li> -->
                 <li><a href="logout.php"><img src="img/right-from-bracket-solid.svg" alt=""></a></li>
@@ -68,7 +78,7 @@
                                                     
                                                             $user_sent_by_photo = $user_sent_by['user_image'];
 
-                                                            echo  "<img src='/img/upload/$user_sent_by_photo' width='25px'>";
+                                                            echo  "<img src='img/upload/$user_sent_by_photo' width='25px'>";
 
                                                     //     }
                                                     
@@ -144,4 +154,9 @@
                 <!-- <li><a href="#"><i class="fa fa-bitcoin"></i> Financial</a></li> -->
 
             </ul>
+
+            <div class="version-button_container">
+                <span class='version-button_update'>Version 1.0.0.0</span>
+                
+            </div>
         </div>

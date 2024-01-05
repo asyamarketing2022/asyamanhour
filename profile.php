@@ -1,3 +1,4 @@
+<?php include 'force_login.php'; ?>
 <?php $page = 'profile'; include 'header.php'; ?>
 <?php include_once 'sidebar.php'; ?>
 <?php include_once 'assign-project.php'; ?>

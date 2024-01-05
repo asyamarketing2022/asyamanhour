@@ -16,3 +16,27 @@
     
 </head>
 <body>
+
+    <div class="version-update_container d-none">
+        <div class="version-update_overlay"></div>
+        <div class="version-details">
+            <div class="version-details_head">
+                <span>About ASYA Manhour</span>
+                <div class="closeBtn">×</div>
+            </div>
+            <div class="version-details_body">
+                <div class="version-details_logo">
+                    <img src="img/asya-manhours-logo.png" alt="">
+                </div>
+                <div class="version-details_info_container">
+                    <div class="version-details_info">
+                        <h4>Version 1.0.0.0</h3>
+                        <h4>&copy; 2023-2024 ASYA</h4>
+
+                        <h4 class='designed-by'>Designed by: Nel Santos</h4>
+                        <h4 class='developed-by'>Developed by:<br>IT & Marketing Team</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

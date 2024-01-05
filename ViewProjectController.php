@@ -107,7 +107,8 @@ class ViewProjectController
                 <td></td>";
                 // <td>". $phase_of_work_manager_info['department'] ."</td>"
 
-                echo " <td class='manager_photo_id' data-toggle='modal' data-target='#view_managers' value='";
+                // echo " <td class='manager_photo_id' data-toggle='modal' data-target='#view_managers' value='";
+                echo " <td class='manager_photo_id' value='";
 
                 foreach($phase_of_work_manager_id_array as $phase_of_work_manager_id){
 
@@ -129,7 +130,9 @@ class ViewProjectController
 
                 echo "<td class='who_assigned_manager d-none' value='" . $row[$whoAssignedManager] . "'></td>";
 
-                echo "<td class='projectIncharge_table_row' data-toggle='modal' data-target='#view_project_in_charge' value=
+                // echo "<td class='projectIncharge_table_row' data-toggle='modal' data-target='#view_project_in_charge' value=
+                // '";
+                echo "<td class='projectIncharge_table_row' value=
                 '";
 
                 foreach($assigned_employeeId_array as $assigned_employeeId) {

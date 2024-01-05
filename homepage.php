@@ -1,11 +1,13 @@
+
+<?php include 'force_login.php'; ?>
 <?php include 'login.php'; ?>
 <?php $page = 'homepage'; include 'header.php'; ?>
 <?php include "sidebar.php"; ?>
 
-
 <?php 
 
 include_once("connections/connection.php");
+
 
 $con = connection();
 

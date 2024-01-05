@@ -1,3 +1,4 @@
+<?php include 'force_login.php'; ?>
 <?php $page = 'usersReport'; include 'header.php'; 
 
 ?>

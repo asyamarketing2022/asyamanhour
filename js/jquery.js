@@ -1395,7 +1395,7 @@ jQuery(function () {
          } else {
 
             // $(textStatus[num]).css("background", "#abd8e3");
-            $(span[num]).parent().css("background", "#abd8e3");
+            $(span[num]).parent().css("background", "#cffdf9");
 
          }
 
@@ -1633,7 +1633,7 @@ jQuery(function () {
 
       let employeesAssigned_id = document.querySelectorAll('.projectIncharge_table_row');
       let managers_id = document.querySelectorAll('.who_assigned_manager');
-
+   
       for (let i = 0; employeesAssigned_id.length > i; i++) {
 
          $(employeesAssigned_id[i]).on('click', ()=> {
@@ -1686,6 +1686,27 @@ jQuery(function () {
                });
                              
             }
+
+            // View Manager Modal
+            
+            
+            // if($(viewManagers).hasClass('d-none')){
+
+            //    $(viewManagers).removeClass('d-none');
+
+            // }
+            
+         //View Managers Modal
+         let view_project_in_charge = document.querySelector("#view_project_in_charge");
+
+         if($(view_project_in_charge).hasClass('d-none')){
+
+            $(view_project_in_charge).removeClass('d-none');
+            // location.reload();
+
+         }  
+            
+         
 
          });
          
@@ -2483,12 +2504,76 @@ function submit_file_path(){
           //Call view task button
           viewTasksBtn();
 
+          //View Managers Modal
+          let viewManagers = document.querySelector("#view_managers");
+
+            if($(viewManagers).hasClass('d-none')){
+
+               $(viewManagers).removeClass('d-none');
+               // location.reload();
+
+            }          
+
          });
 
       }
 
    }
    manager_service_and_pow();
+   
+   function close_manager_service_and_pow() {
+      let view_managers_overlay = document.querySelector('.view_managers_overlay');
+      let viewManagers = document.querySelector("#view_managers");
+
+      $(view_managers_overlay).off().on('click', ()=> {
+
+         // $(viewManagers).addClass('d-none');
+         location.reload();
+
+      });
+
+   }
+   close_manager_service_and_pow()
+
+   function closeBtn_manager_service_and_pow() {
+
+      let closeBtn = document.querySelector('#view_managers .closeBtn')
+
+      $(closeBtn).off().on('click', ()=> {
+
+         location.reload();
+
+      });
+
+   }
+   closeBtn_manager_service_and_pow();
+
+   function close_pic_service_and_pow() {
+      let view_pic_overlay = document.querySelector('.view_project_user_overlay');
+      let viewPIC = document.querySelector("#view_project_in_charge");
+
+      $(view_pic_overlay).off().on('click', ()=> {
+
+         // $(viewManagers).addClass('d-none');
+         location.reload();
+
+      });
+
+   }
+   close_pic_service_and_pow()
+
+   function closeBtn_pic_service_and_pow() {
+
+      let closeBtn = document.querySelector('#view_project_in_charge .closeBtn')
+
+      $(closeBtn).off().on('click', ()=> {
+
+         location.reload();
+
+      });
+
+   }
+   closeBtn_pic_service_and_pow();
 
    // Select Manager Function
    function selectManager(){
@@ -6178,6 +6263,45 @@ function submit_manager_add_allot_time(){
  
 }
 submit_manager_add_allot_time()
+
+function versionClick() {
+
+   let versionButton = document.querySelector('.version-button_update');
+   let versionOverlay = document.querySelector('.version-update_overlay');
+   let versionUpdate_container = document.querySelector('.version-update_container');
+
+   $(versionButton).off().on('click', ()=> {
+
+      if($(versionUpdate_container).hasClass('d-none')) {
+
+         $(versionUpdate_container).removeClass('d-none');
+
+      } 
+
+   });
+
+   $(versionOverlay).off().on('click', ()=> {
+
+      $(versionUpdate_container).addClass('d-none');
+
+   });
+
+}
+versionClick();
+
+function versionClose() {
+
+   let closeBtn = document.querySelector('.closeBtn');
+   let versionUpdate_container = document.querySelector('.version-update_container');
+
+   $(closeBtn).off().on('click', ()=> {
+
+      $(versionUpdate_container).addClass('d-none');
+
+   });
+
+}
+versionClose();
 
 // function sample() {
 

@@ -28,7 +28,7 @@ if(isset($_POST['userID'])) {
                     <input class="search" type="text">
                     <div class="search-button">Search</div>
                 </div> -->
-                <button type="button" class="btn add_employee" data-toggle="modal" data-target="#add_employee"><i class="fa fa-plus"></i> Add Employee</button>
+                <button type="button" class="add_employee" data-toggle="modal" data-target="#add_employee"><i class="fa fa-plus"></i> Add Employee</button>
             </div>
             
             <div class="content-table">

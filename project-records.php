@@ -1,3 +1,4 @@
+<?php include 'force_login.php'; ?>
 <?php $page = 'project-records'; include 'header.php'; ?>
 <?php include_once("sidebar.php"); ?>
 <?php include_once("deliverables_employee.php"); ?>

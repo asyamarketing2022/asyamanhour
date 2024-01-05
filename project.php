@@ -1,3 +1,4 @@
+<?php include 'force_login.php'; ?>
 <?php $page = 'project'; include 'header.php'; ?>
 <?php include 'add-project.php'; ?>
 <?php include 'update-project.php'; ?>
