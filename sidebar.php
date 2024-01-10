@@ -14,7 +14,7 @@
 <div class="manage-project__wrapper">
 
     <div class="top-bar">
-        <a href="/homepage.php">
+        <a href="<?php echo $URL ?>/homepage.php">
             <div class="asyamanhour-logo">
                 <img src="img/asya-manhours-logo.png" alt="">
             </div>
@@ -32,7 +32,7 @@
                 <?php if(isset($_SESSION['UserLogin'])){ ?>
 
                     <li style='margin-left: 20px; margin-right: 0; font-weight: 900;'>
-                        <a href="/profile.php">
+                        <a href="<?php echo $URL ?>/profile.php">
                             <span><?php echo $_SESSION['UserLogin']; ?></span> <span><?php echo $_SESSION['Userlname']; ?></span>
                         </a>
                     </li>
@@ -42,13 +42,32 @@
 
                 <!-- for php code users-table.php -->
                 <li>
-                    <a href="/profile.php">
+                    <a href="<?php echo $URL ?>/profile.php">
                         <img class='top-profile-photo' src="img/upload/<?php echo $user_profile['user_image']; ?>"  width="50px" alt="">
                     </a>
                 </li>
 
                 <!-- <li><a href="logout.php"><i class="fa fa-arrow-down"></i></a></li> -->
-                <li><a href="logout.php"><img src="img/right-from-bracket-solid.svg" alt=""></a></li>
+                <!-- <li><a href="logout.php"><img src="img/right-from-bracket-solid.svg" alt=""></a></li> -->
+                <li style='position: relative;'>
+                    <img class="chevron-down" src="img/chevron-down-solid.svg" alt="">
+                    <div class="chevron-down-section d-none">
+                        <ul>
+                            <li>
+                                <div class="change-password-container">
+                                    <span>Change Password</span> 
+                                    <input class='current-password' placeholder='Current*' type="password">
+                                    <input class='new-password' placeholder='New*' type="password">
+                                    <input class='retype-new-password' placeholder='Re-type New*' type="password">
+                                    <button class='btn submit-new-password' type='submit'>Save Changes</button>
+                                </div>
+                            </li>
+                            <li class='logout-container'>
+                                <a href="logout.php"><img src="img/right-from-bracket-solid.svg" alt="">Log out</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
             </ul>
 
                 <div class="notif-list">
@@ -136,21 +155,21 @@
         <div class="grid-left__menu">
             <span class='close-btn-menu'><img src="img/x-solid.svg" alt=""></span>
             <ul>
-                <li class="<?php if($page=='homepage'){echo 'active';} ?>" ><a href="<?php echo $URL ?>/homepage.php"><i class="fa fa-check"></i> Homepage</a></li>
-                <li class="<?php if($page=='profile'){echo 'active';} ?>"><a href="<?php echo $URL ?>/profile.php"> <i class="fa fa-users"></i> Profile</a></li>
+                <li onclick="location.href='<?php echo $URL ?>/homepage.php';" class="<?php if($page=='homepage'){echo 'active';} ?>" > <a href="<?php echo $URL ?>/homepage.php"><i class="fa fa-check"></i> Homepage</a></li>
+                <li onclick="location.href='<?php echo $URL ?>/profile.php';" class="<?php if($page=='profile'){echo 'active';} ?>"><a href="<?php echo $URL ?>/profile.php"> <i class="fa fa-users"></i> Profile</a></li>
                 <?php if(isset($_SESSION['UserLogin']) && $_SESSION['Access'] == "admin" ) { ?>
 
-                    <li class="<?php if($page=='admin'){echo 'active';} ?>"><a href="<?php echo $URL ?>/admin.php"><i class="fa fa-plus"></i> Employees</a></li>
+                    <li onclick="location.href='<?php echo $URL ?>/admin.php';" class="<?php if($page=='admin'){echo 'active';} ?>"><a href="<?php echo $URL ?>/admin.php"><i class="fa fa-plus"></i> Employees</a></li>
             
                 <?php } ?> 
 
-                <li class="<?php if($page=='project'){echo 'active';} ?>" ><a href="<?php echo $URL ?>/project.php"><i class="fa fa-clipboard"></i> Projects</a></li>
+                <li onclick="location.href='<?php echo $URL ?>/project.php';" class="<?php if($page=='project'){echo 'active';} ?>" ><a href="<?php echo $URL ?>/project.php"><i class="fa fa-clipboard"></i> Projects</a></li>
                
-                <li class="<?php if($page=='deliverables'){echo 'active';} ?>"><a href="<?php echo $URL ?>/deliverables.php"><i class="fa fa-newspaper-o"></i>Deliverables </a></li>
+                <li onclick="location.href='<?php echo $URL ?>/deliverables.php';" class="<?php if($page=='deliverables'){echo 'active';} ?>"><a href="<?php echo $URL ?>/deliverables.php"><i class="fa fa-newspaper-o"></i>Deliverables </a></li>
 
-                <li class="<?php if($page=='project-records'){echo 'active';} ?>"><a href="<?php echo $URL ?>/project-records.php"><i class="fa fa-file"></i>Project Records</a></li>
+                <li onclick="location.href='<?php echo $URL ?>/project-records.php';" class="<?php if($page=='project-records'){echo 'active';} ?>"><a href="<?php echo $URL ?>/project-records.php"><i class="fa fa-file"></i>Project Records</a></li>
 
-                <li class="<?php if($page=='usersReport'){echo 'active';} ?>"><a href="<?php echo $URL ?>/usersReport.php"><i class="fa fa-book"></i>Users Logs</a></li>
+                <li onclick="location.href='<?php echo $URL ?>/usersReport.php';" class="<?php if($page=='usersReport'){echo 'active';} ?>"><a href="<?php echo $URL ?>/usersReport.php"><i class="fa fa-book"></i>Users Logs</a></li>
                 <!-- <li><a href="#"><i class="fa fa-bitcoin"></i> Financial</a></li> -->
 
             </ul>

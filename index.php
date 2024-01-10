@@ -1,3 +1,4 @@
+<?php include 'force_homepage.php'; ?>
 <?php include 'login.php'; ?>
 <?php include 'header.php'; ?>
 
@@ -5,7 +6,7 @@
     <div class="form-body">
         <div class="form-wrapper">
             <div class="asyamanhour-logo">
-                <img src="/img/asya-manhours-logo.png" alt="">
+                <img src="img/asya-manhours-logo.png" alt="">
             </div>
             <form class="login-form" action="" method="post">
                 <!-- <h1>Log in</h1> -->

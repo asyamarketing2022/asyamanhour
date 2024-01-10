@@ -1,3 +1,4 @@
+<?php include 'force_login.php'; ?>
 <?php $page = 'admin'; include 'header.php'; ?>
 <?php include 'add-new-user.php'; ?>
 <?php include 'update-user.php'; ?>

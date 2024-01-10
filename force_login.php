@@ -9,6 +9,6 @@ if(empty($userId)) {
 
     header("Location: /index.php");
 
-}
+} 
 
 ?>

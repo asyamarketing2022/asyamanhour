@@ -6333,6 +6333,88 @@ function gatherStatus(){
 }
 // gatherStatus();
 
+function chevronDown(){
+
+   let chevronDown = document.querySelector('.chevron-down');
+   let chevronDown_section = document.querySelector('.chevron-down-section');
+
+   $(chevronDown).off().on('click', ()=> {
+
+      if($(chevronDown_section).hasClass('d-none')) {
+
+         $(chevronDown_section).removeClass('d-none');
+
+      } else {
+
+         $(chevronDown_section).addClass('d-none');
+
+      }
+
+   });
+
+}
+chevronDown();
+
+function userChange_password() {
+   
+   let submitNew_password = document.querySelector('.submit-new-password');
+   let currentPassword = document.querySelector('.current-password');
+   let newPassword = document.querySelector('.new-password');
+   let retypeNew_password = document.querySelector('.retype-new-password');
+
+   $(submitNew_password).off().on('click', ()=> {
+
+      if($(newPassword).val() == $(retypeNew_password).val()){
+
+         $.ajax({
+            type: 'POST',
+            url: 'user_change_password.php',
+            data: {
+               'currentPassword': $(currentPassword).val(),
+               'newPassword': $(newPassword).val(),
+               'retypeNew_password': $(retypeNew_password).val(),
+            },
+            success: function(data){
+
+               data = data.replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '');
+
+               if(data == 'successful') {
+
+                  Swal.fire({
+                     title: "Password changed successfully!",
+                     text: "You clicked the button!",
+                     icon: "success"
+                   });
+
+               } else {
+
+                  Swal.fire({
+                     icon: "error",
+                     title: "Oops...",
+                     text: "Wrong current password!",
+                     footer: '<a href="#">Why do I have this issue?</a>'
+                   });
+
+               }
+
+            }
+         });
+         
+      } else {
+
+         Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "The re-type password confirmation does not match.",
+            footer: '<a href="#">Why do I have this issue?</a>'
+          });
+
+      }
+
+   });
+
+}
+userChange_password();
 
 });
 
