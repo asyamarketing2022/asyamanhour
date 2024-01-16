@@ -179,7 +179,7 @@
 
                                         <?php if($tasks_info['invite_status'] == 'accept' || $tasks_info['invite_status'] == 'decline') { ?>
 
-                                                <tr class="task-table_row clickable-row" data-href='/viewproject.php?ID=<?php echo $tasks_info['project_id'] ?>' value="<?php echo $tasks_info['id']; ?>">
+                                                <tr class="task-table_row clickable-row" data-href='viewproject.php?ID=<?php echo $tasks_info['project_id'] ?>' value="<?php echo $tasks_info['id']; ?>">
                                                     <td><?php echo $tasks_info['project_name']; ?></td>
                                                     <td><?php echo $tasks_info['services']; ?></td>
                                                     <td><?php echo $tasks_info['phase_of_work']; ?></td>

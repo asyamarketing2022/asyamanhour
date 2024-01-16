@@ -28,10 +28,11 @@ if(isset($_POST['employeeAssigned_id'])) {
         $manager = $con->query($query_manager) or die ($con->error);
         $managerInfo = $manager->fetch_assoc();
 
+        // <button><a href='#'>View Profile</a></button>
         echo "<div class='user_container' value='" . $assignedEmployeeInfo['ID'] . "'>
                 <div class='user_photo'>
                     <img class='photoCircle' src='img/upload/" . $assignedEmployeeInfo['user_image'] . "' alt='' width='200'>
-                    <button><a href='#'>View Profile</a></button>
+                
                 </div>
                 <div class='user_info'>
                     <div class='user_assignedBy' value='" . $managerInfo['ID']  . "'>

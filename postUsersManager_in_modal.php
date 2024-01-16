@@ -35,11 +35,11 @@ if(isset($_POST['managerPhotoId'])) {
 
            if($access == 'admin') {
 
-            
+            // <button><a href='#'>View Profile</a></button>
             echo "<div class='user_container' value='" . $managerInfo['ID'] . "'>
                     <div class='user_photo'>
                         <img class='photoCircle' src='img/upload/" . $managerInfo['user_image'] . "' alt='' width='200'>
-                        <button><a href='#'>View Profile</a></button>
+                     
                     </div>
                     <div class='user_info'>
                         <div class='user_allot_time'>
@@ -80,11 +80,11 @@ if(isset($_POST['managerPhotoId'])) {
                 </div>";
 
            } else {
-
+            // <button><a href='#'>View Profile</a></button>
                 echo "<div class='user_container' value='" . $managerInfo['ID'] . "'>
                         <div class='user_photo'>
                             <img class='photoCircle' src='img/upload/" . $managerInfo['user_image'] . "' alt='' width='200'>
-                            <button><a href='#'>View Profile</a></button>
+                        
                         </div>
                     <div class='user_info'>
                         <div class='user_allot_time'>

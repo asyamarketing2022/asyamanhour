@@ -851,7 +851,7 @@ $row = $project->fetch_assoc();
                 <!-- view-Filepath_in_modal.php -->
                 <div class="search-manager_container content-info__wrapper tab-position_right">
                     <div class="content__info">
-                        <span>Alot Time:</span>
+                        <span>Allot Time:</span>
                         <span><input class='manager_allot_time' type='number'></span>
                     </div>
                     <div class="content__info">

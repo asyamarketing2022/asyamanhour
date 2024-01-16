@@ -10,7 +10,7 @@
             <div class="searchEmployee">
                
                 <label>Search Employee:</label>
-                <input class='deliverablesSearch' type="text" placeholder="Last Name or Department" size="25">
+                <input class='deliverablesSearch' type="text" placeholder=" Last Name or Department" size="25">
          
             </div>
         </div>

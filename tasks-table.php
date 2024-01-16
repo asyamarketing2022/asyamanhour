@@ -268,12 +268,7 @@ if(isset($_POST['userId'])) {
                         <div class='text_status'>
                             <span>" . $row['status'] . "</span> 
                         </div>
-                        <div class='status_tooltip d-none'>
-                            <span class='status orangeStatus'>Working on it</span>
-                            <span class='status redStatus'>Stuck</span>
-                            <span class='status greenStatus'>Done</span>
-                            <input onkeypress='return /[ A-Za-z0-9]/i.test(event.key)' onpaste='return false;' ondrop='return false;' autocomplete='off'>
-                        </div>
+    
                     </td>
                     <td class='upload_filepath_td'>
                         <button class='button-disable'>Upload File Path</button>
@@ -329,12 +324,7 @@ if(isset($_POST['userId'])) {
                         <div class='text_status'>
                             <span>" . $row['status'] . "</span> 
                         </div>
-                        <div class='status_tooltip d-none'>
-                            <span class='status orangeStatus'>Working on it</span>
-                            <span class='status redStatus'>Stuck</span>
-                            <span class='status greenStatus'>Done</span>
-                            <input onkeypress='return /[ A-Za-z0-9]/i.test(event.key)' onpaste='return false;' ondrop='return false;' autocomplete='off'>
-                        </div>
+            
                     </td>
                     <td class='upload_filepath_td'>
                         <button class='button-disable'>Upload File Path</button>

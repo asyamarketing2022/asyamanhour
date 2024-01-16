@@ -6,7 +6,7 @@
     <div class="form-body">
         <div class="form-wrapper">
             <div class="asyamanhour-logo">
-                <img src="img/asya-manhours-logo.png" alt="">
+                <img src="img/manhour-logo-2.png" alt="">
             </div>
             <form class="login-form" action="" method="post">
                 <!-- <h1>Log in</h1> -->

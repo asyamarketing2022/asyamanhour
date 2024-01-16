@@ -16,12 +16,12 @@
     <div class="top-bar">
         <a href="<?php echo $URL ?>/homepage.php">
             <div class="asyamanhour-logo">
-                <img src="img/asya-manhours-logo.png" alt="">
+                <img src="img/manhour-logo-2.png" alt="">
             </div>
         </a>
         <div class="userLog">
             <ul>
-                <li><i class="fa fa-wechat"></i></li>
+                <li><i class="fa-solid fa-comment-dots"></i></li>
                 <!-- For dynamic codes - notification-count.php -->
                 <li>
                     <i class="fa fa-bell">
@@ -50,7 +50,11 @@
                 <!-- <li><a href="logout.php"><i class="fa fa-arrow-down"></i></a></li> -->
                 <!-- <li><a href="logout.php"><img src="img/right-from-bracket-solid.svg" alt=""></a></li> -->
                 <li style='position: relative;'>
-                    <img class="chevron-down" src="img/chevron-down-solid.svg" alt="">
+                    <!-- <img class="chevron-down" src="img/chevron-down-solid.svg" alt=""> -->
+                    <svg class="chevron-down" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M7.29365 12.7066C7.68428 13.0973 8.31865 13.0973 8.70928 12.7066L14.7093 6.70664C15.0999 6.31602 15.0999 5.68164 14.7093 5.29102C14.3187 4.90039 13.6843 4.90039 13.2937 5.29102L7.9999 10.5848L2.70615 5.29414C2.31553 4.90352 1.68115 4.90352 1.29053 5.29414C0.899902 5.68477 0.899902 6.31914 1.29053 6.70977L7.29053 12.7098L7.29365 12.7066Z" fill="black"/>
+                    </svg>
+
                     <div class="chevron-down-section d-none">
                         <ul>
                             <li>
@@ -70,7 +74,7 @@
                 </li>
             </ul>
 
-                <div class="notif-list">
+                <div class="notif-list d-none">
                     <div class="notif_container">
 
                         <!-- New Task Notification  -->
@@ -155,17 +159,17 @@
         <div class="grid-left__menu">
             <span class='close-btn-menu'><img src="img/x-solid.svg" alt=""></span>
             <ul>
-                <li onclick="location.href='<?php echo $URL ?>/homepage.php';" class="<?php if($page=='homepage'){echo 'active';} ?>" > <a href="<?php echo $URL ?>/homepage.php"><i class="fa fa-check"></i> Homepage</a></li>
-                <li onclick="location.href='<?php echo $URL ?>/profile.php';" class="<?php if($page=='profile'){echo 'active';} ?>"><a href="<?php echo $URL ?>/profile.php"> <i class="fa fa-users"></i> Profile</a></li>
+                <li onclick="location.href='<?php echo $URL ?>/homepage.php';" class="<?php if($page=='homepage'){echo 'active';} ?>" > <a href="<?php echo $URL ?>/homepage.php"><i class="fa-solid fa-house"></i> Homepage</a></li>
+                <li onclick="location.href='<?php echo $URL ?>/profile.php';" class="<?php if($page=='profile'){echo 'active';} ?>"><a href="<?php echo $URL ?>/profile.php"> <i class="fa-solid fa-user"></i> Profile</a></li>
                 <?php if(isset($_SESSION['UserLogin']) && $_SESSION['Access'] == "admin" ) { ?>
 
                     <li onclick="location.href='<?php echo $URL ?>/admin.php';" class="<?php if($page=='admin'){echo 'active';} ?>"><a href="<?php echo $URL ?>/admin.php"><i class="fa fa-plus"></i> Employees</a></li>
             
                 <?php } ?> 
 
-                <li onclick="location.href='<?php echo $URL ?>/project.php';" class="<?php if($page=='project'){echo 'active';} ?>" ><a href="<?php echo $URL ?>/project.php"><i class="fa fa-clipboard"></i> Projects</a></li>
+                <li onclick="location.href='<?php echo $URL ?>/project.php';" class="<?php if($page=='project'){echo 'active';} ?>" ><a href="<?php echo $URL ?>/project.php"><i class="fa-solid fa-list-check"></i> Projects</a></li>
                
-                <li onclick="location.href='<?php echo $URL ?>/deliverables.php';" class="<?php if($page=='deliverables'){echo 'active';} ?>"><a href="<?php echo $URL ?>/deliverables.php"><i class="fa fa-newspaper-o"></i>Deliverables </a></li>
+                <li onclick="location.href='<?php echo $URL ?>/deliverables.php';" class="<?php if($page=='deliverables'){echo 'active';} ?>"><a href="<?php echo $URL ?>/deliverables.php"><i class="fa-solid fa-newspaper"></i>Deliverables </a></li>
 
                 <li onclick="location.href='<?php echo $URL ?>/project-records.php';" class="<?php if($page=='project-records'){echo 'active';} ?>"><a href="<?php echo $URL ?>/project-records.php"><i class="fa fa-file"></i>Project Records</a></li>
 

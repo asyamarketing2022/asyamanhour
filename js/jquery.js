@@ -204,7 +204,19 @@ jQuery(function () {
    function notifShow() {
       $(".fa-bell").on('click', ()=> {
 
-         $(".notif-list").toggle();
+         let notif_list = document.querySelector('.notif-list');
+
+         if($(notif_list).hasClass('d-none')){
+            
+            $(notif_list).removeClass('d-none');
+
+         } else {
+
+            $(notif_list).addClass('d-none');
+            
+         }
+
+         // $(".notif-list").toggle();
 
       });
    }
@@ -1591,7 +1603,7 @@ jQuery(function () {
 
       for (let i = 0; manager_photo_id.length > i; i++) {
 
-         $(manager_photo_id[i]).on('click', ()=> {
+         $(manager_photo_id[i]).off().on('click', ()=> {
 
             let managerPhotoId = $(manager_photo_id[i]).attr('value');
             let tbody = $(manager_photo_id[i]).parent().parent();
@@ -1620,7 +1632,7 @@ jQuery(function () {
                viewTasksBtn();
                manager_additional_time_btn();
 
-            }, 50);
+            }, 10);
 
          });
          
@@ -2452,7 +2464,7 @@ function submit_file_path(){
                //Call view task button
                viewTasksBtn();
 
-            }, 50);
+            }, 10);
 
          });
 
@@ -2838,7 +2850,7 @@ function submit_file_path(){
 
             for(let i = 0; ViewTasksBtn.length > i; i++){
 
-               $(ViewTasksBtn[i]).on('click', ()=> {
+               $(ViewTasksBtn[i]).off().on('click', ()=> {
 
                   $('.userId').parent().remove();
                   $('.employeeName').parent().remove();
@@ -4145,6 +4157,31 @@ function submitNewTask_pic(){
    
                });
 
+               //Task remaining time
+               setTimeout(() => {
+
+                  let update_task_spendhours = document.querySelectorAll('.update_task_spendhours');
+
+                  $.ajax({
+                     type: 'POST',
+                     url: 'show_task_allot_remaining_time.php',
+                     data: {
+                        'taskId': taskId,
+                     },
+                     success: function(data){
+
+                        Array.from(update_task_spendhours).forEach((update_task_time) => {
+
+                           $(update_task_time).attr("max", `${data}`);
+               
+                        });
+               
+                     }
+            
+                  });
+
+               }, 200);
+
    
             });
    
@@ -4339,8 +4376,10 @@ function submitNewTask_pic(){
 
                      update_tasks_spendhours_array.push($(update_task_spendhours).val());
                      total_spend_hours += parseFloat($(update_task_spendhours).val().replace(/,/g, "")) || 0;
-               
+
                });
+
+            console.log(update_tasks_spendhours);
 
             //Check the PIC remaining time task before to add new updates
             let remainingTime = $('.update_task_spendhours').attr('max');
@@ -4353,6 +4392,8 @@ function submitNewTask_pic(){
                   Your remaining time for this task is ${remainingTime}. Kindly contact your manager to add more hours
                   `,
                 });
+
+               total_spend_hours = 0;
 
             } else {
 
@@ -5873,6 +5914,21 @@ function table_form_link(){
 }
 table_form_link();
 
+function table_form_link_project_records(){
+
+   let projectLink = document.querySelectorAll('.select_project_records');
+
+   for (let i = 0; projectLink.length > i; i++ ){
+
+      $(projectLink[i]).on('click', ()=> {
+         window.location = $(projectLink[i]).data("href");
+     });
+
+   }
+
+}
+table_form_link_project_records();
+
 //Add additional time for manager
 function manager_additional_time_btn(){
 
@@ -6386,13 +6442,19 @@ function userChange_password() {
                      icon: "success"
                    });
 
+                   setTimeout(() => {
+                     
+                     location.reload();
+
+                   }, 1000);
+
                } else {
 
                   Swal.fire({
                      icon: "error",
                      title: "Oops...",
                      text: "Wrong current password!",
-                     footer: '<a href="#">Why do I have this issue?</a>'
+                     // footer: '<a href="#">Why do I have this issue?</a>'
                    });
 
                }
@@ -6406,7 +6468,7 @@ function userChange_password() {
             icon: "error",
             title: "Oops...",
             text: "The re-type password confirmation does not match.",
-            footer: '<a href="#">Why do I have this issue?</a>'
+            // footer: '<a href="#">Why do I have this issue?</a>'
           });
 
       }
@@ -6415,6 +6477,7 @@ function userChange_password() {
 
 }
 userChange_password();
+
 
 });
 

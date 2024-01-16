@@ -35,7 +35,6 @@ if(isset($_POST['userID'])) {
             <div class="content-table">
                 <table>
                     <tr>
-                        <th></th>
                         <th>ID</th>
                         <th>Name</th>
                         <th>Position</th>
@@ -43,6 +42,7 @@ if(isset($_POST['userID'])) {
                         <th>Department</th>
                         <th>Phone Number</th>
                         <th>Access</th>
+                        <th></th>
                     </tr>
                     
                     <form action="deleteUser.php" method="POST">

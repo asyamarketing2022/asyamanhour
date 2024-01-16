@@ -493,6 +493,16 @@ button.deleteTask {
     color: #fff;
 }
 
+.content-table td.deliverablesTasks_wrapper .deliverablesDailyTasks:hover {
+    background: #6E6E6E;
+    border-color: #6E6E6E;
+}
+
+.content-table td.deliverablesTasks_wrapper .deliverablesDailyTasks:active {
+    background-color: #ac0e2f;
+    border-color: #ac0e2f;
+}
+
 .content-table th {
     background-color: #3E3E3E;
     color: #fff;
@@ -803,7 +813,7 @@ button:focus {
 @media (min-width: 600px) {
     .form-body .form-wrapper {
         display: flex;
-        flex-direction: row;
+        /* flex-direction: row; */
         flex-wrap: nowrap;
         justify-content: center;
         align-items: center;
@@ -816,7 +826,7 @@ button:focus {
 } */
 
 .form-body .form-wrapper .asyamanhour-logo img {
-    height: 200px;
+    height: 100px;
 }
 
 .form-body .form-wrapper .login-form {
@@ -847,6 +857,12 @@ button:focus {
     background-color: #3e3e3e;
     border-radius: 3px;
     color: #fff;
+}
+
+.form-body .form-wrapper .login-form button:hover {
+    background: #6E6E6E;
+    border-color: #6E6E6E;
+
 }
 
 .form-body .form-wrapper .login-form button:focus {
@@ -889,8 +905,8 @@ button:focus {
 }
 
 .top-bar .asyamanhour-logo img {
-    width: 50px;
-    height: 50px;
+    width: auto;
+    height: 45px;
     position: absolute;
     z-index: 10;
 }
@@ -944,6 +960,10 @@ button:focus {
     cursor: pointer;
 }
 
+.top-bar .userLog ul li svg.chevron-down:hover path {
+    fill: #ac0e2f;
+}
+
 .top-bar .userLog ul li .chevron-down-section {
     background: #fff;
     position: absolute;
@@ -988,6 +1008,11 @@ button:focus {
     background-color: #3e3e3e;
     border-radius: 3px;
     color: #fff;
+}
+
+.top-bar .userLog ul li .chevron-down-section .change-password-container .submit-new-password:hover {
+    background: #6E6E6E;
+    border-color: #6E6E6E;
 }
 
 .top-bar .userLog ul li .chevron-down-section .change-password-container .submit-new-password:active {
@@ -1044,7 +1069,7 @@ button:focus {
 .notif-list {
     width: 100%;
     position: relative;
-    display: none;
+    /* display: none; */
     z-index: 1;
 }
 
@@ -1057,9 +1082,11 @@ button:focus {
     border-radius: 5px;
     /* padding: 15px; */
     border-radius: 5px;
-    box-shadow: 1px 4px 5px 3px rgba(0,0,0,0.3);
+    /* box-shadow: 1px 4px 5px 3px rgba(0,0,0,0.3); */
+    /* box-shadow: 0px 2px 1px rgba(0,0,0,0.1); */
     overflow: auto;
     max-height: 600px;
+    border: 1px solid rgb(0 0 0 / 10%);
 }
 
 .notif-list .notif_container  .notif_box {
@@ -1324,7 +1351,7 @@ button:focus {
     max-height: 100%;
     overflow-y: auto;
     height: 94vh;
-    background: url(/img/background-25dim.jpg);
+    background: url(../img/background-25dim.jpg);
     background-size: cover;
     background-position: center -35px;
     background-repeat: no-repeat;
@@ -1400,6 +1427,15 @@ button:focus {
     color: #fff;
 }
 
+.manage-employee__content .user_container .user_info .user_tasks button:hover {
+    background: #6E6E6E;
+    border-color: #6E6E6E;
+}
+
+.manage-employee__content .user_container .user_info .user_tasks button:active {
+    background-color: #ac0e2f;
+}
+
 .manage-employee__content .user_container .user_info .user_allot_time {
     position: relative;
     width: 100%;
@@ -1468,6 +1504,11 @@ button:focus {
     box-shadow: 0px 0px 2px 1px rgba(0,0,0,0.1);
     border: none;
     border-radius: 0;
+    padding-left: 10px;
+}
+
+.employee_filter input.searchFilter:focus {
+    border: 1px solid #ac0e2f;
 }
 
 .employee_filter .dl_csv {
@@ -1476,9 +1517,13 @@ button:focus {
     /* margin-left: 10px !important; */
     padding: 0 15px;
     border: 0;
-    background: #6e7e95;
+    background: #6E6E6E;
     color: #fff;
     font-weight: 600;
+}
+
+.employee_filter .dl_csv:hover {
+    background: #3e3e3e;
 }
 
 .employee_filter .submitFilter {
@@ -1492,6 +1537,11 @@ button:focus {
     padding: 5px;
     border: none;
     width: 100px;
+}
+
+.employee_filter .submitFilter:hover {
+    background: #6E6E6E;
+    border-color: #6E6E6E;
 }
 
 .employee_filter .submitFilter:focus {
@@ -1517,7 +1567,23 @@ button:focus {
 }
 
 .project-title .btn-container button {
-    padding: 0 10px;
+    color: #fff;
+    background-color: #3e3e3e;
+    font-weight: 400;
+    padding: 5px;
+    border: none;
+    border-radius: 4px;
+    font-weight: 500;
+}
+
+.project-title .btn-container button:hover {
+    background: #6E6E6E;
+    border-color: #6E6E6E;
+}
+
+.project-title .btn-container button:active {
+    background-color: #ac0e2f;
+    border-color: #ac0e2f;
 }
 
 .project-title .btn-container .add_services_container {
@@ -1561,6 +1627,11 @@ button:focus {
     height: 40px;
     box-shadow: 0px 0px 2px 1px rgba(0,0,0,0.1);
     border: none;
+    padding-left: 10px;
+}
+
+.project-title .searchEmployee .deliverablesSearch:focus {
+    border: 1px solid #ac0e2f;
 }
 
 .project-title .deliverablesCalendar {
@@ -1575,7 +1646,13 @@ button:focus {
     right: 0;
 }
 
-.search-action__wrapper .add_employee:focus {
+.search-action__wrapper .add_employee:hover {
+    background: #6E6E6E;
+    border-color: #6E6E6E;
+}
+
+.search-action__wrapper .add_employee:focus,
+.search-action__wrapper .add_employee:active {
     background-color: #ac0e2f;
 }
 
@@ -1583,6 +1660,18 @@ button:focus {
     position: absolute;
     bottom: 6px;
     right: 0;
+    color: #fff;
+    font-weight: 500;
+}
+.search-action__wrapper .add_project:hover {
+    background: #6E6E6E;
+    border-color: #6E6E6E;
+}
+
+.search-action__wrapper .add_project:focus,
+.search-action__wrapper .add_project:active {
+    background-color: #ac0e2f;
+    border-color: #ac0e2f;
 }
 
 .select-action__wrapper ul.select-action {
@@ -1607,9 +1696,14 @@ button:focus {
 
 .search-action__wrapper .search-action input {
     border-radius: 4px 0 0 4px;
-    border: 2px solid rgb(230 230 230 / 70%) !important;
+    border: 2px solid rgb(230 230 230 / 70%);
     background-color: #f6f6f6;
     width: 14vw;
+    padding-left: 10px;
+}
+
+.search-action__wrapper .search-action input.search-task-input:focus {
+    border: 1px solid #ac0e2f;
 }
 
 .search-action__wrapper .search-action.search-nb {
@@ -2262,6 +2356,7 @@ input.form-check-input {
     left: 5%;
     position: absolute;
     height: auto;
+    z-index: 300;
 }
 
 .calendar .calendar-header {
@@ -2731,6 +2826,7 @@ input.form-check-input {
 #view_managers {
     position: fixed;
     width: 100%;
+    z-index: 20;
 }
 
 #view_managers .view_managers_overlay {
@@ -2762,6 +2858,7 @@ input.form-check-input {
 #view_project_in_charge {
     position: fixed;
     width: 100%;
+    z-index: 20;
 }
 
 #view_project_in_charge .view_project_user_overlay {
