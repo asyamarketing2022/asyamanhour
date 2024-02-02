@@ -14,10 +14,13 @@ include_once("connections/DBconnection.php");
 $conn = new DBconnection();
 $con = $conn->connection();
 
-if(isset($_POST['login'])){
+if(isset($_POST['loginEmail'])){
 
-    $email = $_POST['email'];
-    $password = $_POST['password'];
+    // $email = $_POST['email'];
+    // $password = $_POST['password'];
+
+    $email = $_POST['loginEmail'];
+    $password = $_POST['loginPassword'];
 
     $sql = "SELECT * FROM registered_users WHERE email = '$email' AND password = '$password'";
     
@@ -40,12 +43,14 @@ if(isset($_POST['login'])){
         $login = new Userslog('login');
         $login->userRecord();
    
-        echo "<p>Login success!</p>";
         header("Location: homepage.php");
-    
+
+        echo "success!";
+
     }  else {
 
-        echo "<p>email or password is incorrect!</p>";
+        // echo "<p>email or password is incorrect!</p>";
+        echo "incorrect!";
         // echo "<script type='text/javascript'>
         // sample();
         // </script>";

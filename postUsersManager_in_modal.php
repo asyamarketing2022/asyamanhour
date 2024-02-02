@@ -74,11 +74,13 @@ if(isset($_POST['managerPhotoId'])) {
                             <span>" . $managerInfo['department'] . "</span>
                         </div>
                         <div class='user_tasks border-0'>
-                            <button class='border-0'><a href='#' class='viewTasks m-3'>View Tasks</a></button>
+                            <button class='border-0 viewTasks'>View Tasks</button>
+                           
                         </div>
                     </div>
                 </div>";
 
+                // <button class='border-0'><a href='#' class='viewTasks m-3'>View Tasks</a></button>
            } else {
             // <button><a href='#'>View Profile</a></button>
                 echo "<div class='user_container' value='" . $managerInfo['ID'] . "'>
@@ -119,7 +121,7 @@ if(isset($_POST['managerPhotoId'])) {
                             <span>" . $managerInfo['department'] . "</span>
                         </div>
                         <div class='user_tasks border-0'>
-                            <button class='border-0'><a href='#' class='viewTasks m-3'>View Tasks</a></button>
+                            <button class='border-0 viewTasks'>View Tasks</button>
                         </div>
                     </div>
                 </div>";
@@ -130,10 +132,11 @@ if(isset($_POST['managerPhotoId'])) {
 
         } else {
 
+            // <button><a href='#'>View Profile</a></button>
             echo "<div class='user_container' value='" . $managerInfo['ID'] . "'>
                     <div class='user_photo'>
                         <img class='photoCircle' src='img/upload/" . $managerInfo['user_image'] . "' alt='' width='200'>
-                        <button><a href='#'>View Profile</a></button>
+                     
                     </div>
                     <div class='user_info'>
                         <div class='user_fullname'>
@@ -156,11 +159,11 @@ if(isset($_POST['managerPhotoId'])) {
                             <span>" . $managerInfo['department'] . "</span>
                         </div>
                         <div class='user_tasks border-0'>
-                            <button class='border-0'><a href='#' class='viewTasks m-3'>View Tasks</a></button>
+                            <button class='border-0 viewTasks'>View Tasks</button>
                         </div>
                     </div>
                 </div>";
-
+                // <button class='border-0'><a href='#' class='viewTasks m-3'>
         }
 
     }

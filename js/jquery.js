@@ -151,6 +151,76 @@ jQuery(function () {
       });
    });
 
+   function login(){
+
+      let btnLogin = document.querySelector('#btn-login');
+
+      $(btnLogin).on('click', ()=> {
+
+         let loginEmail = document.querySelector('#login-email');
+         let loginPassword = document.querySelector('#login-password');
+
+         if( !$(loginEmail).val()) {
+
+            Swal.fire({
+               icon: "error",
+               title: "Oops...",
+               text: "Please enter your email",
+              
+             });
+
+         } else if (!$(loginPassword).val()) {
+
+            Swal.fire({
+               icon: "error",
+               title: "Oops...",
+               text: "Please enter your password",
+           
+             });
+
+         } else {
+
+            $.ajax({
+               type: 'POST',
+               url: 'login.php',
+               data: {
+                  'loginEmail': $(loginEmail).val(),
+                  'loginPassword': $(loginPassword).val(),
+               },
+               success:function(data){
+
+                  data = data.replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '');
+
+                  if(data == 'incorrect!') {
+
+                     Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: "Wrong email or password!",
+                        // footer: '<a href="#">Why do I have this issue?</a>'
+                     });
+
+                  } else {
+
+                     location.reload();
+
+                  }
+                  
+               }
+
+            });
+
+         }
+         
+         // console.log($(loginEmail).val());
+         // console.log($(loginPassword).val());
+         
+
+      });
+
+   }
+   login();
+
    function btntext(){
       let viewsBtn = document.querySelectorAll('.view-myProject');
 
@@ -202,7 +272,8 @@ jQuery(function () {
    notif();
 
    function notifShow() {
-      $(".fa-bell").on('click', ()=> {
+      // $(".fa-bell").on('click', ()=> {
+      $(".new-bell").on('click', ()=> {
 
          let notif_list = document.querySelector('.notif-list');
 
@@ -216,7 +287,7 @@ jQuery(function () {
             
          }
 
-         // $(".notif-list").toggle();
+      
 
       });
    }
@@ -1632,7 +1703,7 @@ jQuery(function () {
                viewTasksBtn();
                manager_additional_time_btn();
 
-            }, 10);
+            }, 100);
 
          });
          
@@ -2464,7 +2535,7 @@ function submit_file_path(){
                //Call view task button
                viewTasksBtn();
 
-            }, 10);
+            }, 100);
 
          });
 
@@ -2604,9 +2675,9 @@ function submit_file_path(){
             let searchManager_pow = $('.searchEmployee_pow').text()
             let searchManager_service = $('.searchEmployee_service').text()
             // let managerAlot_time = $(userContainer).find('.manager_alot_time').val();
-            let managerAllot_time = $('.manager_allot_time').val();
+            let managerAllot_time = $('#addManager .manager_allot_time').val();
 
-            if(!$('.manager_allot_time').val()) {
+            if(!$(managerAllot_time)) {
 
                alert('Fill-up Allot Time');
 
@@ -2856,7 +2927,7 @@ function submit_file_path(){
                   $('.employeeName').parent().remove();
                   $('.addNewTaskBtn').remove();
 
-                  let userContainer = $(ViewTasksBtn[i]).parent().parent().parent().parent();
+                  let userContainer = $(ViewTasksBtn[i]).parent().parent().parent();
                   let userId = $(userContainer).attr('value');
                   let employeeName = $(userContainer).find('.user_fullname span').text();
                   let contentInfoWrapper = document.querySelector('.addNewTask_form_container .content-info__wrapper');
@@ -4552,14 +4623,18 @@ openMenu();
 
 function calendarLogs() {
 
-   let calendarIcons = document.querySelector('.calendar-icon');
+   let calendarIcons = document.querySelectorAll('.calendar-icon');
    let calendar = document.querySelector('.calendar');
    let calendarOverlay = document.querySelector('.calendar-overlay');
    let rightContent = document.querySelector('.grid-right__content');
 
-   $(calendarIcons).off().on('click', ()=> {
+   // $(calendarIcons).off().on('click', ()=> {
 
-      if($(calendar).hasClass('d-none')) {
+   Array.from(calendarIcons).forEach((calendarIcon) => {
+
+      $(calendarIcon).off().on('click', ()=> {
+
+         if($(calendar).hasClass('d-none')) {
 
             $(calendar).addClass('d-none');
             $(calendar).removeClass('d-none');
@@ -4588,7 +4663,13 @@ function calendarLogs() {
 
          }, 50);
 
+      });
+
    });
+
+
+
+   // });
 
    //Calendar Overlay Background
    $(calendarOverlay).off().on('click', ()=> {
@@ -4737,7 +4818,8 @@ calendarLogs();
      selectedDate = new Date(year, month, day);
      eventDate.textContent = selectedDate.toDateString();
      eventDescription.value = getEventDescription(selectedDate) || '';
-     eventModal.style.display = 'block';
+   //   eventModal.style.display = 'block';
+     $(eventModal).css({ display: "block" });
    
      let strDate = selectedDate.getFullYear() + "-" + ("0" + (selectedDate.getMonth()+1)).slice(-2) + "-" +  ("0" + (selectedDate.getDate()+0)).slice(-2);
    
@@ -4814,7 +4896,9 @@ calendarLogs();
    
    // Event listener for modal close button
    const closeBtn = document.getElementsByClassName('close')[0];
-   closeBtn.addEventListener('click', closeEventModal);
+   // closeBtn.addEventListener('click', closeEventModal);
+   $(closeBtn).on('click', ()=> closeEventModal)
+   // closeBtn.addEventListener('click', closeEventModal);
    
    // Event listener for outside modal click
    window.addEventListener('click', (event) => {
@@ -4921,6 +5005,34 @@ calendarLogs();
   }
   addLogs();
 
+  function calendar_select_task() {
+
+     let selectTask = document.querySelector('#select_task');
+     
+     $(selectTask).on('change', ()=> {
+
+         let selectedTask_val = $('#select_task :selected').val()
+         let add_logs_task_spend_hours = $('#add_logs_task_spend_hours');
+
+         $.ajax({
+            type: 'POST',
+            url: 'show_task_allot_remaining_time_calendar.php',
+            data: {
+               'selectedTask_val': selectedTask_val,
+            },
+            success: function(data){
+               $(add_logs_task_spend_hours).attr("max", `${data}`);
+            }
+
+         });
+
+     })
+     
+   //   $('#select_task :selected').val()
+
+  }
+  calendar_select_task();
+
   function addLogs_select_project(){
 
       let select_project = document.querySelector('select#select_project');
@@ -4978,6 +5090,10 @@ calendarLogs();
             if(selected_project_id == undefined){
 
                alert('Please Select Your Project');
+
+            } else if (selected_task_id == '') {
+
+               alert('Please Select Your Task');
 
             } else if(add_logs_task_update == '') {
 
@@ -6389,12 +6505,34 @@ function gatherStatus(){
 }
 // gatherStatus();
 
+   //Close Drop Down
+   function closeDropdown() {
+
+      $(document).on('mouseup', (e)=> {
+   
+         console.log('okay');
+   
+         // e.stopPropagation();
+   
+         let chevronDown_section = $('.chevron-down-section');
+   
+         if (!chevronDown_section.is(e.target) && chevronDown_section.has(e.target).length === 0){
+   
+            $(chevronDown_section).addClass('d-none');
+   
+         } 
+   
+      })
+   
+   }
+   // closeDropdown();
+
 function chevronDown(){
 
    let chevronDown = document.querySelector('.chevron-down');
    let chevronDown_section = document.querySelector('.chevron-down-section');
 
-   $(chevronDown).off().on('click', ()=> {
+   $(chevronDown).on('click', ()=> {
 
       if($(chevronDown_section).hasClass('d-none')) {
 
@@ -6477,6 +6615,7 @@ function userChange_password() {
 
 }
 userChange_password();
+
 
 
 });

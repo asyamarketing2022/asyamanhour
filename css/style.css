@@ -30,6 +30,10 @@ a {
     color: #004c3f;
 }
 
+.edit {
+    cursor: pointer;
+}
+
 .button-disable {
     color: grey;
     border: grey;
@@ -1045,7 +1049,8 @@ button:focus {
     color: #ac0e2f
 }
 
-.top-bar .userLog ul li .fa-bell .notif_count {
+.top-bar .userLog ul li .fa-bell .notif_count,
+.top-bar .userLog ul li .new-bell .notif_count {
     position: absolute;
     height: 22px;
     width: 22px;
@@ -1053,8 +1058,8 @@ button:focus {
     border-radius: 20px;
     color: white;
     text-align: center;
-    top: -10px;
-    left: 7px;
+    top: -5px;
+    left: 15px;
     padding: 3px;
     border-style: solid;
     border-width: 2px;
@@ -1064,6 +1069,32 @@ button:focus {
     flex-wrap: nowrap;
     justify-content: center;
     align-items: center;
+    z-index: 5;
+}
+
+.swal2-actions button {
+    width: 100%;
+    text-align: center;
+    background-color: #3e3e3e !important;
+    border-radius: 3px;
+    color: #fff;
+    background: #6E6E6E !important;
+    border-color: #6E6E6E !important;
+    box-shadow: none;
+}
+
+.swal2-actions button:hover {
+    background: #6E6E6E !important;
+    border-color: #6E6E6E !important;
+    box-shadow: none !important;
+}
+
+.swal2-actions button:focus {
+    box-shadow: none !important;
+}
+
+.swal2-actions button:active {
+    background: #ac0e2f !important;
 }
 
 .notif-list {
@@ -1218,6 +1249,7 @@ button:focus {
     justify-content: left;
     align-items: center;
     cursor: pointer;
+    column-gap: 20px;
 }
 
 .grid-left__menu ul li:hover {
@@ -1278,7 +1310,7 @@ button:focus {
 }
 
 .version-update_container .version-details {
-    width: 450px;
+    width: 350px;
     height: auto;
     position: fixed;
     top: 50%;
@@ -1311,19 +1343,24 @@ button:focus {
 .version-update_container .version-details .version-details_body {
     text-align: center;
     display: grid;
-    grid-template-columns: 50% 50%;
-    height: 200px;
+    grid-template-columns: 100%;
+    height: 300px;
     margin: 0 50px;
 }
 
 .version-update_container .version-details .version-details_body .version-details_logo {
-    display: flex;
+    display: grid;
     justify-content: center;
     align-items: center;
 }
 
 .version-update_container .version-details .version-details_body .version-details_logo img {
-    width: 150px;
+    width: 200px;
+}
+
+.version-update_container .version-details .version-details_body .version-details_logo h4 {
+    font-size: 16px;
+    font-weight: 700;
 }
 
 .version-update_container .version-details .version-details_body .version-details_info_container {
@@ -1334,6 +1371,7 @@ button:focus {
 
 .version-update_container .version-details .version-details_body .version-details_info_container .version-details_info h4 {
     font-size: 14px;
+    font-weight: 100;
     /* padding-bottom: 15px; */
 }
 
@@ -2002,14 +2040,16 @@ input.form-check-input {
 
 .search_employee_wrapper,
 .search_manager_wrapper {
-    width: 100%;
+    width: 132%;
     height: 300px;
     border: 1px solid rgb(182 186 187 / 45%);
     background: #fff;
-    box-shadow: 1px 1px 11px 0px #888888;
+    box-shadow: 1px 1px 4px 0px #888888;
     padding: 15px;
     margin-top: 10px;
     overflow-y: scroll;
+    position: relative;
+    left: -143px;
 }
 
 .search_employee_wrapper .user_container .user_info label {
@@ -2436,6 +2476,7 @@ input.form-check-input {
     top: 0;
     left: 0;
     background: rgba(0, 0, 0, 0.62);
+    z-index: 10;
 }
 
 @media (max-width: 767px) {

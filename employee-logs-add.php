@@ -52,13 +52,17 @@ $con = $db->connection();
         $tasks = $con->query($sql_task) or die ($con->error);
         $task = $tasks->fetch_assoc();
 
-        $option_tasks = '';
+        $option_task = "";
+
+        $option_task .= "<option value='' disabled selected>Select Task:</option>";
 
         do {
 
-            echo "<option value='" .  $task['id'] . "'><strong>" . $task['task_title'] . "</strong> | " . $task['services'] . " | " . $task['phase_of_work'] . " </option>";
+            $option_task .= "<option value='" .  $task['id'] . "'><strong>" . $task['task_title'] . "</strong> | " . $task['services'] . " | " . $task['phase_of_work'] . " </option>";
 
         } while($task = $tasks->fetch_assoc());
+
+        echo $option_task;
 
     } elseif(isset($_POST['selected_project_id'])) {
 

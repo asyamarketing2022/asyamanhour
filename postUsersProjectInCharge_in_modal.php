@@ -56,10 +56,12 @@ if(isset($_POST['employeeAssigned_id'])) {
                     </div>
 
                     <div class='user_tasks border-0'>
-                        <button class='border-0'><a href='#' class='viewTasks m-3'>View Tasks</a></button>
+                        <button class='border-0 viewTasks'>View Tasks</button>
                     </div>
                 </div>
             </div>";
+
+            // <button class='border-0'><a href='#' class='viewTasks m-3'>View Tasks</a></button>
     }
 }
 
