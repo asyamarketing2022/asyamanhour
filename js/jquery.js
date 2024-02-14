@@ -293,6 +293,31 @@ jQuery(function () {
    }
    notifShow();
 
+   //Search User Project
+   function searchProject() {
+      $('.submit_projectSearch').on('click', (e)=> {
+         let projectSearch = $(".projectSearch").val();
+       
+            $.ajax({
+               type: 'POST',
+               url: 'searchproject_table.php',
+               data: {
+                  'projectSearch': projectSearch,
+               },
+               success:function(data){
+                  $('.userProject-table').html(data);
+                  table_form_link();
+               }
+            });
+
+            e.preventDefault();
+
+          
+
+      }); 
+   }
+   searchProject();
+
    //Search Filter (User Log)
    function searchFilter() {
       $('.submitFilter').on('click', (e)=> {
@@ -6475,57 +6500,145 @@ function versionClose() {
 }
 versionClose();
 
-// function sample() {
+// Close Check Files
+function closeCheckFiles(){
 
-//    Swal.fire({
-//       icon: "info",
-//       html: `Your Remaining Time is ${max_allot_time} Hours`,
-//       showCloseButton: true,
-//       showCancelButton: true,
-//       focusConfirm: false,
-//     });
-// }
+   $(document).on('mouseup', (e)=> {
 
-function gatherStatus(){
+      let checkfilepathBtn = document.querySelectorAll('.checkfilepathBtn');
 
-   // let status = document.querySelectorAll('#view_project_in_charge .status');
+      Array.from(checkfilepathBtn).forEach((btn) => {
 
-   // for(let i = 0; status.length > i; i++){
+         let check_filepath_td = $(btn).parent();
+         let check_filepath_tooltip = $(check_filepath_td).find('.check_filepath_tooltip');
 
-   //    $(status[i]).off().on('click', ()=> {
+         if(!$(btn).is(e.target) && $(btn).has(e.target).length === 0) {
 
-   //       // console.log('okay');
-         
-   //    });
+            if(!$(check_filepath_tooltip).hasClass('d-none')) {
 
-   // }
+               $(check_filepath_tooltip).addClass('d-none');
 
-   // console.log(status);
+            }
+
+         }
+
+      });
+
+   });
 
 }
-// gatherStatus();
+closeCheckFiles()
 
-   //Close Drop Down
-   function closeDropdown() {
+// Close Upload File Path
+function closeUploadFilePath(){
 
-      $(document).on('mouseup', (e)=> {
-   
-         console.log('okay');
-   
-         // e.stopPropagation();
-   
-         let chevronDown_section = $('.chevron-down-section');
-   
-         if (!chevronDown_section.is(e.target) && chevronDown_section.has(e.target).length === 0){
-   
+   $(document).on('mouseup', (e)=> {
+
+      let uploadPathBtn = document.querySelectorAll('.uploadPathBtn');
+
+      Array.from(uploadPathBtn).forEach((btn) => {
+
+         let upload_filepath_td = $(btn).parent();
+         let upload_filepath_tooltip = $(upload_filepath_td).find('.upload_filepath_tooltip');
+
+         if(!$(btn).is(e.target) && $(btn).has(e.target).length === 0){
+
+            if(!$(upload_filepath_tooltip).hasClass('d-none')) {
+
+               $(upload_filepath_tooltip).addClass('d-none');
+
+            }
+
+         }
+
+      });
+
+   });
+
+}
+closeUploadFilePath()
+
+// Close Tasks Update
+function closeTaskUpdate(){
+
+   $(document).on('mouseup', (e)=> {
+
+      let taskUpdate_btn = document.querySelectorAll('.taskUpdate_btn');
+
+      Array.from(taskUpdate_btn).forEach((btn) => {
+
+         let taskUpdate_container = $(btn).parent();
+         let taskUpdate_tooltip = $(taskUpdate_container).find('.taskUpdate_tooltip');
+
+         if(!$(btn).is(e.target) && $(btn).has(e.target).length === 0) {
+
+            if(!$(taskUpdate_tooltip).hasClass('d-none')) {
+
+               $(taskUpdate_tooltip).addClass('d-none');
+
+            }
+
+         }
+
+      });
+
+   });
+
+}
+closeTaskUpdate();
+
+//Close Phase of work status
+function closePowStatus(){
+
+   $(document).on('mouseup', (e)=> { 
+
+      let status_tooltip_boxes = document.querySelectorAll('.status_tooltip');
+      
+      Array.from(status_tooltip_boxes).forEach((status_tooltip_box) => {
+
+         let status_tooltip_container = $(status_tooltip_box).parent();
+         let textStatus_button = $(status_tooltip_container).find('.text_status');
+
+         if(!$(status_tooltip_box).is(e.target) && $(status_tooltip_box).has(e.target).length === 0 && !$(textStatus_button).is(e.target)) {
+
+            if(!$(status_tooltip_box).hasClass('d-none')) {
+
+               $(status_tooltip_box).addClass('d-none');
+
+            }
+
+         }
+
+      });
+
+   });
+}
+closePowStatus()
+
+//Close Lagout Menu
+function closeChevronDown() {
+
+   $(document).on('mouseup', (e)=> {
+
+      // e.stopPropagation();
+
+      let chevronDown_section = $('.chevron-down-section');
+      let chevrondown = $('.chevron-down');
+
+      if (!chevronDown_section.is(e.target) && chevronDown_section.has(e.target).length === 0 && !chevrondown.is(e.target)){
+
+         if(!$(chevronDown_section).hasClass('d-none')) {
+
             $(chevronDown_section).addClass('d-none');
-   
-         } 
-   
-      })
-   
-   }
-   // closeDropdown();
+
+         }
+
+      } 
+
+   })
+
+}
+closeChevronDown();
 
 function chevronDown(){
 

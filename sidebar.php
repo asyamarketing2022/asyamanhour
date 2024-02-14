@@ -56,7 +56,6 @@
 
                 <?php } ?>
 
-
                 <!-- for php code users-table.php -->
                 <li>
                     <a href="<?php echo $URL ?>/profile.php">
@@ -78,7 +77,7 @@
                         class="chevron-down">
                     </lord-icon>
 
-                    <div class="chevron-down-section d-none">
+                    <div class="chevron-down-section dropdown d-none">
                         <ul>
                             <li>
                                 <div class="change-password-container">
@@ -245,20 +244,26 @@
                 <!-- <i class="fa-solid fa-list-check"></i>  -->
                 Projects</a>
                 </li>
+
+                <?php if((isset($_SESSION['UserLogin']) && $_SESSION['Access'] == "admin") || (isset($_SESSION['UserLogin']) && $_SESSION['Access'] == "manager")) { ?>
                
-                <li onclick="location.href='<?php echo $URL ?>/deliverables.php';" class="<?php if($page=='deliverables'){echo 'active';} ?> li-deliverables">
-                <lord-icon
-                    src="https://cdn.lordicon.com/aycieyht.json"
-                    trigger="hover"
-                    style="width:40px;height:40px"
-                    target=".li-deliverables"
-                    stroke="bold"
-                    colors="primary:white,secondary:#fff">
-                </lord-icon>
-                <a href="<?php echo $URL ?>/deliverables.php">
-                <!-- <i class="fa-solid fa-newspaper"></i> -->
-                Deliverables 
-                </a></li>
+                    <li onclick="location.href='<?php echo $URL ?>/deliverables.php';" class="<?php if($page=='deliverables'){echo 'active';} ?> li-deliverables">
+                    <lord-icon
+                        src="https://cdn.lordicon.com/aycieyht.json"
+                        trigger="hover"
+                        style="width:40px;height:40px"
+                        target=".li-deliverables"
+                        stroke="bold"
+                        colors="primary:white,secondary:#fff">
+                    </lord-icon>
+                    <a href="<?php echo $URL ?>/deliverables.php">
+                    <!-- <i class="fa-solid fa-newspaper"></i> -->
+                    Deliverables 
+                    </a></li>
+
+                <?php } ?> 
+
+                <?php if((isset($_SESSION['UserLogin']) && $_SESSION['Access'] == "admin") || (isset($_SESSION['UserLogin']) && $_SESSION['Access'] == "manager")) { ?>
 
                 <li onclick="location.href='<?php echo $URL ?>/project-records.php';" class="<?php if($page=='project-records'){echo 'active';} ?> li-project-records">
                 <lord-icon
@@ -273,6 +278,8 @@
                 <!-- <i class="fa fa-file"></i> -->
                 Project Records
                 </a></li>
+
+                <?php } ?> 
 
                 <li onclick="location.href='<?php echo $URL ?>/usersReport.php';" class="<?php if($page=='usersReport'){echo 'active';} ?> li-book">
                 <lord-icon

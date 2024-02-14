@@ -575,6 +575,7 @@ button.deleteTask {
 .content-table td.pow_status .status_tooltip {
     display: grid;
     position: absolute;
+    top: 15px;
     /* height: 100%; */
     background: #fff;
     /* background: #d99696; */
