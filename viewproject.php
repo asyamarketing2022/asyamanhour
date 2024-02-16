@@ -9,6 +9,7 @@
 <?php include_once("SearchManagerController.php"); ?>
 <?php include_once('login.php'); ?>
 <?php include_once('postUsersManager_in_modal.php'); ?>
+<?php include_once('show_revise_btn.php'); ?>
 <?/*php include_once("employees_auto_create_date_logs.php"); */?>
 
 
@@ -45,30 +46,64 @@ $row = $project->fetch_assoc();
         <div class="col-6 d-flex align-items-end">
             <div class="info-icon mx-2 mb-2" data-toggle="modal" data-target="#projectInfo"><img src="img/info-icon.png" alt="" width="30"></div>
         </div>
+            <div class="col-6 mt-auto p-2 bd-highlight">
 
-        <?php 
-        
-        if($_SESSION['Access'] == 'admin' || $_SESSION['Access'] == 'contract & billing') {
+                <div class="btn-container float-end">
+                    <?php 
+                    
+                    if($_SESSION['Access'] == 'admin' || $_SESSION['Access'] == 'contract & billing') {
 
-        ?>
+                    ?>
 
-        <div class="col-6 mt-auto p-2 bd-highlight">
-            <div class="btn-container float-end">
-                <button type='button' class='add-services mx-2'>Add Services</button>
-                <button type='button' class='add-revice'>Add Revise</button>
-                <div class="add_services_container d-none">
+                    <button type='button' class='add-services'>Add Services</button>
+                    <button type='button' class='add-revice'>Add Revise</button>
+                    <div class="add_services_container d-none">
+
+                    </div>
+
+                    <?php } ?>
+
+                    
+                    <!-- Check if revise option list is available -->
+                    <?php if(mysqli_num_rows($sql_pms_project_revise) > 0){ ?>
+
+                        <button type='button' class='check_revise_btn'>Check Revise/s</button>
+
+                            <!-- Revise list container -->
+                            <div class="revise_list_container d-none">
+
+                                <?php 
+
+                                    $count = 0;
+
+                                    do {
+
+                                        
+                                        if($pms_project_revise['status'] == 'revise') {
+
+                                            $count++;
+
+                                ?>
+                                    
+                                    <a href="/viewproject.php?ID=<?php echo $pms_project_revise['id'] ?>"><?php echo $count++; ?>. Revise</a>
+
+                                <?php 
+
+                                        }
+
+                                    } while($pms_project_revise = $sql_pms_project_revise->fetch_assoc());
+            
+                                ?>
+
+                            </div>
+
+                    <?php } ?>
 
                 </div>
+
             </div>
-        </div>
-
-        <?php 
-        
-        }
-
-        ?>
-
-
+ 
+     
     </div>
 
     <!-- Architecture table  -->

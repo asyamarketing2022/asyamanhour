@@ -1527,16 +1527,15 @@ button:focus {
     height: 150px;
 }
 
-.employee_filter {
+/* .employee_filter {
     position: relative;
-    /* height: 150px; */
+
     display: grid;
     grid-template-columns: repeat(auto-fit,minmax(400px,1fr));
     width: 100%;
-    /* width: 55%; */
-    padding-top: 130px;
+
     margin-bottom: 10px;
-}
+} */
 
 .employee_filter input.searchFilter {
     height: 38px;
@@ -1613,6 +1612,7 @@ button:focus {
     border: none;
     border-radius: 4px;
     font-weight: 500;
+    margin: 0 3px;
 }
 
 .project-title .btn-container button:hover {
@@ -1647,6 +1647,32 @@ button:focus {
 }
 
 .project-title .btn-container .add_services_container span:hover {
+    background: #004c3f;
+    color: #fff;
+}
+
+.project-title .btn-container .revise_list_container {
+    display: grid;
+    position: absolute;
+    border: 1px solid #000;
+    background: #7a7a7a;
+    padding: 10px;
+    right: 0;
+    z-index: 10;
+    top: 30px;
+    /* border-radius: 10px; */
+    color: #fff;
+    text-align: right;
+    box-shadow: 17px -2px 16px 0px rgba(0,0,0,0.23);
+}
+
+.project-title .btn-container .revise_list_container a {
+    padding: 10px;
+    border-bottom: 1px solid rgb(255 255 255 / 12%);
+    color: #fff;
+}
+
+.project-title .btn-container .revise_list_container a:hover {
     background: #004c3f;
     color: #fff;
 }
@@ -1808,6 +1834,27 @@ button:focus {
     height: 75vh;
 }
 
+.content-table .pagination-filter{
+    display: grid;
+    grid-template-columns: 10% 45% 45%;
+    margin-bottom: 10px;
+    padding-top: 130px;
+}
+
+.content-table .pagination-filter .pageBtn{
+    margin-left: 10px;
+}
+
+.content-table .pagination-filter .employee_filter {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
 .content-table .table-row_projects {
     cursor: pointer;
 }
@@ -1823,6 +1870,9 @@ button:focus {
 
 .content-table .pageBtn .pagination_link {
     position: relative;
+    bottom: 5px;
+    background: #3E3E3E;
+    color: #fff;
 }
 
 .content-table.project_services_table {
@@ -1894,6 +1944,7 @@ button:focus {
 .content-table .pageBtn .pagination_link.hide {
     visibility: hidden;
     position: absolute;
+    color: #3E3E3E;
 }
 
 .pop-up__modal .modal-content  {
@@ -2478,6 +2529,62 @@ input.form-check-input {
     left: 0;
     background: rgba(0, 0, 0, 0.62);
     z-index: 10;
+}
+
+.calendar .calendar-legend .calendar-legend-body {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    padding-top: 10px;
+}
+
+.calendar .calendar-legend .calendar-legend-body ul li:nth-child(1):before {
+    content: '';
+    width: 12px;
+    height: 12px;
+    border: 1px solid #f77d7d;
+    font-size: 10px;
+    display: inline-block;
+    margin-right: 10px;
+    text-align: center;
+    background: #f77d7d;
+}
+
+.calendar .calendar-legend .calendar-legend-body ul li:nth-child(2):before {
+    content: '';
+    width: 12px;
+    height: 12px;
+    border: 1px solid #a8c7a8;
+    font-size: 10px;
+    display: inline-block;
+    margin-right: 10px;
+    text-align: center;
+    background: #a8c7a8;
+}
+
+.calendar .calendar-legend .calendar-legend-body ul li:nth-child(3):before {
+    content: '';
+    width: 12px;
+    height: 12px;
+    border: 1px solid #737ed5;
+    font-size: 10px;
+    display: inline-block;
+    margin-right: 10px;
+    text-align: center;
+    background: #737ed5;
+}
+
+.calendar .calendar-legend .calendar-legend-body .calendar-arrow-container {
+    display: grid;
+    grid-gap: 5px;
+    grid-auto-flow: column;
+    width: 100%;
+    justify-content: end;
+    align-items: center;
+}
+
+.calendar .calendar-legend .calendar-legend-body .calendar-arrow-container button {
+    width: 50px;
+    height: 50px;
 }
 
 @media (max-width: 767px) {

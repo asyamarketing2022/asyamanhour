@@ -439,26 +439,128 @@ jQuery(function () {
    function selectedPage() {
       $(document).on('click', '.pagination_link', function(){
 
-     
          if($(this).hasClass('selected') == false) {
+ 
+            $('.selected').next().removeClass('btnNext');
+            $('.selected').prev().removeClass('btnPrev');
             $('.pagination_link').removeClass('selected');
             $('.pagination_link').addClass('hide');
             $(this).addClass('selected');
             $('.selected').removeClass('hide');
             $('.selected').next().removeClass('hide');
             $('.selected').prev().removeClass('hide');
+            $('.selected').next().addClass('btnNext');
+            $('.selected').prev().addClass('btnPrev');
             $('.pagination_link:first-child').removeClass('hide');
             $('.pagination_link:last-child').removeClass('hide');
+
          }
 
-         // $('.pagination_link').addClass('d-none');
-         // $(this).addClass('selected');
-         // $(this).removeClass('d-none');
-
-         // $('.pagination_link').removeClass('selected');
       });
    }
    selectedPage();
+
+   function prevNext_btn(){
+
+      let pagination_link_btns = document.querySelectorAll('.pagination_link');
+      let pagination_link_prev = document.querySelector('.pagination_link_prev');
+      let pagination_link_next = document.querySelector('.pagination_link_next');
+
+      Array.from(pagination_link_btns).forEach((btn) => {
+
+         $(btn).on('click', ()=> {
+
+            setTimeout(() => {
+               
+               let btnPrev_val = $('.btnPrev').attr('id');
+               let btnNext_val = $('.btnNext').attr('id');
+
+               $(pagination_link_prev).attr('id', btnPrev_val);
+               $(pagination_link_next).attr('id', btnNext_val);
+
+               
+            }, 100);
+
+         });
+
+      });
+
+   }
+   prevNext_btn()
+
+   function nextBtn() {
+      // $(document).on('click', '.pagination_link_next', function(){
+
+      let pagination_link_next_arrow = document.querySelector('.pagination_link_next');
+      let pagination_link_prev = $('.pagination_link').eq(0);
+      let pagination_link_Selected = $('.pagination_link').eq(1);
+      let pagination_link_next = $('.pagination_link').eq(2);
+      // let pagination_link_btns = document.querySelectorAll('.pagination_link');
+
+      $(pagination_link_next_arrow).on('click', ()=> {
+
+         let page = $(pagination_link_next_arrow).attr("id");
+         let val = $('.dataLimit option:selected').attr('value');
+         let searchVal = $(".searchFilter").val();
+         let nextPage =  $('.btnNext').attr('id');
+
+            if(document.querySelector('.selected') == null) {
+
+               $.ajax({
+                  url:"usersReport-table_2.php",
+                  type: 'POST',
+                  data:{'page' :page,
+                  'pageLimit' :val,
+                  'searchVal' :searchVal
+                  },
+                  success:function(data){
+                     $('.userhistory-table').html(data);
+      
+                     let newId = parseInt(page) + 1;
+      
+                     $(pagination_link_next).attr('id', newId);
+
+                     $(pagination_link_prev).addClass('btnPrev');
+                     $(pagination_link_Selected).addClass('selected');
+                     $(pagination_link_next).addClass('btnNext');
+      
+                  }
+               });
+
+            } else {
+
+               $.ajax({
+                  url:"usersReport-table_2.php",
+                  type: 'POST',
+                  data:{'page' :nextPage,
+                  'pageLimit' :val,
+                  'searchVal' :searchVal
+                  },
+                  success:function(data){
+                     $('.userhistory-table').html(data);
+      
+                     let newId = parseInt(nextPage);
+                     $(pagination_link_next_arrow).attr('id', newId);
+
+                     $(pagination_link_prev).addClass('hide');
+                     $(pagination_link_prev).removeClass('btnPrev');
+
+                     $(pagination_link_Selected).addClass('btnPrev');
+                     $(pagination_link_Selected).removeClass('selected');
+
+                     $(pagination_link_next).addClass('selected');
+                     $(pagination_link_next).removeClass('btnNext');
+
+                     $('.selected').next().addClass('btnNext');
+      
+                  }
+               });
+
+            }
+
+      });
+   }
+   nextBtn();  
 
    function selectServicesxxxxxxxxx() {
       $(document).on('change', '.services', function(){
@@ -1725,7 +1827,7 @@ jQuery(function () {
             setTimeout(() => {
                
                //Call view task button
-               viewTasksBtn();
+               // viewTasksBtn();
                manager_additional_time_btn();
 
             }, 100);
@@ -2558,7 +2660,7 @@ function submit_file_path(){
             setTimeout(() => {
 
                //Call view task button
-               viewTasksBtn();
+               // viewTasksBtn();
 
             }, 100);
 
@@ -2610,7 +2712,7 @@ function submit_file_path(){
          });
 
           //Call view task button
-          viewTasksBtn();
+         //  viewTasksBtn();
 
           //View Managers Modal
           let viewManagers = document.querySelector("#view_managers");
@@ -2938,20 +3040,22 @@ function submit_file_path(){
   }
 //   project_in_charge_clicked();
 
-   function viewTasksBtn() {
+  function viewTaskBtn() {
 
-      // $('.view_project_user').on('mouseenter', ()=> {
+      $(document).on('mouseup', (e)=> {
 
          let ViewTasksBtn = document.querySelectorAll('.viewTasks');
 
-            for(let i = 0; ViewTasksBtn.length > i; i++){
+         for(let i = 0; ViewTasksBtn.length > i; i++){
 
-               $(ViewTasksBtn[i]).off().on('click', ()=> {
+            // $(ViewTasksBtn[i]).off().on('click', ()=> {
+
+               if($(ViewTasksBtn[i]).is(e.target)) {
 
                   $('.userId').parent().remove();
                   $('.employeeName').parent().remove();
                   $('.addNewTaskBtn').remove();
-
+   
                   let userContainer = $(ViewTasksBtn[i]).parent().parent().parent();
                   let userId = $(userContainer).attr('value');
                   let employeeName = $(userContainer).find('.user_fullname span').text();
@@ -2967,9 +3071,9 @@ function submit_file_path(){
                   setTimeout(
                      
                      function() {
-
+   
                         let decline_pic_allot_time = document.querySelectorAll('.decline_pic_allot_time');
-
+   
                         $.ajax({
                            type: 'POST',
                            url: 'decline_allot_time.php',
@@ -2988,13 +3092,13 @@ function submit_file_path(){
       
                            }
                         });
-
+   
                   }, 100);
-
+   
                   //Check all assigned manager in this phase of work
                   //Only manager assigned can I add new task 
                   for(let i = 0; assigned_managers.length >= i; i++){
-
+   
                      let assigned_managers_id = $(assigned_managers[i]).text();
                     
                      $.ajax({
@@ -3006,16 +3110,16 @@ function submit_file_path(){
                         },
                         success: function(data){
                            $(data).appendTo('.add_new_task_wrapper');
-
+   
                            //Add new task tooltip
                            manager_add_newtask_form();
                            pic_show_add_newtask_form();
                         }
                         
                      })
-
+   
                   }
-
+   
                   let contentInfo = `<div class="content__info d-none">
                                        <span>Employee Name:</span>
                                        <p class="employeeName" value="${employeeName}">${employeeName}</p>
@@ -3025,9 +3129,9 @@ function submit_file_path(){
                                        <p class="userId" value="${userId}">${userId}</p>
                                     </div>
                                     `;
-
+   
                   $(contentInfo).prependTo(contentInfoWrapper);
-
+   
                   // For task table
                   $.ajax({
                      type: 'POST',
@@ -3044,12 +3148,12 @@ function submit_file_path(){
                         $('.user-tasks .content-table').html(data);
                      },
                   });
-
+   
                   // For user Photo and Name
                   let fullName = $(userContainer).find('.user_fullname span').text();
                   let userPhoto = $(userContainer).find('.user_photo img').attr('src');
                   let employeeId = userId;
-
+   
                   $.ajax({
                      type: 'POST',
                      url: 'tasks-table.php',
@@ -3062,22 +3166,22 @@ function submit_file_path(){
                         $('.tasks-content .user_photo').html(data);
                      },
                   });
-
+   
                   setTimeout(
-
+   
                      function() 
                         {
-
+   
                      $('#view_project_in_charge .modal-left-content').addClass('move-left-22');
                      $('#view_managers .modal-left-content').addClass('move-left-22');
-
+   
                   }, 10);
-
+   
                   setTimeout(
-
+   
                      function() 
                         {
-
+   
                      $('.tasks-content_container').css('z-index', '10')   
                      $('.tasks-content').addClass('tasks-content_show');
               
@@ -3097,22 +3201,197 @@ function submit_file_path(){
                      manager_add_task_work_update();
                      pic_add_allot_time();
                      manager_add_allot_time()
-
+   
                      manager_taskUpdate_tooltip()
-
+   
                   }, 70);
+
+               }
+
+            // });
+
+         }
+
+      });
+
+  }
+  viewTaskBtn()
+
+//    function viewTasksBtn() {
+
+//       // $('.view_project_user').on('mouseenter', ()=> {
+
+//          let ViewTasksBtn = document.querySelectorAll('.viewTasks');
+
+//             for(let i = 0; ViewTasksBtn.length > i; i++){
+
+//                $(ViewTasksBtn[i]).off().on('click', ()=> {
+
+//                   $('.userId').parent().remove();
+//                   $('.employeeName').parent().remove();
+//                   $('.addNewTaskBtn').remove();
+
+//                   let userContainer = $(ViewTasksBtn[i]).parent().parent().parent();
+//                   let userId = $(userContainer).attr('value');
+//                   let employeeName = $(userContainer).find('.user_fullname span').text();
+//                   let contentInfoWrapper = document.querySelector('.addNewTask_form_container .content-info__wrapper');
+//                   let phase_of_work = $('.searchEmployee_pow').text();
+//                   let services = $('.searchEmployee_service').text();
+//                   let projectId = $('#projectTitle').attr('value');
+//                   let projectName = $('#projectTitle').text();
+    
+//                   let assigned_managers = document.querySelectorAll('.assigned_managers_id');
+//                   let userid_manager = userId;
+            
+//                   setTimeout(
+                     
+//                      function() {
+
+//                         let decline_pic_allot_time = document.querySelectorAll('.decline_pic_allot_time');
+
+//                         $.ajax({
+//                            type: 'POST',
+//                            url: 'decline_allot_time.php',
+//                            data: {
+//                               'projectId': projectId,
+//                               'services': services,
+//                               'phase_of_work': phase_of_work,
+//                            },
+//                            success: function (data){
+      
+//                               Array.from(decline_pic_allot_time).forEach((allot_time) => {
+      
+//                                  $(allot_time).attr("max", `${data}`);
+      
+//                               });
+      
+//                            }
+//                         });
+
+//                   }, 100);
+
+//                   //Check all assigned manager in this phase of work
+//                   //Only manager assigned can I add new task 
+//                   for(let i = 0; assigned_managers.length >= i; i++){
+
+//                      let assigned_managers_id = $(assigned_managers[i]).text();
+                    
+//                      $.ajax({
+//                         type: 'POST',
+//                         url: 'tasks-table.php',
+//                         data: {
+//                            'assigned_managers_id': assigned_managers_id,
+//                            'userid_manager': userid_manager,
+//                         },
+//                         success: function(data){
+//                            $(data).appendTo('.add_new_task_wrapper');
+
+//                            //Add new task tooltip
+//                            manager_add_newtask_form();
+//                            pic_show_add_newtask_form();
+//                         }
+                        
+//                      })
+
+//                   }
+
+//                   let contentInfo = `<div class="content__info d-none">
+//                                        <span>Employee Name:</span>
+//                                        <p class="employeeName" value="${employeeName}">${employeeName}</p>
+//                                     </div>
+//                                     <div class="content__info d-none">
+//                                        <span>User ID:</span>
+//                                        <p class="userId" value="${userId}">${userId}</p>
+//                                     </div>
+//                                     `;
+
+//                   $(contentInfo).prependTo(contentInfoWrapper);
+
+//                   // For task table
+//                   $.ajax({
+//                      type: 'POST',
+//                      url: 'tasks-table.php',
+//                      data: {
+//                         'userId': userId,
+//                         'phase_of_work': phase_of_work,
+//                         'services': services,
+//                         'projectId': projectId,
+//                         'projectName': projectName,
+//                      },
+//                      success: function (data) {
+//                         // $('.user-tasks .content-table').html(data);
+//                         $('.user-tasks .content-table').html(data);
+//                      },
+//                   });
+
+//                   // For user Photo and Name
+//                   let fullName = $(userContainer).find('.user_fullname span').text();
+//                   let userPhoto = $(userContainer).find('.user_photo img').attr('src');
+//                   let employeeId = userId;
+
+//                   $.ajax({
+//                      type: 'POST',
+//                      url: 'tasks-table.php',
+//                      data: {
+//                         'employeeId': employeeId,
+//                         'fullName': fullName,
+//                         'userPhoto': userPhoto
+//                      },
+//                      success: function (data) {
+//                         $('.tasks-content .user_photo').html(data);
+//                      },
+//                   });
+
+//                   setTimeout(
+
+//                      function() 
+//                         {
+
+//                      $('#view_project_in_charge .modal-left-content').addClass('move-left-22');
+//                      $('#view_managers .modal-left-content').addClass('move-left-22');
+
+//                   }, 10);
+
+//                   setTimeout(
+
+//                      function() 
+//                         {
+
+//                      $('.tasks-content_container').css('z-index', '10')   
+//                      $('.tasks-content').addClass('tasks-content_show');
+              
+//                      statusColor();
+//                      disable_previous_dates();
+//                      tooltip();
+//                      task_notes();
+//                      decline_task_notes();
+//                      task_title_popup();
+//                      updateNewTask();
+//                      closeTooltip();
+//                      taskColor()
+//                      taskDone_disable();
+//                      taskChange_status();
+//                      taskUpdate_tooltip();
+//                      pic_add_task_work_update();
+//                      manager_add_task_work_update();
+//                      pic_add_allot_time();
+//                      manager_add_allot_time()
+
+//                      manager_taskUpdate_tooltip()
+
+//                   }, 70);
 
 
                   
-               });
+//                });
 
  
 
-         }
+//          }
       
-      // });
-  }
-  viewTasksBtn();
+//       // });
+//   }
+//   viewTasksBtn();
 
   // Task Statups Tool tip
   function taskStatusTooltip(){
@@ -5913,43 +6192,118 @@ function add_phase_of_work() {
 add_phase_of_work();
 
 
-function show_services(){
+function show_revises_project_list(){
 
-   let add_services = document.querySelector('.add-services');
-   let add_services_container = document.querySelector('.add_services_container');
+   $(document).on('mouseup', (e) => {
 
-   $(add_services).on('click', ()=> {
+   let revise_btn = document.querySelector('button.check_revise_btn');
+   let revise_list_container = document.querySelector('.revise_list_container');
+   
+      if($(revise_btn).is(e.target)) {
 
-      let projectId = $('#projectTitle').attr('value');
+         if(!$(revise_list_container).hasClass('d-none')) {
 
-      $.ajax({
-         type: 'POST',
-         url: 'show-services.php',
-         data: {
-            'projectId': projectId,
-         },
-         success: function(data){
-            $('.add_services_container').html(data);
+            $(revise_list_container).addClass('d-none');
+
+         } else {
+
+            $(revise_list_container).removeClass('d-none');
+            
          }
-      })
-
-
-      if($(add_services_container).hasClass('d-none')) {
-
-         $(add_services_container).addClass('d-none');
-
-         $(add_services_container).removeClass('d-none');
 
       } else {
-         
-         $(add_services_container).addClass('d-none');
+
+         if(!$(revise_list_container).hasClass('d-none')) {
+
+            $(revise_list_container).addClass('d-none');
+
+         } 
 
       }
 
-      //Add Services
-      add_services_func(); 
-      
    });
+      
+}
+show_revises_project_list();
+
+function show_services(){
+
+   $(document).on('mouseup', (e)=> {
+
+      let add_services = document.querySelector('.add-services');
+      let add_services_container = document.querySelector('.add_services_container');
+
+      if($(add_services).is(e.target)) {
+
+         let projectId = $('#projectTitle').attr('value');
+
+         $.ajax({
+            type: 'POST',
+            url: 'show-services.php',
+            data: {
+               'projectId': projectId,
+            },
+            success: function(data){
+               $('.add_services_container').html(data);
+
+               add_services_func(); 
+            }
+         })
+
+         if(!$(add_services_container).hasClass('d-none')) {
+
+            $(add_services_container).addClass('d-none');
+
+         } else {
+
+            $(add_services_container).removeClass('d-none');
+            
+         }
+
+      } else {
+
+         if(!$(add_services_container).hasClass('d-none')) {
+
+            $(add_services_container).addClass('d-none');
+
+         } 
+
+      }
+
+   });
+
+
+   // $(add_services).on('click', ()=> {
+
+   //    let projectId = $('#projectTitle').attr('value');
+
+   //    $.ajax({
+   //       type: 'POST',
+   //       url: 'show-services.php',
+   //       data: {
+   //          'projectId': projectId,
+   //       },
+   //       success: function(data){
+   //          $('.add_services_container').html(data);
+   //       }
+   //    })
+
+
+   //    if($(add_services_container).hasClass('d-none')) {
+
+   //       $(add_services_container).addClass('d-none');
+
+   //       $(add_services_container).removeClass('d-none');
+
+   //    } else {
+         
+   //       $(add_services_container).addClass('d-none');
+
+   //    }
+
+      //Add Services
+
+   // });
 
 }
 show_services();
@@ -6569,8 +6923,9 @@ function closeTaskUpdate(){
 
          let taskUpdate_container = $(btn).parent();
          let taskUpdate_tooltip = $(taskUpdate_container).find('.taskUpdate_tooltip');
+         let taskUpdate_children = $(taskUpdate_container).find('*');
 
-         if(!$(btn).is(e.target) && $(btn).has(e.target).length === 0) {
+         if (!$(btn).is(e.target) && $(btn).has(e.target).length === 0 && !$(taskUpdate_children).is(e.target)) {
 
             if(!$(taskUpdate_tooltip).hasClass('d-none')) {
 

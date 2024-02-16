@@ -168,7 +168,6 @@
                                      
                                         <?php } while($newTasks_info = $newTasks->fetch_assoc()); ?>
                                         
-
                                     <?php } ?>
                                 </tbody>
                                 <tbody  class="usertasks-table">
@@ -284,15 +283,15 @@
 </div>
 
     
-<div class="calendar-overlay d-none"></div>
-    <div class="calendar d-none">
+<!-- <div class="calendar-overlay aaaaaaaaaaa d-none"></div> -->
+    <!-- <div class="calendar d-none">
         <div class="calendar-header">
             <button id="prevBtn">&lt;</button>
             <h1 id="monthYear"></h1>
             <button id="nextBtn">&gt;</button>
         </div>
             <div class="days">
-                <div class="day">Sun</div>
+                <div class="day">Sunaaaaaaa</div>
                 <div class="day">Mon</div>
                 <div class="day">Tue</div>
                 <div class="day">Wed</div>
@@ -308,14 +307,16 @@
             <div class="date" data-day="5">5</div>
             <div class="date" data-day="6">6</div>
         </div>
-    </div>
+        </div>
+    </div> -->
+
 
       <!-- Modal for Event Details -->
-    <div class="modal modal-logs event show-modal hidden" id="eventModal">
-        <div class="modal-content">
+    <!-- <div class="modal modal-logs event show-modal hidden" id="eventModal">
+        <div class="modal-content"> -->
 
          <!-- <span class="close">&times;</span> -->
-            <h2 id="eventDate"></h2>
+            <!-- <h2 id="eventDate"></h2>
             <textarea class="area d-none" id="eventDescription"></textarea>
             <button class='d-none' id="saveEventBtn">Save</button>
             <div class="content-table">
@@ -330,11 +331,11 @@
                             <th>Updates</th>
                             <th>Spend Hours</th>
                             <th></th>
-                        </tr>
+                        </tr> -->
 
                         <!-- For dynamic content (viewlogs.php) -->
 
-                        <tr>
+                        <!-- <tr>
                             <td class='add_logs_td'>
                                 <img class='add_logs' src='img/add-icon.png' width='25'>
                                 <div class='add_logs_tooltip d-none'>
@@ -369,7 +370,7 @@
                                 </div>
                             </td>
                             <td></td>
-                            <td> <!-- <button class='save_update_logs'>Save</button> --></td>
+                            <td> </td>
                             <td></td>
                             <td>Total Hours:</td>
                             <td class='total_spend_hours'></td>
@@ -379,6 +380,6 @@
                 </table>
             </div>
         </div>
-    </div>
+    </div> -->
 
 <?php include 'footer.php'; ?>

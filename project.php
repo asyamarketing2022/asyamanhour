@@ -72,6 +72,9 @@
                             <?php if(!empty($projectInfo['id'])) { ?>
 
                                 <?php do { ?>
+
+                                    <?php if($projectInfo['status'] != 'revise' ) { ?>
+
                                     <tr class="table-row_projects select_project table-form" value="<?php echo $projectInfo['id'] ?>" data-href="viewproject.php?ID=<?php echo $projectInfo['id'] ?>">
                                         <td><?php echo $projectInfo['project_name'] ?></td>
                                         <td><?php echo $projectInfo['location'] ?></td>
@@ -80,6 +83,9 @@
                                         <td><?php echo $projectInfo['company_name'] ?></td>
                                         <td><?php echo $projectInfo['client_name'] ?></td>
                                     </tr>
+
+                                    <?php } ?>
+
                                 <?php } while($projectInfo = $project->fetch_assoc()); ?>
 
                             <?php } ?>   

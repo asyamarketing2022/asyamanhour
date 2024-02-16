@@ -319,9 +319,9 @@
     <div class="calendar-overlay d-none"></div>
     <div class="calendar d-none">
         <div class="calendar-header">
-            <button id="prevBtn">&lt;</button>
+            <!-- <button id="prevBtn">&lt;</button> -->
             <h1 id="monthYear"></h1>
-            <button id="nextBtn">&gt;</button>
+            <!-- <button id="nextBtn">&gt;</button> -->
         </div>
             <div class="days">
                 <div class="day">Sun</div>
@@ -339,6 +339,21 @@
             <div class="date" data-day="4">4</div>
             <div class="date" data-day="5">5</div>
             <div class="date" data-day="6">6</div>
+        </div>
+                
+        <div class="calendar-legend">
+            <div class="calendar-legend-body">
+                <ul>
+                    <li>Incomplete logs</li>
+                    <li>Complete logs</li>
+                    <li>Overtime</li>
+                </ul>
+
+                <div class="calendar-arrow-container">
+                    <button id="prevBtn">&lt;</button>
+                    <button id="nextBtn">&gt;</button>
+                </div>
+            </div>
         </div>
     </div>
 
