@@ -1,4 +1,5 @@
 // $(document).ready(function () {
+let site_url = 'http://dev.asyamanhour.local';
 
 jQuery(function () {
 
@@ -212,14 +213,145 @@ jQuery(function () {
 
          }
          
-         // console.log($(loginEmail).val());
-         // console.log($(loginPassword).val());
-         
-
       });
 
    }
    login();
+
+   function pressEnter_email(){
+
+      let loginEmail = document.querySelector('#login-email');
+      let loginPassword = document.querySelector('#login-password');
+
+      $(loginEmail).on('keypress', (e)=> {
+
+         let key = e.which;
+
+         if(key == 13) {
+            if( !$(loginEmail).val()) {
+
+               Swal.fire({
+                  icon: "error",
+                  title: "Oops...",
+                  text: "Please enter your email",
+                 
+                });
+   
+            } else if (!$(loginPassword).val()) {
+   
+               Swal.fire({
+                  icon: "error",
+                  title: "Oops...",
+                  text: "Please enter your password",
+              
+                });
+   
+            } else {
+   
+               $.ajax({
+                  type: 'POST',
+                  url: 'login.php',
+                  data: {
+                     'loginEmail': $(loginEmail).val(),
+                     'loginPassword': $(loginPassword).val(),
+                  },
+                  success:function(data){
+   
+                     data = data.replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '');
+   
+                     if(data == 'incorrect!') {
+   
+                        Swal.fire({
+                           icon: "error",
+                           title: "Oops...",
+                           text: "Wrong email or password!",
+                           // footer: '<a href="#">Why do I have this issue?</a>'
+                        });
+   
+                     } else {
+   
+                        location.reload();
+   
+                     }
+                     
+                  }
+   
+               });
+   
+            }
+         }
+
+      });
+   }
+   pressEnter_email();
+
+   function pressEnter_password(){
+
+      let loginEmail = document.querySelector('#login-email');
+      let loginPassword = document.querySelector('#login-password');
+
+      $(loginPassword).on('keypress', (e)=> {
+
+         let key = e.which;
+
+         if(key == 13) {
+            if( !$(loginEmail).val()) {
+
+               Swal.fire({
+                  icon: "error",
+                  title: "Oops...",
+                  text: "Please enter your email",
+                 
+                });
+   
+            } else if (!$(loginPassword).val()) {
+   
+               Swal.fire({
+                  icon: "error",
+                  title: "Oops...",
+                  text: "Please enter your password",
+              
+                });
+   
+            } else {
+   
+               $.ajax({
+                  type: 'POST',
+                  url: 'login.php',
+                  data: {
+                     'loginEmail': $(loginEmail).val(),
+                     'loginPassword': $(loginPassword).val(),
+                  },
+                  success:function(data){
+   
+                     data = data.replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '');
+   
+                     if(data == 'incorrect!') {
+   
+                        Swal.fire({
+                           icon: "error",
+                           title: "Oops...",
+                           text: "Wrong email or password!",
+                           // footer: '<a href="#">Why do I have this issue?</a>'
+                        });
+   
+                     } else {
+   
+                        location.reload();
+   
+                     }
+                     
+                  }
+   
+               });
+   
+            }
+         }
+
+      });
+
+   }
+   pressEnter_password();
 
    function btntext(){
       let viewsBtn = document.querySelectorAll('.view-myProject');
@@ -391,6 +523,8 @@ jQuery(function () {
    }
    searchTask()
 
+   
+
    //Changing Data thru pagination (User Log)
    function page() {
       $(document).on('click', '.pagination_link', function(){
@@ -486,16 +620,66 @@ jQuery(function () {
       });
 
    }
-   prevNext_btn()
+   // prevNext_btn()
+
+   function prevBtn() {
+
+      let pagination_link_prev_arrow = document.querySelector('.pagination_link_prev');
+
+      $(pagination_link_prev_arrow).on('click', ()=> {
+
+         let page = $(pagination_link_prev_arrow).attr("id");
+         let val = $('.dataLimit option:selected').attr('value');
+         let searchVal = $(".searchFilter").val();
+         let prevPage =  $('.btnPrev').attr('id');
+
+         if(document.querySelector('.selected') != null && document.querySelector('.btnPrev') != null) {
+
+            $.ajax({
+               url:"usersReport-table_2.php",
+               type: 'POST',
+               data:{'page' :prevPage,
+               'pageLimit' :val,
+               'searchVal' :searchVal
+               },
+               success:function(data){
+                  $('.userhistory-table').html(data);
+   
+                  let newId = parseInt(prevPage);
+                  $(pagination_link_prev_arrow).attr('id', newId);
+
+                  let btnPrev = $('.btnPrev');
+                  let selected = $('.selected');
+                  let btnNext = $('.btnNext');
+                  let pagination_link = $('.pagination_link').last();
+
+                  $(pagination_link).removeClass('hide');
+
+                  $(btnPrev).prev().addClass('btnPrev');
+                  $(btnPrev).prev().removeClass('hide');
+
+                  $(selected).addClass('btnNext');
+                  $(selected).prev().addClass('selected');
+                  $(selected).prev().removeClass('btnPrev');
+                  $(selected).removeClass('selected');
+
+                  $(selected).next().addClass('hide');
+                  $(selected).next().removeClass('btnNext');
+
+   
+               }
+            });
+
+         }
+
+      });
+
+   }
+   prevBtn();
 
    function nextBtn() {
-      // $(document).on('click', '.pagination_link_next', function(){
 
       let pagination_link_next_arrow = document.querySelector('.pagination_link_next');
-      let pagination_link_prev = $('.pagination_link').eq(0);
-      let pagination_link_Selected = $('.pagination_link').eq(1);
-      let pagination_link_next = $('.pagination_link').eq(2);
-      // let pagination_link_btns = document.querySelectorAll('.pagination_link');
 
       $(pagination_link_next_arrow).on('click', ()=> {
 
@@ -506,6 +690,10 @@ jQuery(function () {
 
             if(document.querySelector('.selected') == null) {
 
+               let pagination_link_prev = $('.pagination_link').eq(0);
+               let pagination_link_Selected = $('.pagination_link').eq(1);
+               let pagination_link_next = $('.pagination_link').eq(2);
+            
                $.ajax({
                   url:"usersReport-table_2.php",
                   type: 'POST',
@@ -527,7 +715,7 @@ jQuery(function () {
                   }
                });
 
-            } else {
+            } else if(document.querySelector('.selected') != null && document.querySelector('.btnNext') != null) {
 
                $.ajax({
                   url:"usersReport-table_2.php",
@@ -542,16 +730,23 @@ jQuery(function () {
                      let newId = parseInt(nextPage);
                      $(pagination_link_next_arrow).attr('id', newId);
 
-                     $(pagination_link_prev).addClass('hide');
-                     $(pagination_link_prev).removeClass('btnPrev');
+                     let btnPrev = $('.btnPrev');
+                     let selected = $('.selected');
+                     let btnNext = $('.btnNext');
+                     let pagination_link = $('.pagination_link').eq(0);
 
-                     $(pagination_link_Selected).addClass('btnPrev');
-                     $(pagination_link_Selected).removeClass('selected');
+                     $(btnPrev).addClass('hide');
+                     $(btnPrev).removeClass('btnPrev');
+                     $(pagination_link).removeClass('hide');
 
-                     $(pagination_link_next).addClass('selected');
-                     $(pagination_link_next).removeClass('btnNext');
+                     $(selected).addClass('btnPrev');
+                     $(selected).removeClass('selected');
 
-                     $('.selected').next().addClass('btnNext');
+                     $(btnNext).addClass('selected');
+                     $(btnNext).removeClass('btnNext');
+
+                     $(btnNext).next().addClass('btnNext');
+                     $(btnNext).next().removeClass('hide');
       
                   }
                });
@@ -2283,6 +2478,19 @@ function submit_file_path(){
                },
                success:function(data){
                   $('.viewFilePath_container').html(data);
+
+                  // Create dynamic html element for search_file_paths function
+                  let contentInfo = `<div class="content__info d-none">
+                                          <span>Phase of work:</span>
+                                          <p class="file_path_pow">${text_phaseofwork}</p>
+                                       </div>
+                                       <div class="content__info d-none">
+                                          <span>Service:</span>
+                                          <p class='file_path_service'>${projectService}</p>
+                                       </div>`;
+
+                  $(contentInfo).appendTo('.search-filepath__wrapper');
+
                }
             });
          });
@@ -2290,6 +2498,39 @@ function submit_file_path(){
 
    }
    view_file_paths();
+
+   function search_file_paths() {
+
+      let search_file_name_btn = document.querySelector('.search-file-name-btn');
+      let search_file_name_input = document.querySelector('.search-file-name-input');
+      let projectId = $('#projectTitle').attr('value');
+
+      $(search_file_name_btn).on('click', ()=> {
+
+         let searchFilter = $(search_file_name_input).val();
+         let service = $('.file_path_service').text();
+         let pow = $('.file_path_pow').text();
+
+         $.ajax({
+            type: 'POST',
+            url: 'search-Filepath_in_modal.php',
+            data: {
+               'projectId': projectId,
+               'searchFilter': searchFilter,
+               'service': service,
+               'pow': pow,
+            },
+            success:function(data){
+                  $('.viewFilePath_container').html(data);
+            } 
+
+         });
+
+      });
+
+}
+search_file_paths()
+
 
    //New Task Tooltip
    function newtask_tooltip(){
@@ -6357,7 +6598,7 @@ function add_project_revise(){
       let projectId = $('#projectTitle').attr('value');
 
          Swal.fire({
-            title: "Do you want to save the changes?",
+            title: "Do you want to add new revise?",
             showDenyButton: true,
             showCancelButton: true,
             confirmButtonText: "Save",
@@ -6376,7 +6617,7 @@ function add_project_revise(){
                   Swal.fire("Successful Added Revise!", "", "success");
                   
                   setTimeout(() => {
-                     window.location.href = `/viewproject.php?ID=${data}`;
+                     window.location.href = `${site_url}/viewproject.php?ID=${data}`;
                   }, 1000);
                   
                }
@@ -6865,8 +7106,9 @@ function closeCheckFiles(){
 
          let check_filepath_td = $(btn).parent();
          let check_filepath_tooltip = $(check_filepath_td).find('.check_filepath_tooltip');
+         let check_filepath_td_children = $(check_filepath_td).find('*');
 
-         if(!$(btn).is(e.target) && $(btn).has(e.target).length === 0) {
+         if(!$(btn).is(e.target) && $(btn).has(e.target).length === 0 && !$(check_filepath_td_children).is(e.target) ) {
 
             if(!$(check_filepath_tooltip).hasClass('d-none')) {
 
@@ -6894,8 +7136,9 @@ function closeUploadFilePath(){
 
          let upload_filepath_td = $(btn).parent();
          let upload_filepath_tooltip = $(upload_filepath_td).find('.upload_filepath_tooltip');
+         let upload_filepath_td_children = $(upload_filepath_td).find('*');
 
-         if(!$(btn).is(e.target) && $(btn).has(e.target).length === 0){
+         if(!$(btn).is(e.target) && $(btn).has(e.target).length === 0 && !$(upload_filepath_td_children).is(e.target)){
 
             if(!$(upload_filepath_tooltip).hasClass('d-none')) {
 

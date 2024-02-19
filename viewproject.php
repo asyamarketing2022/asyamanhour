@@ -85,7 +85,7 @@ $row = $project->fetch_assoc();
 
                                 ?>
                                     
-                                    <a href="/viewproject.php?ID=<?php echo $pms_project_revise['id'] ?>"><?php echo $count++; ?>. Revise</a>
+                                    <a href="/viewproject.php?ID=<?php echo $pms_project_revise['id'] ?>"><?php echo $count; ?>. Revise</a>
 
                                 <?php 
 
@@ -114,13 +114,13 @@ $row = $project->fetch_assoc();
         <table>
             <tr>
                 <th class="th_services">Architecture</th>
-                <th>Department</th>
+                <!-- <th>Department</th> -->
                 <th>Manager</th>
                 <th>Project In Charge</th>
                 <th>Status</th>
                 <th>Date Receive</th>
                 <th>Due Date</th>
-                <th>File Upload</th>
+                <!-- <th>File Upload</th> -->
                 <th>File Lists</th>
             </tr>
 
@@ -211,13 +211,13 @@ $row = $project->fetch_assoc();
             <table>
                 <tr>
                     <th class="th_services">Engineering</th>
-                    <th>Department</th>
+                    <!-- <th>Department</th> -->
                     <th>Manager</th>
                     <th>Project In Charge</th>
                     <th>Status</th>
                     <th>Date Receive</th>
                     <th>Due Date</th>
-                    <th>File Upload</th>
+                    <!-- <th>File Upload</th> -->
                     <th>File Lists</th>
                 </tr>
 
@@ -284,13 +284,13 @@ $row = $project->fetch_assoc();
             <table>
                 <tr>
                     <th class="th_services">Interior</th>
-                    <th>Department</th>
+                    <!-- <th>Department</th> -->
                     <th>Manager</th>
                     <th>Project In Charge</th>
                     <th>Status</th>
                     <th>Date Receive</th>
                     <th>Due Date</th>
-                    <th>File Upload</th>
+                    <!-- <th>File Upload</th> -->
                     <th>File Lists</th>
                 </tr>
 
@@ -369,13 +369,13 @@ $row = $project->fetch_assoc();
             <table>
                 <tr>
                     <th class="th_services">Master Planning</th>
-                    <th>Department</th>
+                    <!-- <th>Department</th> -->
                     <th>Manager</th>
                     <th>Project In Charge</th>
                     <th>Status</th>
                     <th>Date Receive</th>
                     <th>Due Date</th>
-                    <th>File Upload</th>
+                    <!-- <th>File Upload</th> -->
                     <th>File Lists</th>
                 </tr>
 
@@ -831,7 +831,14 @@ $row = $project->fetch_assoc();
                 </button>
             </div>
             <span class="modal-title">View File Paths</span>
+                <div class='search-filepath__wrapper'>
+                    <div class='search-action'>
+                        <input class='search-file-name-input' type='text'>
+                        <div class='search-file-name-btn'>Search</div>
+                    </div>  
+                </div>
             <div class="viewFilePath_container">
+ 
                 <!-- view-Filepath_in_modal.php -->
 
             </div>

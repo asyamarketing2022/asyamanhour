@@ -107,7 +107,7 @@
                                     <?php if($newtask_notif['invite_status'] == 'new') { ?>
                                         
                                         <div class="notif_box">
-                                            <a href="/profile.php">
+                                            <a href="<?php echo $URL ?>/profile.php">
                                                 <div class="notif-photo">
                                                     <?php 
                                                     

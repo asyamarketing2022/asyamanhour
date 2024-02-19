@@ -18,7 +18,7 @@ $con = connection();
         $projectCompany_name = $project['company_name'];
         $projectClient_name = $project['client_name'];
 
-        $sql = "INSERT INTO `pms_projects`(`project_name`, `location`, `lot_areas`, `typology`, `company_name`, `client_name`, `status`) VALUES ('$projectName(revise)', '$projectLocation', '$projectLot_areas', '$projectTypology', '$projectCompany_name', '$projectClient_name', 'revise')";
+        $sql = "INSERT INTO `pms_projects`(`project_name`, `location`, `lot_areas`, `typology`, `company_name`, `client_name`, `project_revise_id`, `status`) VALUES ('$projectName(revise)', '$projectLocation', '$projectLot_areas', '$projectTypology', '$projectCompany_name', '$projectClient_name', '$projectId','revise')";
 
         $con->query($sql) or die ($con->error);
 

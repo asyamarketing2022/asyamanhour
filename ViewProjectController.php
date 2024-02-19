@@ -103,8 +103,7 @@ class ViewProjectController
                 }
 
                 echo "<tr class='table-row_projects table-form' value=''>
-                <td class='td_phase_of_work'>$phaseOfwork</td>
-                <td></td>";
+                <td class='td_phase_of_work'>$phaseOfwork</td>";
                 // <td>". $phase_of_work_manager_info['department'] ."</td>"
 
                 // echo " <td class='manager_photo_id' data-toggle='modal' data-target='#view_managers' value='";
@@ -163,7 +162,7 @@ class ViewProjectController
                 </td>
                 <td>" . $row['added_at'] . "</td>
                 <td><input class='dueDate dis_previous_dates' name='$inputName' type='date' value='" . $row[$dueDate] . "'></td>
-                <td><button class='uploadPathBtn' data-toggle='modal' data-target='#uploadPath'>Upload File Path</button></td>
+       
                 <td><button class='viewfilepathBtn' data-toggle='modal' data-target='#viewfilepath'>Check Files</button></td>
             </tr>";
 

@@ -6,29 +6,29 @@
 $db = new DBconnection();
 $con = $db->connection();
 
-if(isset($_POST['projectId'])){
+if(isset($_POST['searchFilter'])) {
 
     $projectId = $_POST['projectId'];
-    $projectService = $_POST['projectService'];
-    $phase_of_work = $_POST['text_phaseofwork'];
+    $searchFilter = $_POST['searchFilter'];
+    $service = $_POST['service'];
+    $pow = $_POST['pow'];
     $count = 1;
 
-    $query_filepath = "SELECT * FROM upload_file_path WHERE project_id = '$projectId' AND service = '$projectService' AND phase_of_work = '$phase_of_work'";
+    $query_filepath = "SELECT * FROM upload_file_path WHERE CONCAT(file_name) LIKE '%$searchFilter%' AND project_id = '$projectId' AND service = '$service' AND phase_of_work = '$pow'";
     $file_path = $con->query($query_filepath) or die ($con->error);
 
     $output = "<div class='content-table' style='height: 50vh'>
-           
-                <table>
-                    <tbody>
-                        <tr>
-                            <th></th>
-                            <th>File Name</th>
-                            <th>Date Upload</th>
-                            <th>Uploaded By</th>
-                            <th>Notes</th>
-                            <th>File Path</th>
-                        </tr>";
-    
+                    <table>
+                        <tbody>
+                            <tr>
+                                <th></th>
+                                <th>File Name</th>
+                                <th>Date Upload</th>
+                                <th>Uploaded By</th>
+                                <th>Notes</th>
+                                <th>File Path</th>
+                            </tr>";
+
     while($file_path_info = mysqli_fetch_array($file_path)){
 
         $output .= "<tr>
