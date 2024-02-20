@@ -432,6 +432,7 @@ button.deleteTask {
  
  .tasks-content .user-tasks .taskUpdate .taskUpdate_tooltip table {
     box-shadow: 1px 4px 5px 3px rgba(0,0,0,0.3);
+    color: #000;
  }
 
  .tasks-content .user-tasks .taskUpdate .taskUpdate_tooltip .taskUpdate_tbody tr:last-child td {
@@ -2711,6 +2712,7 @@ input.form-check-input {
     padding: 1rem 1.5rem;
     width: 50rem;
     border-radius: 0.5rem;
+    overflow: auto;
 }
 
 @media (max-width: 991px) {

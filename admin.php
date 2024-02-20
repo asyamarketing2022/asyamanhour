@@ -63,7 +63,7 @@ if(isset($_POST['userID'])) {
                         
                         ?>
 
-                         <input class="submit-button delete button" name="deleteUser" type="submit" value="Delete"/>
+                         <!-- <input class="submit-button delete button" name="deleteUser" type="submit" value="Delete"/> -->
                     </form>
                 </table>
             </div>

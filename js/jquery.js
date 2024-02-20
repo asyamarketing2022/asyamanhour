@@ -4820,13 +4820,21 @@ function submitNewTask_pic(){
             let update_task_id = $($('.update_task_id')[i]).text();
             // let taskId = $('.taskId').attr('value');
             let tbody = $(delete_update_task[i]).parent().parent();
+            // let parent_table_row = $(delete_update_task[i]).parent().parent().parent().parent().parent().parent();
             let parent_table_row = $(delete_update_task[i]).parent().parent().parent().parent().parent().parent();
+            let pic_task_remaining_time = $(parent_table_row).find('.pic_task_remaining_time');
+            let remaining_time = $(pic_task_remaining_time).text();
             let td_taskId = $(parent_table_row).find('.taskId');
             let taskId = $(td_taskId).attr('value');
-      
+
+            let table_row = $(delete_update_task[i]).parent();
+            let spendhour = $(table_row).find('.update_task_spendhours').attr('value')
+
+            // Update the remaining time when update task was deleted
+            $(pic_task_remaining_time).text(parseInt(remaining_time) + parseInt(spendhour));
+
             let index = 2;
             let loop = 1;
-
 
             for(let a = 0; loop > a; a++){
 
@@ -5621,16 +5629,12 @@ calendarLogs();
  
          $(add_logs_save).off().on('click', ()=> {
 
-            // let projectName = $('#select_project :selected').text()
             let selected_project_id = $('#select_project :selected').attr('value');
-            // let TaskName = $('#select_task :selected').text();
             let selected_task_id = $('#select_task :selected').attr('value');
             let selectedDate = $('#eventDate').attr('value');
             let add_logs_task_update = $('#add_logs_task_update').val();
             let add_logs_task_spend_hours = $('#add_logs_task_spend_hours').val();
-
-            // console.log(projectName);
-            // console.log(TaskName);
+            let remaining_time = $('#add_logs_task_spend_hours').attr('max');
 
             if(selected_project_id == undefined){
 
@@ -5648,8 +5652,13 @@ calendarLogs();
 
                alert('Kindly Put How Many Hours Do You Spend');
 
+            } else if(remaining_time < add_logs_task_spend_hours){
+
+               alert('add logs are more than remaining time');
+
             } else {
 
+               // Save New Task
                $.ajax({
                   type: 'POST',
                   url: 'employee-logs-add.php',
@@ -5665,9 +5674,11 @@ calendarLogs();
                      //Remove and refresh update data
                      let mylogs_update = document.querySelectorAll('.mylogs_update');
                      let total_spend_hours = document.querySelectorAll('.total_spend_hours span')
-                     
+                  
+                     $('.add_logs_tooltip').addClass('d-none');
                      $(mylogs_update).remove();
                      $(total_spend_hours).remove();
+
                      
                      setTimeout(() => {
 
@@ -5695,8 +5706,27 @@ calendarLogs();
 
                });
 
-            }
+               // Update the task remaining time
+               $.ajax({
+                  type: 'POST',
+                  url: 'update_task_allot_remaining_time_calendar.php',
+                  data: {
+                     'selected_project_id': selected_project_id,
+                     'selected_task_id': selected_task_id,
+                     // 'selectedDate': selectedDate,
+                     'add_logs_task_spend_hours': add_logs_task_spend_hours,
+                  },
+                  success: function(data){
+                     Swal.fire({
+                        title: "Task Update Successfully!",
+                        text: "Added New Updates",
+                        icon: "success"
+                      });
+                  }
+               });
 
+
+            }
 
          });
   }
@@ -5719,6 +5749,8 @@ calendarLogs();
             let update_task_spendhours = $(tableRow).find('.spendHours');
             let spendhours = $(update_task_spendhours).text();
             let update_task_date = $('#eventDate').attr('value');
+
+            $('.add_logs_tooltip').addClass('d-none');
 
             $.ajax({
                type: 'POST',
@@ -5764,7 +5796,6 @@ calendarLogs();
             });
 
             //Update the employee logs total spend hours when update task was deleted
- 
             $.ajax({
                type: 'POST',
                url: 'employees_date_logs_minus_update.php',
@@ -5778,11 +5809,25 @@ calendarLogs();
                }
             });
 
+            // Increate the employee remaining time to their task when the update task was delete
+            $.ajax({
+               type: 'POST',
+               url: 'employees_date_logs_add_update.php',
+               data: {
+                  'taskId': taskId,
+                  'spendhours': spendhours,
+               },
+               success: function(data){
+                  Swal.fire({
+                     title: "Delete Task Update Successfully!",
+                     text: "Deleted Task Update ",
+                     icon: "success"
+                   });
+               }
+            })
+
             // Call a function to change the date color
             dateColor();
-
-            //Update the task remaining time after the update
-         
 
          });
 
