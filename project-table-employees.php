@@ -73,10 +73,10 @@ if(!empty($pms_project['id'])) {
 
     // After marged all employees id convert again to array to get 1 by 1
     $employees_id_output_array = explode(" ", $output);
-    array_pop($employees_id_output_array);    
+    $array_filter = array_filter($employees_id_output_array);    
 
     // Count the employees id
-    $employees_id_output_array_count = (empty($employees_id_output_array) ? "" : count($employees_id_output_array));
+    $employees_id_output_array_count = (empty($array_filter) ? "" : count($array_filter));
   
     $userId = $_SESSION['UserId'];
 
