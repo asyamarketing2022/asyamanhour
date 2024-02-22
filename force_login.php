@@ -7,7 +7,7 @@ $userId = $_SESSION['UserId'];
 
 if(empty($userId)) {
 
-    header("Location: http://192.168.50.248/asyamanhour/index.php");
+    header("Location: /index.php");
 
 } 
 

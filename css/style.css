@@ -393,6 +393,10 @@ button.deleteTask {
     box-shadow: 1px 4px 5px 3px rgba(0,0,0,0.3);
 }
 
+.tasks-content .user-tasks .check_filepath_td .check_filepath_tooltip .check_filepath_wrapper {
+    color: #000;
+}
+
 .tasks-content .user-tasks .task_note_td, 
 .tasks-content .user-tasks .declineTask_note_td,
 .tasks-content .user-tasks .task_title_td
@@ -428,6 +432,7 @@ button.deleteTask {
  
  .tasks-content .user-tasks .taskUpdate .taskUpdate_tooltip table {
     box-shadow: 1px 4px 5px 3px rgba(0,0,0,0.3);
+    color: #000;
  }
 
  .tasks-content .user-tasks .taskUpdate .taskUpdate_tooltip .taskUpdate_tbody tr:last-child td {
@@ -1882,6 +1887,11 @@ button:focus {
 	align-content: center;
 }
 
+.content-table .pagination-filter .pageBtn_container .pagination_link_next:active,
+.content-table .pagination-filter .pageBtn_container .pagination_link_prev:active {
+    background-color: #ac0e2f
+}
+
 .content-table .table-row_projects {
     cursor: pointer;
 }
@@ -2037,6 +2047,46 @@ button:focus {
     padding: 50px 0;
 }
 
+.search-filepath__wrapper {
+    width: 100%;
+    display: flex;
+    height: auto;
+    margin-bottom: 5px;
+}
+
+.search-filepath__wrapper .search-action {
+    display: flex;
+}
+
+.search-filepath__wrapper .search-action .search-file-name-input {
+    border-radius: 4px 0 0 4px;
+    border: 2px solid rgb(230 230 230 / 70%);
+    background-color: #f6f6f6;
+    width: 14vw;
+    padding-left: 10px;
+}
+
+.search-filepath__wrapper .search-action .search-file-name-btn {
+    background-color: #3e3e3e;
+    border: 2px solid #3e3e3e;
+    width: 90px;
+    color: #fff;
+    font-weight: 500;
+    text-align: center;
+    border-radius: 0 4px 4px 0;
+    line-height: 1.7;
+    cursor: pointer;
+}
+
+.search-filepath__wrapper .search-action .search-file-name-btn:hover {
+    background: #6E6E6E;
+    border-color: #6E6E6E;
+}
+
+.search-filepath__wrapper .search-action .search-file-name-btn:active {
+    background-color: #ac0e2f;
+    border-color: #ac0e2f;
+}
 /* .manage-employee__wrapper .pop-up__modal .modal-content .tab-content__info .tab-content__profile .profile-info .profile-info__content {
     display: grid;
     grid-template-columns: 20% 80%;
@@ -2662,6 +2712,7 @@ input.form-check-input {
     padding: 1rem 1.5rem;
     width: 50rem;
     border-radius: 0.5rem;
+    overflow: auto;
 }
 
 @media (max-width: 991px) {

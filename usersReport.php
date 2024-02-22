@@ -8,7 +8,6 @@
 
 <div class="grid-right__content">
 
-
     <div class="content-table">
         <div class="select-action__sort show pagination-filter">
             <select class="form-select dataLimit" aria-label="Default select dataLimit">
@@ -23,7 +22,7 @@
 
                 <!-- usersReport-table.php  -->
 
-                <span class='pagination_link_prev' style='cursor:pointer; padding:6px; border:1px solid #ccc;'><</span>
+                <span class='pagination_link_prev' ><</span>
 
                 <div class="pageBtn">
 
@@ -31,7 +30,7 @@
 
                 </div>
 
-                <span class='pagination_link_next' style='cursor:pointer; padding:6px; border:1px solid #ccc;' id='2'>></span>
+                <span class='pagination_link_next' id='2'>></span>
 
             </div>
 

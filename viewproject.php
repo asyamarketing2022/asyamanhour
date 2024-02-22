@@ -1,15 +1,17 @@
 <?php include 'force_login.php'; ?>
 <?php $page = 'project'; include 'header.php'; ?>
 
+<?php include_once("redirect-project-page.php"); ?>
 <?php include_once("connections/DBconnection.php"); ?>
 <?php include_once("phase-of-work_status.php"); ?>
-<?php include_once("sidebar.php"); ?>
+
 <?php include_once("upload_file_path.php"); ?>
 <?php include_once("ViewProjectController.php"); ?>
 <?php include_once("SearchManagerController.php"); ?>
 <?php include_once('login.php'); ?>
 <?php include_once('postUsersManager_in_modal.php'); ?>
 <?php include_once('show_revise_btn.php'); ?>
+
 <?/*php include_once("employees_auto_create_date_logs.php"); */?>
 
 
@@ -29,16 +31,11 @@ $query_projects = "SELECT * FROM pms_projects WHERE id = '$projectID'";
 $project = $con->query($query_projects) or die ($con->error);
 $row = $project->fetch_assoc();
 
-// $archConceptualStatus = str_replace(' ', '', $row['arch_conceptual_status']);
-// $archConceptualStatus = ltrim($row['arch_conceptual_status'], " ");
-
 ?>
 
-<!-- <div class="col-lg-12"> -->
-  <!-- <div class="loading">
-    <img src="img/loading2.gif" alt="">
-  </div>     -->
-<!-- </div> -->
+<?php if(isset($row['id'])) { ?>
+
+<?php include_once("sidebar.php"); ?>
 
 <div class="grid-right__content">
     <div class="project-title mt-4 row">
@@ -85,7 +82,7 @@ $row = $project->fetch_assoc();
 
                                 ?>
                                     
-                                    <a href="/asyamanhour/viewproject.php?ID=<?php echo $pms_project_revise['id'] ?>"><?php echo $count++; ?>. Revise</a>
+                                    <a href="/viewproject.php?ID=<?php echo $pms_project_revise['id'] ?>"><?php echo $count; ?>. Revise</a>
 
                                 <?php 
 
@@ -114,13 +111,13 @@ $row = $project->fetch_assoc();
         <table>
             <tr>
                 <th class="th_services">Architecture</th>
-                <th>Department</th>
+                <!-- <th>Department</th> -->
                 <th>Manager</th>
                 <th>Project In Charge</th>
                 <th>Status</th>
                 <th>Date Receive</th>
                 <th>Due Date</th>
-                <th>File Upload</th>
+                <!-- <th>File Upload</th> -->
                 <th>File Lists</th>
             </tr>
 
@@ -211,13 +208,13 @@ $row = $project->fetch_assoc();
             <table>
                 <tr>
                     <th class="th_services">Engineering</th>
-                    <th>Department</th>
+                    <!-- <th>Department</th> -->
                     <th>Manager</th>
                     <th>Project In Charge</th>
                     <th>Status</th>
                     <th>Date Receive</th>
                     <th>Due Date</th>
-                    <th>File Upload</th>
+                    <!-- <th>File Upload</th> -->
                     <th>File Lists</th>
                 </tr>
 
@@ -284,13 +281,13 @@ $row = $project->fetch_assoc();
             <table>
                 <tr>
                     <th class="th_services">Interior</th>
-                    <th>Department</th>
+                    <!-- <th>Department</th> -->
                     <th>Manager</th>
                     <th>Project In Charge</th>
                     <th>Status</th>
                     <th>Date Receive</th>
                     <th>Due Date</th>
-                    <th>File Upload</th>
+                    <!-- <th>File Upload</th> -->
                     <th>File Lists</th>
                 </tr>
 
@@ -369,13 +366,13 @@ $row = $project->fetch_assoc();
             <table>
                 <tr>
                     <th class="th_services">Master Planning</th>
-                    <th>Department</th>
+                    <!-- <th>Department</th> -->
                     <th>Manager</th>
                     <th>Project In Charge</th>
                     <th>Status</th>
                     <th>Date Receive</th>
                     <th>Due Date</th>
-                    <th>File Upload</th>
+                    <!-- <th>File Upload</th> -->
                     <th>File Lists</th>
                 </tr>
 
@@ -831,7 +828,14 @@ $row = $project->fetch_assoc();
                 </button>
             </div>
             <span class="modal-title">View File Paths</span>
+                <div class='search-filepath__wrapper'>
+                    <div class='search-action'>
+                        <input class='search-file-name-input' type='text'>
+                        <div class='search-file-name-btn'>Search</div>
+                    </div>  
+                </div>
             <div class="viewFilePath_container">
+ 
                 <!-- view-Filepath_in_modal.php -->
 
             </div>
@@ -907,5 +911,14 @@ $row = $project->fetch_assoc();
     </div>
 </div>
 
+<?php 
+
+} else {
+
+     header("Location: /project.php");
+    
+} 
+
+?>
 
 <?php include 'footer.php'; ?>

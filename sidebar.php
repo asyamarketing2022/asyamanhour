@@ -7,7 +7,7 @@
 
 <?php
 
- $URL = 'http://192.168.50.248/asyamanhour';
+ $URL = 'http://dev.asyamanhour.local';
 
 ?>
 
@@ -107,7 +107,7 @@
                                     <?php if($newtask_notif['invite_status'] == 'new') { ?>
                                         
                                         <div class="notif_box">
-                                            <a href="/profile.php">
+                                            <a href="<?php echo $URL ?>/profile.php">
                                                 <div class="notif-photo">
                                                     <?php 
                                                     
@@ -158,7 +158,7 @@
 
                                 <?php if($filePath_notif['file_path_status'] == 'new') { ?>
                                     <div class="notif_box">
-                                        <a href="<?php echo $URL ?>/viewproject.php?ID=<?php echo $filePath_notif['project_id']; ?>">
+                                        <a href="/viewproject.php?ID=<?php echo $filePath_notif['project_id']; ?>">
                                             <div class="notif-text pb-2">
                                                 <span class='notif-message' style='font-size: 20px;'><strong>New File Path Sent</strong></span></br>
                                             </div>

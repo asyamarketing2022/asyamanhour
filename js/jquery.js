@@ -1,4 +1,5 @@
 // $(document).ready(function () {
+let site_url = 'http://dev.asyamanhour.local';
 
 jQuery(function () {
 
@@ -212,14 +213,145 @@ jQuery(function () {
 
          }
          
-         // console.log($(loginEmail).val());
-         // console.log($(loginPassword).val());
-         
-
       });
 
    }
    login();
+
+   function pressEnter_email(){
+
+      let loginEmail = document.querySelector('#login-email');
+      let loginPassword = document.querySelector('#login-password');
+
+      $(loginEmail).on('keypress', (e)=> {
+
+         let key = e.which;
+
+         if(key == 13) {
+            if( !$(loginEmail).val()) {
+
+               Swal.fire({
+                  icon: "error",
+                  title: "Oops...",
+                  text: "Please enter your email",
+                 
+                });
+   
+            } else if (!$(loginPassword).val()) {
+   
+               Swal.fire({
+                  icon: "error",
+                  title: "Oops...",
+                  text: "Please enter your password",
+              
+                });
+   
+            } else {
+   
+               $.ajax({
+                  type: 'POST',
+                  url: 'login.php',
+                  data: {
+                     'loginEmail': $(loginEmail).val(),
+                     'loginPassword': $(loginPassword).val(),
+                  },
+                  success:function(data){
+   
+                     data = data.replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '');
+   
+                     if(data == 'incorrect!') {
+   
+                        Swal.fire({
+                           icon: "error",
+                           title: "Oops...",
+                           text: "Wrong email or password!",
+                           // footer: '<a href="#">Why do I have this issue?</a>'
+                        });
+   
+                     } else {
+   
+                        location.reload();
+   
+                     }
+                     
+                  }
+   
+               });
+   
+            }
+         }
+
+      });
+   }
+   pressEnter_email();
+
+   function pressEnter_password(){
+
+      let loginEmail = document.querySelector('#login-email');
+      let loginPassword = document.querySelector('#login-password');
+
+      $(loginPassword).on('keypress', (e)=> {
+
+         let key = e.which;
+
+         if(key == 13) {
+            if( !$(loginEmail).val()) {
+
+               Swal.fire({
+                  icon: "error",
+                  title: "Oops...",
+                  text: "Please enter your email",
+                 
+                });
+   
+            } else if (!$(loginPassword).val()) {
+   
+               Swal.fire({
+                  icon: "error",
+                  title: "Oops...",
+                  text: "Please enter your password",
+              
+                });
+   
+            } else {
+   
+               $.ajax({
+                  type: 'POST',
+                  url: 'login.php',
+                  data: {
+                     'loginEmail': $(loginEmail).val(),
+                     'loginPassword': $(loginPassword).val(),
+                  },
+                  success:function(data){
+   
+                     data = data.replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '');
+   
+                     if(data == 'incorrect!') {
+   
+                        Swal.fire({
+                           icon: "error",
+                           title: "Oops...",
+                           text: "Wrong email or password!",
+                           // footer: '<a href="#">Why do I have this issue?</a>'
+                        });
+   
+                     } else {
+   
+                        location.reload();
+   
+                     }
+                     
+                  }
+   
+               });
+   
+            }
+         }
+
+      });
+
+   }
+   pressEnter_password();
 
    function btntext(){
       let viewsBtn = document.querySelectorAll('.view-myProject');
@@ -390,6 +522,8 @@ jQuery(function () {
       });
    }
    searchTask()
+
+   
 
    //Changing Data thru pagination (User Log)
    function page() {
@@ -2344,6 +2478,19 @@ function submit_file_path(){
                },
                success:function(data){
                   $('.viewFilePath_container').html(data);
+
+                  // Create dynamic html element for search_file_paths function
+                  let contentInfo = `<div class="content__info d-none">
+                                          <span>Phase of work:</span>
+                                          <p class="file_path_pow">${text_phaseofwork}</p>
+                                       </div>
+                                       <div class="content__info d-none">
+                                          <span>Service:</span>
+                                          <p class='file_path_service'>${projectService}</p>
+                                       </div>`;
+
+                  $(contentInfo).appendTo('.search-filepath__wrapper');
+
                }
             });
          });
@@ -2351,6 +2498,39 @@ function submit_file_path(){
 
    }
    view_file_paths();
+
+   function search_file_paths() {
+
+      let search_file_name_btn = document.querySelector('.search-file-name-btn');
+      let search_file_name_input = document.querySelector('.search-file-name-input');
+      let projectId = $('#projectTitle').attr('value');
+
+      $(search_file_name_btn).on('click', ()=> {
+
+         let searchFilter = $(search_file_name_input).val();
+         let service = $('.file_path_service').text();
+         let pow = $('.file_path_pow').text();
+
+         $.ajax({
+            type: 'POST',
+            url: 'search-Filepath_in_modal.php',
+            data: {
+               'projectId': projectId,
+               'searchFilter': searchFilter,
+               'service': service,
+               'pow': pow,
+            },
+            success:function(data){
+                  $('.viewFilePath_container').html(data);
+            } 
+
+         });
+
+      });
+
+}
+search_file_paths()
+
 
    //New Task Tooltip
    function newtask_tooltip(){
@@ -4640,13 +4820,21 @@ function submitNewTask_pic(){
             let update_task_id = $($('.update_task_id')[i]).text();
             // let taskId = $('.taskId').attr('value');
             let tbody = $(delete_update_task[i]).parent().parent();
+            // let parent_table_row = $(delete_update_task[i]).parent().parent().parent().parent().parent().parent();
             let parent_table_row = $(delete_update_task[i]).parent().parent().parent().parent().parent().parent();
+            let pic_task_remaining_time = $(parent_table_row).find('.pic_task_remaining_time');
+            let remaining_time = $(pic_task_remaining_time).text();
             let td_taskId = $(parent_table_row).find('.taskId');
             let taskId = $(td_taskId).attr('value');
-      
+
+            let table_row = $(delete_update_task[i]).parent();
+            let spendhour = $(table_row).find('.update_task_spendhours').attr('value')
+
+            // Update the remaining time when update task was deleted
+            $(pic_task_remaining_time).text(parseInt(remaining_time) + parseInt(spendhour));
+
             let index = 2;
             let loop = 1;
-
 
             for(let a = 0; loop > a; a++){
 
@@ -5441,16 +5629,12 @@ calendarLogs();
  
          $(add_logs_save).off().on('click', ()=> {
 
-            // let projectName = $('#select_project :selected').text()
             let selected_project_id = $('#select_project :selected').attr('value');
-            // let TaskName = $('#select_task :selected').text();
             let selected_task_id = $('#select_task :selected').attr('value');
             let selectedDate = $('#eventDate').attr('value');
             let add_logs_task_update = $('#add_logs_task_update').val();
             let add_logs_task_spend_hours = $('#add_logs_task_spend_hours').val();
-
-            // console.log(projectName);
-            // console.log(TaskName);
+            let remaining_time = $('#add_logs_task_spend_hours').attr('max');
 
             if(selected_project_id == undefined){
 
@@ -5468,8 +5652,13 @@ calendarLogs();
 
                alert('Kindly Put How Many Hours Do You Spend');
 
+            } else if(remaining_time < add_logs_task_spend_hours){
+
+               alert('add logs are more than remaining time');
+
             } else {
 
+               // Save New Task
                $.ajax({
                   type: 'POST',
                   url: 'employee-logs-add.php',
@@ -5485,9 +5674,11 @@ calendarLogs();
                      //Remove and refresh update data
                      let mylogs_update = document.querySelectorAll('.mylogs_update');
                      let total_spend_hours = document.querySelectorAll('.total_spend_hours span')
-                     
+                  
+                     $('.add_logs_tooltip').addClass('d-none');
                      $(mylogs_update).remove();
                      $(total_spend_hours).remove();
+
                      
                      setTimeout(() => {
 
@@ -5515,8 +5706,27 @@ calendarLogs();
 
                });
 
-            }
+               // Update the task remaining time
+               $.ajax({
+                  type: 'POST',
+                  url: 'update_task_allot_remaining_time_calendar.php',
+                  data: {
+                     'selected_project_id': selected_project_id,
+                     'selected_task_id': selected_task_id,
+                     // 'selectedDate': selectedDate,
+                     'add_logs_task_spend_hours': add_logs_task_spend_hours,
+                  },
+                  success: function(data){
+                     Swal.fire({
+                        title: "Task Update Successfully!",
+                        text: "Added New Updates",
+                        icon: "success"
+                      });
+                  }
+               });
 
+
+            }
 
          });
   }
@@ -5539,6 +5749,8 @@ calendarLogs();
             let update_task_spendhours = $(tableRow).find('.spendHours');
             let spendhours = $(update_task_spendhours).text();
             let update_task_date = $('#eventDate').attr('value');
+
+            $('.add_logs_tooltip').addClass('d-none');
 
             $.ajax({
                type: 'POST',
@@ -5584,7 +5796,6 @@ calendarLogs();
             });
 
             //Update the employee logs total spend hours when update task was deleted
- 
             $.ajax({
                type: 'POST',
                url: 'employees_date_logs_minus_update.php',
@@ -5598,11 +5809,25 @@ calendarLogs();
                }
             });
 
+            // Increate the employee remaining time to their task when the update task was delete
+            $.ajax({
+               type: 'POST',
+               url: 'employees_date_logs_add_update.php',
+               data: {
+                  'taskId': taskId,
+                  'spendhours': spendhours,
+               },
+               success: function(data){
+                  Swal.fire({
+                     title: "Delete Task Update Successfully!",
+                     text: "Deleted Task Update ",
+                     icon: "success"
+                   });
+               }
+            })
+
             // Call a function to change the date color
             dateColor();
-
-            //Update the task remaining time after the update
-         
 
          });
 
@@ -6418,7 +6643,7 @@ function add_project_revise(){
       let projectId = $('#projectTitle').attr('value');
 
          Swal.fire({
-            title: "Do you want to save the changes?",
+            title: "Do you want to add new revise?",
             showDenyButton: true,
             showCancelButton: true,
             confirmButtonText: "Save",
@@ -6437,7 +6662,7 @@ function add_project_revise(){
                   Swal.fire("Successful Added Revise!", "", "success");
                   
                   setTimeout(() => {
-                     window.location.href = `/viewproject.php?ID=${data}`;
+                     window.location.href = `${site_url}/viewproject.php?ID=${data}`;
                   }, 1000);
                   
                }
@@ -6926,8 +7151,9 @@ function closeCheckFiles(){
 
          let check_filepath_td = $(btn).parent();
          let check_filepath_tooltip = $(check_filepath_td).find('.check_filepath_tooltip');
+         let check_filepath_td_children = $(check_filepath_td).find('*');
 
-         if(!$(btn).is(e.target) && $(btn).has(e.target).length === 0) {
+         if(!$(btn).is(e.target) && $(btn).has(e.target).length === 0 && !$(check_filepath_td_children).is(e.target) ) {
 
             if(!$(check_filepath_tooltip).hasClass('d-none')) {
 
@@ -6955,8 +7181,9 @@ function closeUploadFilePath(){
 
          let upload_filepath_td = $(btn).parent();
          let upload_filepath_tooltip = $(upload_filepath_td).find('.upload_filepath_tooltip');
+         let upload_filepath_td_children = $(upload_filepath_td).find('*');
 
-         if(!$(btn).is(e.target) && $(btn).has(e.target).length === 0){
+         if(!$(btn).is(e.target) && $(btn).has(e.target).length === 0 && !$(upload_filepath_td_children).is(e.target)){
 
             if(!$(upload_filepath_tooltip).hasClass('d-none')) {
 
