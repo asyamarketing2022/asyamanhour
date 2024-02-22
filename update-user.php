@@ -20,6 +20,9 @@ if(isset($_POST['tableID'])) {
 
     $_SESSION['Update_userID'] = $updateUser['ID'];
 
+    $position = $updateUser['position'];
+    $password = $updateUser['password'];
+
         echo "<div class='tab-content' id='profile-tab'>
                 <div class='tab-pane tab-content__info fade show active' id='profile_edit' role='tabpanel' aria-labelledby='profile-tab'>
                     <div class='tab-content__profile'>
@@ -65,34 +68,37 @@ if(isset($_POST['tableID'])) {
                             </div>
                             <div class='profile-info__content'>
                                 <span>Department</span>
-                                <select name='update_department' id='department' value=" . $updateUser['department'] . ">
-                                    <option value='design' selected>Design</option>
-                                    <option value='production'>Production</option>
-                                    <option value='project management'>Project Management</option>
-                                    <option value='interior design'>Interior Design</option>
-                                    <option value='master planning'>Master Planning</option>
-                                    <option value='mechanical'>Mechanical</option>
-                                    <option value='electrical'>Electrical</option>
-                                    <option value='plumbing'>Plumbing</option>
-                                    <option value='fire protection'>Fire Protection</option>
-                                    <option value='structural'>Structural</option>
+                                <select name='update_department' id='department'>
+                                    <option value='design' " . ($updateUser['department'] == 'design' ? ' selected ' : '') . ">Design</option>
+                                    <option value='production' " . ($updateUser['department'] == 'production' ? ' selected ' : '') . ">Production</option>
+                                    <option value='project management' " . ($updateUser['department'] == 'project management' ? ' selected ' : '') . ">Project Management</option>
+                                    <option value='interior design' " . ($updateUser['department'] == 'interior design' ? ' selected ' : '') . ">Interior Design</option>
+                                    <option value='master planning' " . ($updateUser['department'] == 'master planning' ? ' selected ' : '') . ">Master Planning</option>
+                                    <option value='mechanical' " . ($updateUser['department'] == 'mechanical' ? ' selected ' : '') . ">Mechanical</option>
+                                    <option value='electrical' " . ($updateUser['department'] == 'electrical' ? ' selected ' : '') . ">Electrical</option>
+                                    <option value='plumbing' " . ($updateUser['department'] == 'plumbing' ? ' selected ' : '') . ">Plumbing</option>
+                                    <option value='fire protection' " . ($updateUser['department'] == 'fire protection' ? ' selected ' : '') . ">Fire Protection</option>
+                                    <option value='structural' " . ($updateUser['department'] == 'structural' ? ' selected ' : '') . ">Structural</option>
+                                    <option value='contract & billing' " . ($updateUser['department'] == 'contract & billing' ? ' selected ' : '') . ">Contract & Billing</option>
                                 </select>
                             </div>
                             <div class='profile-info__content'>
                                 <span>Position</span>
                     
-                                <input type='text' name='update_position' id='position formControlDefault' value=" . $updateUser['position'] . " required>
+                                <input type='text' name='update_position' id='position' value='$position' required>
                             </div>
                             <div class='profile-info__content'>
                                 <span>Password</span>
-                                <input type='text' name='update_password' id='password formControlDefault' value=" . $updateUser['password'] . " required>
+                                <input type='text' name='update_password' id='password' value='$password' required>
                             </div>
                             <div class='profile-info__content'>
                                 <span>Access</span>
-                                <select name='update_access' id='access' value=" . $updateUser['access'] . ">
-                                    <option value='employee'>Employee</option>
-                                    <option value='admin'>Admin</option>
-                                    <option value='manager'>Manager</option>
+                                <select name='update_access' id='access'>
+                                   
+                                    <option value='admin' " . ($updateUser['access'] == 'admin' ? ' selected ' : '') . ">Admin</option>
+                                    <option value='contract & billing' " . ($updateUser['access'] == 'contract & billing' ? ' selected ' : '') . ">Contract & Billing</option>
+                                    <option value='manager' " . ($updateUser['access'] == 'manager' ? ' selected ' : '') . ">Manager</option>
+                                    <option value='employee' " . ($updateUser['access'] == 'employee' ? ' selected ' : '') . ">Employee</option>
                                 </select>
                             </div>
                         </div>

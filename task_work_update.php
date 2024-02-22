@@ -15,8 +15,9 @@ $con = $db->connection();
         $taskTitle = $_POST['taskTitle'];
         $dateToday = $_POST['dateToday'];
         $employeeId = $_POST['employeeId'];
+        $employeeName = $_POST['employeeName'];
        
-        $sql =  "INSERT INTO `employees_updates_task`(`project_id`, `project_name`, `services`, `phase_of_work`, `employee_id`, `task_id`, `task_title`, `date`) VALUES ('$projectId', '$projectName', '$services', '$phase_of_work', '$employeeId', '$taskId', '$taskTitle', '$dateToday')";
+        $sql =  "INSERT INTO `employees_updates_task`(`project_id`, `project_name`, `services`, `phase_of_work`, `employee_id`, `employee_name`, `task_id`, `task_title`, `date`) VALUES ('$projectId', '$projectName', '$services', '$phase_of_work', '$employeeId', '$employeeName', '$taskId', '$taskTitle', '$dateToday')";
 
         $con->query($sql) or die ($con->error);
 
@@ -52,7 +53,7 @@ $con = $db->connection();
             $total_hours = $spend_total_hours->fetch_assoc();
 
             $output .= "<tr>
-                        <td><img class='add_newUpdate_btn' src='/img/add-icon.png' width='25'></td>
+                        <td><img class='add_newUpdate_btn' src='img/add-icon.png' width='25'></td>
                         <td><button class='save_update_tasks'>Save</button></td>
                         <td>Total Hours:<span class='total_spend_hours'>" . $total_hours['total_spend_hours'] . "</span></td>
                         <td></td>

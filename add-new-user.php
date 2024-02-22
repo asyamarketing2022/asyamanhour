@@ -22,7 +22,6 @@ include_once("user-record.php");
     $userImage = 'placeholder-user.png';
     $userBio = 'Place Your Bio Here';
 
-
     $check = mysqli_query($con, "SELECT * FROM registered_users WHERE email = '$email'");
     $checkrows = mysqli_num_rows($check);
 
@@ -35,7 +34,6 @@ include_once("user-record.php");
         $sql = "INSERT INTO `registered_users`(`user_image`, `first_name`, `last_name`, `user_bio`, `gender`, `date_of_birth`, `mobile_number`, `address`, `email`, `department`, `position`, `password`, `access`) VALUES ('$userImage', '$fname', '$lname', '$userBio', '$gender', '$birthday', '$mobilenumber', '$address','$email', '$department', '$position', '$password', '$access')";
 
         $con->query($sql) or die ($con->error); 
-
 
         //User Record Action Add
         $userDetails = $fname  . ' ' . $lname ;

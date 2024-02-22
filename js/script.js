@@ -207,35 +207,91 @@ function refreshPage() {
 refreshPage();
 
 function download_csv() {
-    
+
     let dl_csv = document.querySelector('.dl_csv');
 
-    dl_csv.addEventListener('click', (e) => {
+    if (dl_csv) {
 
-        let tableRow = document.querySelectorAll('tr.table-row_user');
+        dl_csv.addEventListener('click', (e) => {
+
+            let tableRow = document.querySelectorAll('tr.table-row_user');
+    
+            //define the heading for each row of the data
+            let csv = 'ID,Name,User ID,Position,Department,Action,Action Status,Source,Added At\n';
+    
+            //merge the data with CSV
+            Array.from(tableRow).forEach((row) => {
+    
+            let td_array = row.children;
+            let td_text = [];
+            let td_container = [];
+    
+                for (let i = 0; i < td_array.length; i++) {
+    
+                    td_text.push(td_array[i].innerText);
+                }
+           
+                td_container.push(td_text);
+    
+                csv += td_container.join(',');
+                csv += "\n";
+
+                // console.log(td_container);
+    
+           });
+            
+            //display the created CSV data on the web browser 
+            // document.write(csv);
+    
+            var hiddenElement = document.createElement('a');
+            hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
+            hiddenElement.target = '_blank';
+            
+            //provide the name for the CSV file to be downloaded
+            hiddenElement.download = 'Users History.csv';
+            hiddenElement.click();
+    
+        });
+
+    }
+
+}
+download_csv();
+
+function download_project_record() {
+
+    let dl_records = document.querySelector('.download-project-record');
+    let recordUpdates = document.querySelectorAll('.record-update');
+    let output = '';
+
+    dl_records.addEventListener('click', (e)=> {
 
         //define the heading for each row of the data
-        let csv = 'ID,Name,User ID,Position,Department,Action,Action Status,Source,Added At\n';
+        let csv = 'Services,Phase of Work,Name,Department,Position,Task Title,Task Update,Task Spend Hours\n';
 
         //merge the data with CSV
-        Array.from(tableRow).forEach((row) => {
+        for(let i = 0; recordUpdates.length > i; i++){
 
-        let td_array = row.children;
-        let td_text = [];
-        let td_container = [];
- 
-            for (let i = 0; i < td_array.length; i++) {
+            let updates_array = recordUpdates[i].children;
+            let updates_text = [];
+            let updates_container = [];
 
-                td_text.push(td_array[i].innerText);
+            for (let a = 0; a < updates_array.length; a++) {
+    
+                updates_text.push(updates_array[a].innerText);
+        
             }
        
-            td_container.push(td_text);
+            updates_container.push(updates_text + "\n");
 
-            csv += td_container.join(',');
-            csv += "\n";
+            output += updates_container;
 
-       });
-        
+        }
+
+        csv += output;
+        csv += "\n";
+
+
         //display the created CSV data on the web browser 
         // document.write(csv);
 
@@ -244,14 +300,13 @@ function download_csv() {
         hiddenElement.target = '_blank';
         
         //provide the name for the CSV file to be downloaded
-        hiddenElement.download = 'Users History.csv';
+        hiddenElement.download = 'Project Records.csv';
         hiddenElement.click();
 
-  
     }); 
-}
-download_csv();
 
+}
+download_project_record();
 
 // let prevent = document.querySelector('.prevent');
 

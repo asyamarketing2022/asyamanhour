@@ -1,4 +1,4 @@
-<?php include_once('connections/DBconnection.php'); ?>
+<?php include_once 'connections/DBconnection.php'; ?>
 
 <?php 
 
@@ -11,6 +11,7 @@ $con = $db->connection();
         $taskId = $_POST['taskId'];
         $output = '';
 
+        // Delete Employee Update Task
         $sql = "DELETE FROM employees_updates_task WHERE id = $update_task_id";
         $con->query($sql) or die($con->error);
 
@@ -46,7 +47,7 @@ $con = $db->connection();
                 } while($row = $employee_update_tasks->fetch_assoc());
 
                 $output .= "<tr>
-                            <td><img class='add_newUpdate_btn' src='/img/add-icon.png' width='25'></td>
+                            <td><img class='add_newUpdate_btn' src='img/add-icon.png' width='25'></td>
                             <td><button class='save_update_tasks'>Save</button></td>
                             <td>Total Hours:<span class='total_spend_hours'></span></td>
                             <td></td>
@@ -56,13 +57,14 @@ $con = $db->connection();
 
         }
 
-   
+
     } elseif(isset($_POST['total_spend_hours'])){
 
         $taskId = $_POST['taskId'];
         $total_spend_hours = $_POST['total_spend_hours'];
         $output = '';
 
+        //Update the total spend hours when update task was deleted
         $sql_update = "UPDATE `employees_tasks` SET `total_spend_hours` = '$total_spend_hours' WHERE id = '$taskId'";
 
         if($con->query($sql_update) === TRUE) {
@@ -77,7 +79,6 @@ $con = $db->connection();
                             <th>Date</th>
                             <th>Spend Hours</th>
                             <th></th>
-            
                         </tr>";
 
                 do {
@@ -101,7 +102,7 @@ $con = $db->connection();
                 $total_hours = $spend_total_hours->fetch_assoc();
 
                 $output .= "<tr>
-                            <td><img class='add_newUpdate_btn' src='/img/add-icon.png' width='25'></td>
+                            <td><img class='add_newUpdate_btn' src='img/add-icon.png' width='25'></td>
                             <td><button class='save_update_tasks'>Save</button></td>
                             <td>Total Hours:<span class='total_spend_hours'>" . $total_hours['total_spend_hours'] . "</span></td>
                             <td></td>
@@ -110,6 +111,7 @@ $con = $db->connection();
                 echo $output;
 
         }
+
 
     }
 

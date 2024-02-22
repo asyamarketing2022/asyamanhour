@@ -8,7 +8,58 @@ jQuery(function () {
       multidate: true
    }); 
 
-   
+   //Function for creating a data for Employee Logs
+   // function employees_auto_create_date_logs(){
+
+   //    monthYearToday = new Date();
+
+   //    let calendarDate = monthYearToday.getFullYear() + "-" + ("0" + (monthYearToday.getMonth()+1)).slice(-2) + "-" +  ("0" + (monthYearToday.getDate()+0)).slice(-2);
+
+   //    $.ajax({
+   //       type: 'POST',
+   //       url: 'employees_auto_create_date_logs.php',
+   //       data: {
+   //          'calendarDate': calendarDate,
+   //       },
+   //       success:function(data){
+   //          // console.log(data);
+   //          $('.exeee').html(data);
+   //       }
+   //    });
+      
+   // }
+   // // $(window).on('load', employees_auto_create_date_logs);
+
+   // //Function for update a table for Employee Logs
+   // function employees_auto_update_date_logs(){
+
+   //    let calendarDate = document.querySelectorAll('.date');
+         
+   //    for(let i = 0; calendarDate.length > i; i++){
+
+   //       // $(calendarDate[i]).off().on('click', ()=> {
+
+   //       //    let dateSelected = $(calendarDate[i]).attr('value');
+
+   //       //    $.ajax({
+   //       //       type: 'POST',
+   //       //       url: 'employees_auto_update_date_logs.php',
+   //       //       data: {
+   //       //          'dateSelected': dateSelected,
+   //       //       },
+   //       //       success:function(data){
+   //       //          console.log(data)
+   //       //       }
+   //       //    });
+
+   //       // });
+
+   //       employeeCalendar()
+   //    }
+
+   // }
+   // $(window).on('load', employees_auto_update_date_logs);
+   // employees_auto_update_date_logs()
 
    //Update User
       $('.table-row_user').each(function(){
@@ -100,6 +151,76 @@ jQuery(function () {
       });
    });
 
+   function login(){
+
+      let btnLogin = document.querySelector('#btn-login');
+
+      $(btnLogin).on('click', ()=> {
+
+         let loginEmail = document.querySelector('#login-email');
+         let loginPassword = document.querySelector('#login-password');
+
+         if( !$(loginEmail).val()) {
+
+            Swal.fire({
+               icon: "error",
+               title: "Oops...",
+               text: "Please enter your email",
+              
+             });
+
+         } else if (!$(loginPassword).val()) {
+
+            Swal.fire({
+               icon: "error",
+               title: "Oops...",
+               text: "Please enter your password",
+           
+             });
+
+         } else {
+
+            $.ajax({
+               type: 'POST',
+               url: 'login.php',
+               data: {
+                  'loginEmail': $(loginEmail).val(),
+                  'loginPassword': $(loginPassword).val(),
+               },
+               success:function(data){
+
+                  data = data.replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '');
+
+                  if(data == 'incorrect!') {
+
+                     Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: "Wrong email or password!",
+                        // footer: '<a href="#">Why do I have this issue?</a>'
+                     });
+
+                  } else {
+
+                     location.reload();
+
+                  }
+                  
+               }
+
+            });
+
+         }
+         
+         // console.log($(loginEmail).val());
+         // console.log($(loginPassword).val());
+         
+
+      });
+
+   }
+   login();
+
    function btntext(){
       let viewsBtn = document.querySelectorAll('.view-myProject');
 
@@ -151,13 +272,51 @@ jQuery(function () {
    notif();
 
    function notifShow() {
-      $(".fa-bell").on('click', ()=> {
+      // $(".fa-bell").on('click', ()=> {
+      $(".new-bell").on('click', ()=> {
 
-         $(".notif-list").toggle();
+         let notif_list = document.querySelector('.notif-list');
+
+         if($(notif_list).hasClass('d-none')){
+            
+            $(notif_list).removeClass('d-none');
+
+         } else {
+
+            $(notif_list).addClass('d-none');
+            
+         }
+
+      
 
       });
    }
    notifShow();
+
+   //Search User Project
+   function searchProject() {
+      $('.submit_projectSearch').on('click', (e)=> {
+         let projectSearch = $(".projectSearch").val();
+       
+            $.ajax({
+               type: 'POST',
+               url: 'searchproject_table.php',
+               data: {
+                  'projectSearch': projectSearch,
+               },
+               success:function(data){
+                  $('.userProject-table').html(data);
+                  table_form_link();
+               }
+            });
+
+            e.preventDefault();
+
+          
+
+      }); 
+   }
+   searchProject();
 
    //Search Filter (User Log)
    function searchFilter() {
@@ -203,6 +362,34 @@ jQuery(function () {
       });
    }
    limitData();
+   
+   //Search Filter (User tasks)
+   function searchTask() {
+      $('.search-task').on('click', (e)=> {
+         let searchFilter = $(".search-task-input").val();
+         let profile_userId = $(".profile-userId").text()
+      
+            $.ajax({
+               type: 'POST',
+               url: 'userTasks-table.php',
+               data: {
+                  'searchFilter': searchFilter,
+                  'profile_userId': profile_userId,
+               },
+               success:function(data){
+
+                  $('.usertasks-table').html(data);
+
+                  //Function link
+                  linkTask();
+               }
+            });
+
+            e.preventDefault();
+        
+      });
+   }
+   searchTask()
 
    //Changing Data thru pagination (User Log)
    function page() {
@@ -252,26 +439,189 @@ jQuery(function () {
    function selectedPage() {
       $(document).on('click', '.pagination_link', function(){
 
-     
          if($(this).hasClass('selected') == false) {
+ 
+            $('.selected').next().removeClass('btnNext');
+            $('.selected').prev().removeClass('btnPrev');
             $('.pagination_link').removeClass('selected');
             $('.pagination_link').addClass('hide');
             $(this).addClass('selected');
             $('.selected').removeClass('hide');
             $('.selected').next().removeClass('hide');
             $('.selected').prev().removeClass('hide');
+            $('.selected').next().addClass('btnNext');
+            $('.selected').prev().addClass('btnPrev');
             $('.pagination_link:first-child').removeClass('hide');
             $('.pagination_link:last-child').removeClass('hide');
+
          }
 
-         // $('.pagination_link').addClass('d-none');
-         // $(this).addClass('selected');
-         // $(this).removeClass('d-none');
-
-         // $('.pagination_link').removeClass('selected');
       });
    }
    selectedPage();
+
+   function prevNext_btn(){
+
+      let pagination_link_btns = document.querySelectorAll('.pagination_link');
+      let pagination_link_prev = document.querySelector('.pagination_link_prev');
+      let pagination_link_next = document.querySelector('.pagination_link_next');
+
+      Array.from(pagination_link_btns).forEach((btn) => {
+
+         $(btn).on('click', ()=> {
+
+            setTimeout(() => {
+               
+               let btnPrev_val = $('.btnPrev').attr('id');
+               let btnNext_val = $('.btnNext').attr('id');
+
+               $(pagination_link_prev).attr('id', btnPrev_val);
+               $(pagination_link_next).attr('id', btnNext_val);
+
+               
+            }, 100);
+
+         });
+
+      });
+
+   }
+   // prevNext_btn()
+
+   function prevBtn() {
+
+      let pagination_link_prev_arrow = document.querySelector('.pagination_link_prev');
+
+      $(pagination_link_prev_arrow).on('click', ()=> {
+
+         let page = $(pagination_link_prev_arrow).attr("id");
+         let val = $('.dataLimit option:selected').attr('value');
+         let searchVal = $(".searchFilter").val();
+         let prevPage =  $('.btnPrev').attr('id');
+
+         if(document.querySelector('.selected') != null && document.querySelector('.btnPrev') != null) {
+
+            $.ajax({
+               url:"usersReport-table_2.php",
+               type: 'POST',
+               data:{'page' :prevPage,
+               'pageLimit' :val,
+               'searchVal' :searchVal
+               },
+               success:function(data){
+                  $('.userhistory-table').html(data);
+   
+                  let newId = parseInt(prevPage);
+                  $(pagination_link_prev_arrow).attr('id', newId);
+
+                  let btnPrev = $('.btnPrev');
+                  let selected = $('.selected');
+                  let btnNext = $('.btnNext');
+                  let pagination_link = $('.pagination_link').last();
+
+                  $(pagination_link).removeClass('hide');
+
+                  $(btnPrev).prev().addClass('btnPrev');
+                  $(btnPrev).prev().removeClass('hide');
+
+                  $(selected).addClass('btnNext');
+                  $(selected).prev().addClass('selected');
+                  $(selected).prev().removeClass('btnPrev');
+                  $(selected).removeClass('selected');
+
+                  $(selected).next().addClass('hide');
+                  $(selected).next().removeClass('btnNext');
+
+   
+               }
+            });
+
+         }
+
+      });
+
+   }
+   prevBtn();
+
+   function nextBtn() {
+
+      let pagination_link_next_arrow = document.querySelector('.pagination_link_next');
+
+      $(pagination_link_next_arrow).on('click', ()=> {
+
+         let page = $(pagination_link_next_arrow).attr("id");
+         let val = $('.dataLimit option:selected').attr('value');
+         let searchVal = $(".searchFilter").val();
+         let nextPage =  $('.btnNext').attr('id');
+
+            if(document.querySelector('.selected') == null) {
+
+               let pagination_link_prev = $('.pagination_link').eq(0);
+               let pagination_link_Selected = $('.pagination_link').eq(1);
+               let pagination_link_next = $('.pagination_link').eq(2);
+            
+               $.ajax({
+                  url:"usersReport-table_2.php",
+                  type: 'POST',
+                  data:{'page' :page,
+                  'pageLimit' :val,
+                  'searchVal' :searchVal
+                  },
+                  success:function(data){
+                     $('.userhistory-table').html(data);
+      
+                     let newId = parseInt(page) + 1;
+      
+                     $(pagination_link_next).attr('id', newId);
+
+                     $(pagination_link_prev).addClass('btnPrev');
+                     $(pagination_link_Selected).addClass('selected');
+                     $(pagination_link_next).addClass('btnNext');
+      
+                  }
+               });
+
+            } else if(document.querySelector('.selected') != null && document.querySelector('.btnNext') != null) {
+
+               $.ajax({
+                  url:"usersReport-table_2.php",
+                  type: 'POST',
+                  data:{'page' :nextPage,
+                  'pageLimit' :val,
+                  'searchVal' :searchVal
+                  },
+                  success:function(data){
+                     $('.userhistory-table').html(data);
+      
+                     let newId = parseInt(nextPage);
+                     $(pagination_link_next_arrow).attr('id', newId);
+
+                     let btnPrev = $('.btnPrev');
+                     let selected = $('.selected');
+                     let btnNext = $('.btnNext');
+                     let pagination_link = $('.pagination_link').eq(0);
+
+                     $(btnPrev).addClass('hide');
+                     $(btnPrev).removeClass('btnPrev');
+                     $(pagination_link).removeClass('hide');
+
+                     $(selected).addClass('btnPrev');
+                     $(selected).removeClass('selected');
+
+                     $(btnNext).addClass('selected');
+                     $(btnNext).removeClass('btnNext');
+
+                     $(btnNext).next().addClass('btnNext');
+                     $(btnNext).next().removeClass('hide');
+      
+                  }
+               });
+
+            }
+
+      });
+   }
+   nextBtn();  
 
    function selectServicesxxxxxxxxx() {
       $(document).on('change', '.services', function(){
@@ -1238,10 +1588,26 @@ jQuery(function () {
 
          let textStatus = $(td_powStatus[i]).children('.text_status');
          let tooltip = $(td_powStatus[i]).children('.status_tooltip');
+         let status_tooltip = document.querySelectorAll('.status_tooltip');
+         let projectId = $('#projectTitle').attr('value');
+
+         let tbody = $(td_powStatus[i]).parent().parent();
+         let tableRow = $(td_powStatus[i]).parent();
+         let services = $(tbody).find('.th_services').text()
+         let phase_of_work = $(tableRow).find('.td_phase_of_work').text()
+         let tasksContainer = $(tableRow).find('.employees_task_list_container');
+         let PIC_ids = $(tableRow).find('.projectIncharge_table_row').attr('value')
+         let manager_ids = $(tableRow).find('.manager_photo_id').attr('value')
 
          $(textStatus).on('click', ()=> {
 
             if($(tooltip).hasClass('d-none')) {
+
+               Array.from(status_tooltip).forEach((statusTooltip) => {
+   
+                  $(statusTooltip).addClass('d-none');
+      
+               });
 
                $(tooltip).removeClass('d-none');
     
@@ -1251,8 +1617,25 @@ jQuery(function () {
 
             }
 
+            $.ajax({
+               type: 'POST',
+               url: 'employees_task_list_container.php',
+               data: {
+                  'projectId': projectId,
+                  'services': services,
+                  'phase_of_work': phase_of_work,
+                  'PIC_ids': PIC_ids,
+                  'manager_ids': manager_ids,
+               },
+               success: function(data){
+                  $(tasksContainer).html(data);
+               }
+            })
+
+   
+
          });
-         
+ 
       }
    }
    statusTooltip();
@@ -1283,7 +1666,7 @@ jQuery(function () {
          } else {
 
             // $(textStatus[num]).css("background", "#abd8e3");
-            $(span[num]).parent().css("background", "#abd8e3");
+            $(span[num]).parent().css("background", "#cffdf9");
 
          }
 
@@ -1479,20 +1862,36 @@ jQuery(function () {
 
       for (let i = 0; manager_photo_id.length > i; i++) {
 
-         $(manager_photo_id[i]).on('click', ()=> {
+         $(manager_photo_id[i]).off().on('click', ()=> {
 
             let managerPhotoId = $(manager_photo_id[i]).attr('value');
-
+            let tbody = $(manager_photo_id[i]).parent().parent();
+            let tableRow = $(manager_photo_id[i]).parent();
+            let projectId = $('#projectTitle').attr('value');
+            let services = $(tbody).find('.th_services').text();
+            let phase_of_work = $(tableRow).find('.td_phase_of_work').text();
+            
             $.ajax({   
               type: 'POST',
               url: 'postUsersManager_in_modal.php',
               data: {
                  'managerPhotoId': managerPhotoId,
+                 'projectId' : projectId,
+                 'services' : services,
+                 'phase_of_work' : phase_of_work,
                },
                success:function(data){
                    $('.managers_container').html(data);
                  }
             });
+      
+            setTimeout(() => {
+               
+               //Call view task button
+               // viewTasksBtn();
+               manager_additional_time_btn();
+
+            }, 100);
 
          });
          
@@ -1505,7 +1904,7 @@ jQuery(function () {
 
       let employeesAssigned_id = document.querySelectorAll('.projectIncharge_table_row');
       let managers_id = document.querySelectorAll('.who_assigned_manager');
-
+   
       for (let i = 0; employeesAssigned_id.length > i; i++) {
 
          $(employeesAssigned_id[i]).on('click', ()=> {
@@ -1513,6 +1912,12 @@ jQuery(function () {
             let employeeAssigned_id = $(employeesAssigned_id[i]).attr('value');
             let managerIds = $(managers_id[i]).attr('value');
 
+            let tableRow = $(employeesAssigned_id[i]).parent();
+            let managersId = $(tableRow).find('.manager_photo_id').attr('value');
+            let idArray = managersId.split(" ");
+            idArray.pop()
+
+            //Print all project in charge in modal
             $.ajax({   
               type: 'POST',
               url: 'postUsersProjectInCharge_in_modal.php',
@@ -1524,6 +1929,56 @@ jQuery(function () {
                    $('.project_in_charge_container').html(data);
                  }
             });
+
+            for(let i = 0; idArray.length > i; i++){
+
+               let managerId = idArray[i];
+
+               let span = `<span class='assigned_managers_id'>${managerId}</span>`;
+
+               $(span).appendTo('.assigned_managers_container');
+
+               //Show add project in charge button if the manager user is assigned in the phase of work
+               $.ajax({
+                  type: 'POST',
+                  url: 'show_add_pic_button.php',
+                  data: {
+                     'managerId': managerId,
+                  },
+                  success:function(data){
+                     // $().html(data);
+                     $(data).appendTo('.add_project_button_wrapper');
+
+                     //Call add project in charge function
+                     addProjectInChargeBtn();
+
+                  }
+
+               });
+                             
+            }
+
+            // View Manager Modal
+            
+            
+            // if($(viewManagers).hasClass('d-none')){
+
+            //    $(viewManagers).removeClass('d-none');
+
+            // }
+            
+         //View Managers Modal
+         let view_project_in_charge = document.querySelector("#view_project_in_charge");
+
+         if($(view_project_in_charge).hasClass('d-none')){
+
+            $(view_project_in_charge).removeClass('d-none');
+            // location.reload();
+
+         }  
+            
+         
+
          });
          
       }
@@ -2001,6 +2456,8 @@ function submit_file_path(){
             let taskId = $(submit_decline_btn[i]).parents('.task-table_row').attr('value');
             let declineNotes = $(decline[i]).val();
             let declineText = 'decline';
+            let tableRow = $(submit_decline_btn[i]).closest('tr');
+            let allotTime = $(tableRow).find('.allot_time').text();
 
             if($(decline[i]).val() == '') {
 
@@ -2012,12 +2469,14 @@ function submit_file_path(){
                      type: 'POST',
                      url: 'task-decline.php',
                      data: {
+                        'allotTime': allotTime,
                         'taskId': taskId,
                         'declineText': declineText,
                         'declineNotes': declineNotes,
                      },
                      success:function(data){
                         window.location.reload();
+                        // $('.myprojects h1').html(data);
                   }
                });
 
@@ -2060,8 +2519,8 @@ function submit_file_path(){
    
          $(searchManager).on('keydown', ()=> {
 
-            let searchManager_pow = document.querySelector('.searchManager_pow');
-            let searchManager_service = document.querySelector('.searchManager_service');
+            let searchManager_pow = document.querySelector('.searchEmployee_pow');
+            let searchManager_service = document.querySelector('.searchEmployee_service');
             let userIDs = document.querySelectorAll('.managers_container .user_container');
             let userId_container = [];
 
@@ -2107,8 +2566,8 @@ function submit_file_path(){
 
       $(addManagerBtn).on('click', ()=> {
 
-            let searchManager_pow = document.querySelector('.searchManager_pow');
-            let searchManager_service = document.querySelector('.searchManager_service');
+            let searchManager_pow = document.querySelector('.searchEmployee_pow');
+            let searchManager_service = document.querySelector('.searchEmployee_service');
             let userIDs = document.querySelectorAll('.managers_container .user_container');
             let userId_container = [];
 
@@ -2183,7 +2642,7 @@ function submit_file_path(){
 
       let addProjectInChargeBtn = document.querySelector('.addProjectInChargeBtn');
 
-      $(addProjectInChargeBtn).on('click', ()=> {
+      $(addProjectInChargeBtn).off().on('click', ()=> {
 
             let userIDs = document.querySelectorAll('.project_in_charge_container .user_container');
             let userId_container = [];
@@ -2204,6 +2663,11 @@ function submit_file_path(){
                   $('.search_employee_wrapper').html(data);
                }
             });
+
+
+            //Call a function to select employee
+            selectEmployee();
+
       });
 
    }
@@ -2217,12 +2681,13 @@ function submit_file_path(){
 
          setTimeout(function() {
             $('#addProjectInCharge').modal();
+
          }, 2000);
 
       });
 
    }
-   addProjectInChargeBtn_clicked_delay()
+   addProjectInChargeBtn_clicked_delay();
 
    // Create a dynamic html element for Service and Phase of work
    function PIC_service_and_pow(){
@@ -2253,7 +2718,13 @@ function submit_file_path(){
            $(contentInfo).appendTo(searchEmployee_container);
          //   $(contentInfo).prependTo(contentInfoWrapper);
 
-   
+            setTimeout(() => {
+
+               //Call view task button
+               // viewTasksBtn();
+
+            }, 100);
+
          });
 
       }
@@ -2277,11 +2748,11 @@ function submit_file_path(){
 
            let contentInfo = `<div class="content__info">
                                  <span>Phase of work:</span>
-                                 <p class="searchManager_pow">${$(td_pow).text()}</p>
+                                 <p class="searchEmployee_pow">${$(td_pow).text()}</p>
                               </div>
                               <div class="content__info">
                                  <span>Service:</span>
-                                 <p class='searchManager_service'>${projectService}</p>
+                                 <p class='searchEmployee_service'>${projectService}</p>
                               </div>`;
 
            $(contentInfo).prependTo(searchManager_container);
@@ -2301,6 +2772,18 @@ function submit_file_path(){
             }
          });
 
+          //Call view task button
+         //  viewTasksBtn();
+
+          //View Managers Modal
+          let viewManagers = document.querySelector("#view_managers");
+
+            if($(viewManagers).hasClass('d-none')){
+
+               $(viewManagers).removeClass('d-none');
+               // location.reload();
+
+            }          
 
          });
 
@@ -2308,6 +2791,60 @@ function submit_file_path(){
 
    }
    manager_service_and_pow();
+   
+   function close_manager_service_and_pow() {
+      let view_managers_overlay = document.querySelector('.view_managers_overlay');
+      let viewManagers = document.querySelector("#view_managers");
+
+      $(view_managers_overlay).off().on('click', ()=> {
+
+         // $(viewManagers).addClass('d-none');
+         location.reload();
+
+      });
+
+   }
+   close_manager_service_and_pow()
+
+   function closeBtn_manager_service_and_pow() {
+
+      let closeBtn = document.querySelector('#view_managers .closeBtn')
+
+      $(closeBtn).off().on('click', ()=> {
+
+         location.reload();
+
+      });
+
+   }
+   closeBtn_manager_service_and_pow();
+
+   function close_pic_service_and_pow() {
+      let view_pic_overlay = document.querySelector('.view_project_user_overlay');
+      let viewPIC = document.querySelector("#view_project_in_charge");
+
+      $(view_pic_overlay).off().on('click', ()=> {
+
+         // $(viewManagers).addClass('d-none');
+         location.reload();
+
+      });
+
+   }
+   close_pic_service_and_pow()
+
+   function closeBtn_pic_service_and_pow() {
+
+      let closeBtn = document.querySelector('#view_project_in_charge .closeBtn')
+
+      $(closeBtn).off().on('click', ()=> {
+
+         location.reload();
+
+      });
+
+   }
+   closeBtn_pic_service_and_pow();
 
    // Select Manager Function
    function selectManager(){
@@ -2323,50 +2860,65 @@ function submit_file_path(){
             let managerFullname = $(userContainer).find('.user_fullname span').text();
             let projectId = $('#projectTitle').attr('value');
             let projectName = $('#projectTitle').text();
-            let searchManager_pow = $('.searchManager_pow').text()
-            let searchManager_service = $('.searchManager_service').text()
- 
-            $.ajax({
-               type: 'POST',
-               url: 'assign-manager.php',
-               data: {
-                  'managerId' : managerId,
-                  'projectId' : projectId,
-                  'searchManager_pow' : searchManager_pow,
-                  'searchManager_service' : searchManager_service,
-               },
-               success: function(data){
-                   // alert("success", data);
-                  setTimeout(
-                     function()
-                     {
+            let searchManager_pow = $('.searchEmployee_pow').text()
+            let searchManager_service = $('.searchEmployee_service').text()
+            // let managerAlot_time = $(userContainer).find('.manager_alot_time').val();
+            let managerAllot_time = $('#addManager .manager_allot_time').val();
 
-                        window.location.reload();
+            if(!$(managerAllot_time)) {
 
-                     }, 100);
-               },
-            });
+               alert('Fill-up Allot Time');
 
-            // $.ajax({
-            //    type: 'POST',
-            //    url: 'task-manager.php',
-            //    data: {
-            //       'managerId' : managerId,
-            //       'managerFullname' : managerFullname,
-            //       'projectId': projectId,
-            //       'projectName': projectName,
-            //       'searchManager_pow' : searchManager_pow,
-            //       'searchManager_service' : searchManager_service,
-            //    },
-            //    success: function(data){
-            //       setTimeout(
-            //       function()
-            //       {
-            //          window.location.reload();
-            //       }, 100);
-            //    },
-            // });
+            } else if (managerAllot_time <= 0) {
 
+               alert('You can only allot 1 hour or more');
+
+            } else {
+
+               // To give alot time for manager
+               $.ajax({
+                  type: 'POST',
+                  url: 'allot_time_for_manager.php',
+                  data: {
+                     'managerId' : managerId,
+                     'projectId' : projectId,
+                     'projectName' : projectName,
+                     'searchManager_pow' : searchManager_pow,
+                     'searchManager_service' : searchManager_service,
+                     'managerAllot_time' : managerAllot_time,
+                     'managerFullname' : managerFullname,
+                  },
+                  success: function(data){
+                  
+                  },
+                  
+               });
+
+               // Assign Manager 
+               $.ajax({
+                  type: 'POST',
+                  url: 'assign-manager.php',
+                  data: {
+                     'managerId' : managerId,
+                     'projectId' : projectId,
+                     'searchManager_pow' : searchManager_pow,
+                     'searchManager_service' : searchManager_service,
+                  },
+                  success: function(data){
+
+                     setTimeout(
+                        function()
+                        {
+
+                           window.location.reload();
+
+                        }, 100);
+
+
+                  },
+               });
+
+            }
 
          });
 
@@ -2399,61 +2951,66 @@ function submit_file_path(){
    });
 
 
-
-
    // Select Employee Function
    function selectEmployee(){
 
-      let selectBtn = document.querySelectorAll('.selectBtn');
+      setTimeout(() => {
+         
+         let selectBtn = document.querySelectorAll('.selectBtn');
 
-      for(let i = 0; selectBtn.length > i; i++){
-
-         $(selectBtn[i]).on('click', ()=> {
-
-            let userContainer = $(selectBtn[i]).parent().parent();
-            let employeeId = $(userContainer).attr('value');
-            let projectId = $('#projectTitle').attr('value');
-            let searchEmployee_pow = $('.searchEmployee_pow').text()
-            let searchEmployee_service = $('.searchEmployee_service').text()
-
-            $.ajax({
-               type: 'POST',
-               url: 'assign-projectIncharge.php',
-               data: {
-                  'projectId' : projectId,
-                  'employeeId' : employeeId,
-                  'searchEmployee_pow' : searchEmployee_pow,
-                  'searchEmployee_service' : searchEmployee_service,
-               },
-               success: function (data) {
-                  // alert("success", data);
-                  setTimeout(
-                     function()
-                     {
-
-                        window.location.reload();
-
-                     }, 100);
-
-                },
+         for(let i = 0; selectBtn.length > i; i++){
+   
+            $(selectBtn[i]).on('click', ()=> {
+   
+               let userContainer = $(selectBtn[i]).parent().parent();
+               let employeeId = $(userContainer).attr('value');
+               let projectId = $('#projectTitle').attr('value');
+               let searchEmployee_pow = $('.searchEmployee_pow').text()
+               let searchEmployee_service = $('.searchEmployee_service').text()
+   
+               $.ajax({
+                  type: 'POST',
+                  url: 'assign-projectIncharge.php',
+                  data: {
+                     'projectId' : projectId,
+                     'employeeId' : employeeId,
+                     'searchEmployee_pow' : searchEmployee_pow,
+                     'searchEmployee_service' : searchEmployee_service,
+                  },
+                  success: function (data) {
+                     // alert("success", data);
+                     setTimeout(
+                        function()
+                        {
+   
+                           window.location.reload();
+   
+                        }, 100);
+   
+                   },
+               });
+   
             });
+   
+         }
 
-         });
+      }, 50);
 
-      }
    }
-   $('.addProjectInChargeBtn').on('click', ()=> {
+   // $('.addProjectInChargeBtn').on('click', ()=> {
 
-      setTimeout(
+   //    console.log('okay');
 
-         function() 
-            {
+   //    setTimeout(
 
-         selectEmployee();
+   //       function() 
+   //          {
 
-         }, 100);
+   //       selectEmployee();
 
-   });
+   //       }, 100);
+
+   // });
 
    $('.searchFilter').on('keydown', ()=> {
 
@@ -2544,28 +3101,86 @@ function submit_file_path(){
   }
 //   project_in_charge_clicked();
 
-   function viewTasksBtn() {
+  function viewTaskBtn() {
 
-      $('#view_project_in_charge').on('mouseenter', ()=> {
+      $(document).on('mouseup', (e)=> {
 
          let ViewTasksBtn = document.querySelectorAll('.viewTasks');
 
-            for(let i = 0; ViewTasksBtn.length > i; i++){
+         for(let i = 0; ViewTasksBtn.length > i; i++){
 
-               $(ViewTasksBtn[i]).off().on('click', ()=> {
+            // $(ViewTasksBtn[i]).off().on('click', ()=> {
+
+               if($(ViewTasksBtn[i]).is(e.target)) {
 
                   $('.userId').parent().remove();
                   $('.employeeName').parent().remove();
-
-                  let userContainer = $(ViewTasksBtn[i]).parent().parent().parent().parent();
+                  $('.addNewTaskBtn').remove();
+   
+                  let userContainer = $(ViewTasksBtn[i]).parent().parent().parent();
                   let userId = $(userContainer).attr('value');
-                  let employeeName = $(userContainer).find('.user_fullname span').text()
+                  let employeeName = $(userContainer).find('.user_fullname span').text();
                   let contentInfoWrapper = document.querySelector('.addNewTask_form_container .content-info__wrapper');
                   let phase_of_work = $('.searchEmployee_pow').text();
                   let services = $('.searchEmployee_service').text();
                   let projectId = $('#projectTitle').attr('value');
                   let projectName = $('#projectTitle').text();
-
+    
+                  let assigned_managers = document.querySelectorAll('.assigned_managers_id');
+                  let userid_manager = userId;
+            
+                  setTimeout(
+                     
+                     function() {
+   
+                        let decline_pic_allot_time = document.querySelectorAll('.decline_pic_allot_time');
+   
+                        $.ajax({
+                           type: 'POST',
+                           url: 'decline_allot_time.php',
+                           data: {
+                              'projectId': projectId,
+                              'services': services,
+                              'phase_of_work': phase_of_work,
+                           },
+                           success: function (data){
+      
+                              Array.from(decline_pic_allot_time).forEach((allot_time) => {
+      
+                                 $(allot_time).attr("max", `${data}`);
+      
+                              });
+      
+                           }
+                        });
+   
+                  }, 100);
+   
+                  //Check all assigned manager in this phase of work
+                  //Only manager assigned can I add new task 
+                  for(let i = 0; assigned_managers.length >= i; i++){
+   
+                     let assigned_managers_id = $(assigned_managers[i]).text();
+                    
+                     $.ajax({
+                        type: 'POST',
+                        url: 'tasks-table.php',
+                        data: {
+                           'assigned_managers_id': assigned_managers_id,
+                           'userid_manager': userid_manager,
+                        },
+                        success: function(data){
+                           $(data).appendTo('.add_new_task_wrapper');
+   
+                           //Add new task tooltip
+                           manager_add_newtask_form();
+                           pic_show_add_newtask_form();
+                        }
+                        
+                     })
+   
+                  }
+   
                   let contentInfo = `<div class="content__info d-none">
                                        <span>Employee Name:</span>
                                        <p class="employeeName" value="${employeeName}">${employeeName}</p>
@@ -2575,9 +3190,9 @@ function submit_file_path(){
                                        <p class="userId" value="${userId}">${userId}</p>
                                     </div>
                                     `;
-
+   
                   $(contentInfo).prependTo(contentInfoWrapper);
-
+   
                   // For task table
                   $.ajax({
                      type: 'POST',
@@ -2587,19 +3202,19 @@ function submit_file_path(){
                         'phase_of_work': phase_of_work,
                         'services': services,
                         'projectId': projectId,
-                        'projectName': projectName
+                        'projectName': projectName,
                      },
                      success: function (data) {
                         // $('.user-tasks .content-table').html(data);
                         $('.user-tasks .content-table').html(data);
                      },
                   });
-
+   
                   // For user Photo and Name
                   let fullName = $(userContainer).find('.user_fullname span').text();
                   let userPhoto = $(userContainer).find('.user_photo img').attr('src');
                   let employeeId = userId;
-
+   
                   $.ajax({
                      type: 'POST',
                      url: 'tasks-table.php',
@@ -2609,25 +3224,25 @@ function submit_file_path(){
                         'userPhoto': userPhoto
                      },
                      success: function (data) {
-                        // $('.user-tasks .content-table').html(data);
                         $('.tasks-content .user_photo').html(data);
                      },
                   });
-
+   
                   setTimeout(
-
+   
                      function() 
                         {
-
+   
                      $('#view_project_in_charge .modal-left-content').addClass('move-left-22');
-
+                     $('#view_managers .modal-left-content').addClass('move-left-22');
+   
                   }, 10);
-
+   
                   setTimeout(
-
+   
                      function() 
                         {
-
+   
                      $('.tasks-content_container').css('z-index', '10')   
                      $('.tasks-content').addClass('tasks-content_show');
               
@@ -2643,16 +3258,201 @@ function submit_file_path(){
                      taskDone_disable();
                      taskChange_status();
                      taskUpdate_tooltip();
-                     add_task_work_update();
-               
-      
+                     pic_add_task_work_update();
+                     manager_add_task_work_update();
+                     pic_add_allot_time();
+                     manager_add_allot_time()
+   
+                     manager_taskUpdate_tooltip()
+   
                   }, 70);
-               });
+
+               }
+
+            // });
+
          }
-      
+
       });
+
   }
-  viewTasksBtn();
+  viewTaskBtn()
+
+//    function viewTasksBtn() {
+
+//       // $('.view_project_user').on('mouseenter', ()=> {
+
+//          let ViewTasksBtn = document.querySelectorAll('.viewTasks');
+
+//             for(let i = 0; ViewTasksBtn.length > i; i++){
+
+//                $(ViewTasksBtn[i]).off().on('click', ()=> {
+
+//                   $('.userId').parent().remove();
+//                   $('.employeeName').parent().remove();
+//                   $('.addNewTaskBtn').remove();
+
+//                   let userContainer = $(ViewTasksBtn[i]).parent().parent().parent();
+//                   let userId = $(userContainer).attr('value');
+//                   let employeeName = $(userContainer).find('.user_fullname span').text();
+//                   let contentInfoWrapper = document.querySelector('.addNewTask_form_container .content-info__wrapper');
+//                   let phase_of_work = $('.searchEmployee_pow').text();
+//                   let services = $('.searchEmployee_service').text();
+//                   let projectId = $('#projectTitle').attr('value');
+//                   let projectName = $('#projectTitle').text();
+    
+//                   let assigned_managers = document.querySelectorAll('.assigned_managers_id');
+//                   let userid_manager = userId;
+            
+//                   setTimeout(
+                     
+//                      function() {
+
+//                         let decline_pic_allot_time = document.querySelectorAll('.decline_pic_allot_time');
+
+//                         $.ajax({
+//                            type: 'POST',
+//                            url: 'decline_allot_time.php',
+//                            data: {
+//                               'projectId': projectId,
+//                               'services': services,
+//                               'phase_of_work': phase_of_work,
+//                            },
+//                            success: function (data){
+      
+//                               Array.from(decline_pic_allot_time).forEach((allot_time) => {
+      
+//                                  $(allot_time).attr("max", `${data}`);
+      
+//                               });
+      
+//                            }
+//                         });
+
+//                   }, 100);
+
+//                   //Check all assigned manager in this phase of work
+//                   //Only manager assigned can I add new task 
+//                   for(let i = 0; assigned_managers.length >= i; i++){
+
+//                      let assigned_managers_id = $(assigned_managers[i]).text();
+                    
+//                      $.ajax({
+//                         type: 'POST',
+//                         url: 'tasks-table.php',
+//                         data: {
+//                            'assigned_managers_id': assigned_managers_id,
+//                            'userid_manager': userid_manager,
+//                         },
+//                         success: function(data){
+//                            $(data).appendTo('.add_new_task_wrapper');
+
+//                            //Add new task tooltip
+//                            manager_add_newtask_form();
+//                            pic_show_add_newtask_form();
+//                         }
+                        
+//                      })
+
+//                   }
+
+//                   let contentInfo = `<div class="content__info d-none">
+//                                        <span>Employee Name:</span>
+//                                        <p class="employeeName" value="${employeeName}">${employeeName}</p>
+//                                     </div>
+//                                     <div class="content__info d-none">
+//                                        <span>User ID:</span>
+//                                        <p class="userId" value="${userId}">${userId}</p>
+//                                     </div>
+//                                     `;
+
+//                   $(contentInfo).prependTo(contentInfoWrapper);
+
+//                   // For task table
+//                   $.ajax({
+//                      type: 'POST',
+//                      url: 'tasks-table.php',
+//                      data: {
+//                         'userId': userId,
+//                         'phase_of_work': phase_of_work,
+//                         'services': services,
+//                         'projectId': projectId,
+//                         'projectName': projectName,
+//                      },
+//                      success: function (data) {
+//                         // $('.user-tasks .content-table').html(data);
+//                         $('.user-tasks .content-table').html(data);
+//                      },
+//                   });
+
+//                   // For user Photo and Name
+//                   let fullName = $(userContainer).find('.user_fullname span').text();
+//                   let userPhoto = $(userContainer).find('.user_photo img').attr('src');
+//                   let employeeId = userId;
+
+//                   $.ajax({
+//                      type: 'POST',
+//                      url: 'tasks-table.php',
+//                      data: {
+//                         'employeeId': employeeId,
+//                         'fullName': fullName,
+//                         'userPhoto': userPhoto
+//                      },
+//                      success: function (data) {
+//                         $('.tasks-content .user_photo').html(data);
+//                      },
+//                   });
+
+//                   setTimeout(
+
+//                      function() 
+//                         {
+
+//                      $('#view_project_in_charge .modal-left-content').addClass('move-left-22');
+//                      $('#view_managers .modal-left-content').addClass('move-left-22');
+
+//                   }, 10);
+
+//                   setTimeout(
+
+//                      function() 
+//                         {
+
+//                      $('.tasks-content_container').css('z-index', '10')   
+//                      $('.tasks-content').addClass('tasks-content_show');
+              
+//                      statusColor();
+//                      disable_previous_dates();
+//                      tooltip();
+//                      task_notes();
+//                      decline_task_notes();
+//                      task_title_popup();
+//                      updateNewTask();
+//                      closeTooltip();
+//                      taskColor()
+//                      taskDone_disable();
+//                      taskChange_status();
+//                      taskUpdate_tooltip();
+//                      pic_add_task_work_update();
+//                      manager_add_task_work_update();
+//                      pic_add_allot_time();
+//                      manager_add_allot_time()
+
+//                      manager_taskUpdate_tooltip()
+
+//                   }, 70);
+
+
+                  
+//                });
+
+ 
+
+//          }
+      
+//       // });
+//   }
+//   viewTasksBtn();
 
   // Task Statups Tool tip
   function taskStatusTooltip(){
@@ -2675,7 +3475,7 @@ function submit_file_path(){
                   $(tooltip).addClass('d-none');
    
                }
-   
+
             });
             
          }
@@ -2703,20 +3503,26 @@ function submit_file_path(){
   }
   addNewTask();
 
-  function addNewTask_form_show(){
+  function manager_add_newtask_form(){
 
-      $('.addNewTaskBtn').on('click', ()=> {
+      $('.manager_add_new_task_btn').off().on('click', ()=> {
 
+         console.log('okay');
+         
          $('.addNewTask_form_container').toggle();
-
+         
+         submitNewTask_manager();
+      
       }); 
 
   }
-  addNewTask_form_show();
+  manager_add_newtask_form();
 
-  function submitNewTask(){
+  function submitNewTask_manager(){
 
-   $('.submit-new-task').off().on('click', ()=> {
+   $('.manager-submit-new-task').off().on('click', ()=> {
+
+      let contentInfo__wrapper = $('.manager-submit-new-task').parent().parent();
 
       let projectId = $('#projectTitle').attr('value');
       let projectTitle = $('#projectTitle').text();
@@ -2724,26 +3530,28 @@ function submit_file_path(){
       let employeeName = $('.employeeName').attr('value');
       let phase_of_work = $('.searchEmployee_pow').text();
       let services = $('.searchEmployee_service').text();
-      let taskTitle = $('.taskTitle_field').val();
-      let dateStart = $('.new_task_dateStart').val();
-      let dateEnd = $('.new_task_dueDate').val();
-      let newTask_notes = $('.newTask_notes').val();
+      let allot_time = $('.manager_allot_time').val();
+
+      let taskTitle = $(contentInfo__wrapper).find('.taskTitle_field').val();
+      let dateStart = $(contentInfo__wrapper).find('.new_task_dateStart').val();
+      let dateEnd = $(contentInfo__wrapper).find('.new_task_dueDate').val();
+      let newTask_notes = $(contentInfo__wrapper).find('.newTask_notes').val();
 
       let projectName = $('#projectTitle').text();
 
-      if(!$('.taskTitle_field').val()) {
+      if(!$('.manager_add_new_task_form .taskTitle_field').val()) {
    
          alert('Fill-up Task Title');
 
-      } else if(!$('.new_task_dateStart').val()) {
+      } else if(!$('.manager_add_new_task_form .new_task_dateStart').val()) {
 
          alert('Select Date Start');
 
-      } else if(!$('.new_task_dueDate').val()) {
+      } else if(!$('.manager_add_new_task_form .new_task_dueDate').val()) {
 
          alert('Select Due Date');
 
-      } else if(!$('.newTask_notes').val()) {
+      } else if(!$('.manager_add_new_task_form .newTask_notes').val()) {
 
          alert('Fill-up Notes');
 
@@ -2753,17 +3561,18 @@ function submit_file_path(){
             type: 'POST',
             url: 'add-newTask.php',
             data: {
-               projectId: projectId,
-               projectTitle: projectTitle,
-               employeeId: employeeId,
-               employeeName: employeeName,
-               phase_of_work: phase_of_work,
-               services: services,
-               taskTitle: taskTitle,
-               dateStart: dateStart,
-               dateEnd, dateEnd,
-               newTask_notes: newTask_notes,
-               projectName: projectName
+               'projectId': projectId,
+               'projectTitle': projectTitle,
+               'employeeId': employeeId,
+               'employeeName': employeeName,
+               'phase_of_work': phase_of_work,
+               'services': services,
+               'taskTitle': taskTitle,
+               'dateStart': dateStart,
+               'dateEnd': dateEnd,
+               'newTask_notes': newTask_notes,
+               'projectName': projectName,
+               'allot_time': allot_time,
             },
             success: function (data) {
                alert("Sent New Task", data);
@@ -2816,7 +3625,199 @@ function submit_file_path(){
    });
 
   }
-  submitNewTask();
+  submitNewTask_manager();
+
+  
+   //PIC show remaining hours
+//   function pic_add_newtask_form(){
+  function pic_show_add_newtask_form(){
+
+   $('.pic_add_new_task_btn').off().on('click', ()=> {
+
+      let phase_of_work = $('.searchEmployee_pow').text();
+      let services = $('.searchEmployee_service').text();
+      let projectId = $('#projectTitle').attr('value');
+
+      $('.addNewTask_form_container').toggle();
+      
+      // Set maximum alot time
+      $.ajax({
+         type: 'POST',
+         url: 'show_allot_time.php',
+         data: {
+            'projectId': projectId,
+            'services': services,
+            'phase_of_work': phase_of_work,
+         },
+         success: function (data){
+            $('.pic_allot_time').attr("max", `${data}`);
+         }
+      });
+      
+      submitNewTask_pic();
+   
+   }); 
+
+}
+pic_show_add_newtask_form();
+
+function submitNewTask_pic(){
+
+   $('.pic-submit-new-task').off().on('click', ()=> {
+
+      let contentInfo__wrapper = $('.pic-submit-new-task').parent().parent();
+
+      let projectId = $('#projectTitle').attr('value');
+      let projectTitle = $('#projectTitle').text();
+      let employeeId = $('.userId').attr('value');
+      let employeeName = $('.employeeName').attr('value');
+      let phase_of_work = $('.searchEmployee_pow').text();
+      let services = $('.searchEmployee_service').text();
+
+      let taskTitle = $(contentInfo__wrapper).find('.taskTitle_field').val();
+      let dateStart = $(contentInfo__wrapper).find('.new_task_dateStart').val();
+      let dateEnd = $(contentInfo__wrapper).find('.new_task_dueDate').val();
+      let newTask_notes = $(contentInfo__wrapper).find('.newTask_notes').val();
+      let pic_allot_time = $('.pic_allot_time').val();
+
+      let projectName = $('#projectTitle').text();
+
+      let max_allot_time = $('.pic_allot_time').attr('max');
+      let allot_time = $('.pic_allot_time').val();
+
+
+      if(!$('.pic_add_new_task_form .taskTitle_field').val()) {
+   
+         alert('Fill-up Task Title');
+
+      } else if(!$('.pic_add_new_task_form .new_task_dateStart').val()) {
+
+         alert('Select Date Start');
+
+      } else if(!$('.pic_add_new_task_form .new_task_dueDate').val()) {
+
+         alert('Select Due Date');
+
+      } else if(!$('.pic_add_new_task_form .pic_allot_time').val()) {
+
+         alert('Fill-up Allot Time');
+
+      } else if(allot_time <= 0) {
+   
+         alert('You can only allot 1 hour or more');
+
+      } else if(parseInt(max_allot_time) < parseInt(allot_time)) {
+
+         alert(`Your Remaining Time is ${max_allot_time} Hours`)
+
+      } else if(!$('.pic_add_new_task_form .newTask_notes').val()) {
+
+         alert('Fill-up Notes');
+
+      } else {
+
+         $.ajax({
+            type: 'POST',
+            url: 'add-newTask.php',
+            data: {
+               'projectId': projectId,
+               'projectTitle': projectTitle,
+               'employeeId': employeeId,
+               'employeeName': employeeName,
+               'phase_of_work': phase_of_work,
+               'services': services,
+               'taskTitle': taskTitle,
+               'dateStart': dateStart,
+               'dateEnd': dateEnd,
+               'newTask_notes': newTask_notes,
+               'projectName': projectName,
+               'allot_time': pic_allot_time,
+            },
+            success: function (data) {
+               alert("Sent New Task", data);
+               // window.location.reload();
+               $('.user-tasks .content-table').html(data);
+               $('.addNewTask_form_container').css('display', 'none');
+
+               $('.taskTitle_field').val('');
+               $('.date_start').val('');
+               $('.date_end').val('');
+               $('.newTask_notes').val('');
+
+               setTimeout(
+
+                  function() 
+                     {
+
+                     taskStatusTooltip();
+                     statusColor();
+                     upload_file_path_tooltip();
+
+                     $('.tasks-content_container').on('mouseenter focus', taskStatus);
+                     $('.tasks-content_container').on('mouseleave blur', taskStatus);
+                     taskStatus();
+
+                     $('.tasks-content_container').on('mouseenter focus', changeStatus);
+                     $('.tasks-content_container').on('mouseleave blur', changeStatus);
+                     changeStatus();
+
+                     $('.tasks-content_container').on('mouseenter focus', check_file_path_tooltip);
+                     $('.tasks-content_container').on('mouseleave blur', check_file_path_tooltip);
+                     check_file_path_tooltip();
+
+                     task_notes();
+                     decline_task_notes();
+                     task_title_popup();
+                     updateNewTask();
+                     closeTooltip();
+                     taskChange_status();
+                     taskDone_disable();
+                     taskColor();
+                     taskUpdate_tooltip()
+
+                     manager_taskUpdate_tooltip()
+
+               }, 10);
+
+            },
+         });
+
+         //Add maximum allot time in decline task after submit new task
+         setTimeout(
+                     
+            function() {
+
+               let decline_pic_allot_time = document.querySelectorAll('.decline_pic_allot_time');
+
+               $.ajax({
+                  type: 'POST',
+                  url: 'decline_allot_time.php',
+                  data: {
+                     'projectId': projectId,
+                     'services': services,
+                     'phase_of_work': phase_of_work,
+                  },
+                  success: function (data){
+
+                     Array.from(decline_pic_allot_time).forEach((allot_time) => {
+
+                        $(allot_time).attr("max", `${data}`);
+
+                     });
+
+                  }
+               });
+
+         }, 100);
+ 
+      }
+    
+   });
+
+  }
+  submitNewTask_pic();
+
+
 
   function updateNewTask() {
 
@@ -2825,6 +3826,7 @@ function submit_file_path(){
 
       for(let i = 0; deleteTaskBtn.length > i; i++){
 
+         //Delete the task decline
          $(deleteTaskBtn[i]).off().on('click', ()=> {
 
             let projectId = $('#projectTitle').attr('value');
@@ -2852,6 +3854,10 @@ function submit_file_path(){
                   $('.user-tasks .content-table').html(data);
                   // alert("success", data);
 
+                  taskChange_status();
+                  taskDone_disable();
+                  taskColor();
+
                   statusColor();
                   disable_previous_dates();
                   tooltip();
@@ -2860,9 +3866,40 @@ function submit_file_path(){
                   task_title_popup();
                   updateNewTask();
                   closeTooltip();
+                  taskUpdate_tooltip()
+
+                  manager_taskUpdate_tooltip()
 
                },
             });
+
+            // Add maximum time can give by manager
+            setTimeout(
+                     
+               function() {
+
+                  let decline_pic_allot_time = document.querySelectorAll('.decline_pic_allot_time');
+
+                  $.ajax({
+                     type: 'POST',
+                     url: 'decline_allot_time.php',
+                     data: {
+                        'projectId': projectId,
+                        'services': services,
+                        'phase_of_work': phase_of_work,
+                     },
+                     success: function (data){
+
+                        Array.from(decline_pic_allot_time).forEach((allot_time) => {
+
+                           $(allot_time).attr("max", `${data}`);
+
+                        });
+
+                     }
+                  });
+
+            }, 100);
 
          });
       }
@@ -2883,40 +3920,94 @@ function submit_file_path(){
             let taskId = $(tableRow).find('.taskId').attr('value');
             let dateStart = $(tableRow).find('.date_start').val();
             let dueDate = $(tableRow).find('.due_date').val();
+            let pic_allot_time = $(tableRow).find('.decline_pic_allot_time').val();
 
             let newText = 'new';
+
+            let max_allot_time = $(tableRow).find('.decline_pic_allot_time').attr('max');
+            let allot_time = $(tableRow).find('.decline_pic_allot_time').val();
+
+            if(parseInt(max_allot_time) < parseInt(allot_time)) {
+      
+               alert(`Your Remaining Time is ${max_allot_time} Hours`)
             
-            $.ajax({
-               type: 'POST',
-               url: 'update-newTask.php',
-               data: {
-                  'employeeId': employeeId,
-                  'phase_of_work': phase_of_work,
-                  'services': services,
-                  'projectId': projectId,
-                  'projectName': projectName,
-                  'newText': newText,
-                  'taskId': taskId,
-                  'taskTitle': taskTitle,
-                  'taskNotes': taskNotes,
-                  'dateStart': dateStart,
-                  'dueDate': dueDate
-               },
-               success: function(data) {
-                  $('.user-tasks .content-table').html(data);
-                  // alert("success", data);
+            } else if (allot_time <= 0) {
 
-                  statusColor();
-                  disable_previous_dates();
-                  tooltip();
-                  task_notes();
-                  decline_task_notes();
-                  task_title_popup();
-                  updateNewTask();
-                  closeTooltip();
-               },
-            });
+               alert('You can only allot 1 hour or more');
+       
+            } else {
 
+               $.ajax({
+                  type: 'POST',
+                  url: 'update-newTask.php',
+                  data: {
+                     'employeeId': employeeId,
+                     'phase_of_work': phase_of_work,
+                     'services': services,
+                     'projectId': projectId,
+                     'projectName': projectName,
+                     'newText': newText,
+                     'taskId': taskId,
+                     'taskTitle': taskTitle,
+                     'taskNotes': taskNotes,
+                     'dateStart': dateStart,
+                     'dueDate': dueDate,
+                     'allot_time': allot_time,
+                  },
+                  success: function(data) {
+                     $('.user-tasks .content-table').html(data);
+                     // alert(data);
+                     
+                     statusColor();
+                     disable_previous_dates();
+                     tooltip();
+                     task_notes();
+                     decline_task_notes();
+                     task_title_popup();
+                     updateNewTask();
+                     closeTooltip();
+                     taskColor()
+                     taskDone_disable();
+                     taskChange_status();
+                     taskUpdate_tooltip();
+                     pic_add_task_work_update();
+                     manager_add_task_work_update();
+
+                     manager_taskUpdate_tooltip()
+                  },
+               });
+               
+
+            }
+
+            // Add maximum time can give by manager
+            setTimeout(
+                     
+               function() {
+
+                  let decline_pic_allot_time = document.querySelectorAll('.decline_pic_allot_time');
+
+                  $.ajax({
+                     type: 'POST',
+                     url: 'decline_allot_time.php',
+                     data: {
+                        'projectId': projectId,
+                        'services': services,
+                        'phase_of_work': phase_of_work,
+                     },
+                     success: function (data){
+
+                        Array.from(decline_pic_allot_time).forEach((allot_time) => {
+
+                           $(allot_time).attr("max", `${data}`);
+
+                        });
+
+                     }
+                  });
+
+            }, 100);
+            
          });
 
       }
@@ -3079,16 +4170,34 @@ function submit_file_path(){
          let uploadPathBtn = $(tableRow).find('.uploadPathBtn');
 
          // let statusBtn = $(statusTooltip[i]).find('.status');
-
          $(taskContainer).on('click', ()=> {
 
             let taskStatus = $(taskWrapper[i]).children('span').text();
 
-            if(!$(statusTooltip).hasClass('d-none') && taskStatus == 'Done'){
+            // if(!$(statusTooltip).hasClass('d-none') && taskStatus == 'Done'){
 
-               alert("Be careful in changing the task status. When you change the task status in it's due date the task report will be marked as delay.");
+            //    alert("Be careful in changing the task status. When you change the task status in it's due date the task report will be marked as delay.");
          
-            }
+            // }
+            
+            //Gather tasks status
+            let projectId = $('#projectTitle').attr('value');
+            let phase_of_work = $('.searchEmployee_pow').text();
+            let services = $('.searchEmployee_service').text();
+
+            $.ajax({
+               type: 'POST',
+               url: 'gather_tasks_status.php',
+               data: {
+                  'projectId': projectId,
+                  'phase_of_work': phase_of_work,
+                  'services': services,
+               },
+               success: function(data){
+                  // $('#projectTitle').html(data);
+               }
+
+            });
 
          });
 
@@ -3172,31 +4281,38 @@ function submit_file_path(){
   }
   taskChange_status();
 
-  function taskUpdate_tooltip(){
+  //Manager task update tooltip
+  function manager_taskUpdate_tooltip(){
 
-   let taskUpdate_btn = document.querySelectorAll('.taskUpdate_btn');
-   let taskUpdate_tooltip_all = document.querySelectorAll('.taskUpdate_tooltip');
+   let taskUpdate_btn = document.querySelectorAll('#view_managers .taskUpdate_btn');
+   let taskUpdate_tooltip_all = document.querySelectorAll('#view_managers .taskUpdate_tooltip');
 
    for(let i = 0; taskUpdate_btn.length > i; i++){
 
       $(taskUpdate_btn[i]).off().on('click', ()=> {
 
-        let tdContainer = $(taskUpdate_btn[i]).parent();
-        let taskUpdate_tooltip = $(tdContainer).find('.taskUpdate_tooltip');
-        let taskId = $($('.taskId')[i]).attr('value');
+         let tdContainer = $(taskUpdate_btn[i]).parent();
+         let taskUpdate_tbody = $(tdContainer).find('.taskUpdate_tbody');
+         let taskUpdate_tooltip = $(tdContainer).find('.taskUpdate_tooltip');
+         let taskId = $($('.taskId')[i]).attr('value');
+         let tasks_content = $(taskUpdate_btn[i]).parent().parent().parent().parent().parent().parent().parent();
+         let employee_id = $(tasks_content).find('.employeeId').attr('value');
 
          $.ajax({
             type: 'POST',
             url: 'view_task_work_update.php',
             data: {
                'taskId': taskId,
+               'employee_id': employee_id,
             },
             success: function(data){
-               $('.taskUpdate_tbody').html(data);
 
-               add_task_work_update();
+               $(taskUpdate_tbody).html(data);
+
+               pic_add_task_work_update();
+               manager_add_task_work_update();
                delete_task_work_update();
-               save_task_work_update()
+               save_task_work_update()                           
             }
          });
 
@@ -3215,6 +4331,115 @@ function submit_file_path(){
             $(taskUpdate_tooltip).addClass('d-none');
 
          }
+
+         //Task remaining time
+         setTimeout(() => {
+
+            let update_task_spendhours = document.querySelectorAll('.update_task_spendhours');
+
+            $.ajax({
+               type: 'POST',
+               url: 'show_task_allot_remaining_time.php',
+               data: {
+                  'taskId': taskId,
+               },
+               success: function(data){
+
+                  Array.from(update_task_spendhours).forEach((update_task_time) => {
+
+                     $(update_task_time).attr("max", `${data}`);
+           
+                  });
+         
+               }
+      
+            });
+
+         }, 200);
+
+      });
+
+   }
+
+  }
+  manager_taskUpdate_tooltip();
+
+  //PIC task update tooltip
+  function taskUpdate_tooltip(){
+
+   let taskUpdate_btn = document.querySelectorAll('#view_project_in_charge .taskUpdate_btn');
+   let taskUpdate_tooltip_all = document.querySelectorAll('#view_project_in_charge .taskUpdate_tooltip');
+
+   for(let i = 0; taskUpdate_btn.length > i; i++){
+
+      $(taskUpdate_btn[i]).off().on('click', ()=> {
+
+         let tdContainer = $(taskUpdate_btn[i]).parent();
+         let taskUpdate_tbody = $(tdContainer).find('.taskUpdate_tbody');
+         let taskUpdate_tooltip = $(tdContainer).find('.taskUpdate_tooltip');
+         let taskId = $($('.taskId')[i]).attr('value');
+         let tasks_content = $(taskUpdate_btn[i]).parent().parent().parent().parent().parent().parent().parent();
+         let employee_id = $(tasks_content).find('.employeeId').attr('value');
+
+         $.ajax({
+            type: 'POST',
+            url: 'view_task_work_update.php',
+            data: {
+               'taskId': taskId,
+               'employee_id': employee_id,
+            },
+            success: function(data){
+
+               $(taskUpdate_tbody).html(data);
+
+               pic_add_task_work_update();
+               manager_add_task_work_update();
+               delete_task_work_update();
+               save_task_work_update()                           
+            }
+         });
+
+        if($(taskUpdate_tooltip).hasClass('d-none')) {
+
+         Array.from(taskUpdate_tooltip_all).forEach((taskUpdate_tooltip_close) => {
+
+            $(taskUpdate_tooltip_close).addClass('d-none');
+
+         });
+   
+         $(taskUpdate_tooltip).removeClass('d-none');
+
+         } else {
+            
+            $(taskUpdate_tooltip).addClass('d-none');
+
+         }
+
+         //Task remaining time
+         setTimeout(() => {
+
+            let update_task_spendhours = document.querySelectorAll('.update_task_spendhours');
+
+            $.ajax({
+               type: 'POST',
+               url: 'show_task_allot_remaining_time.php',
+               data: {
+                  'taskId': taskId,
+               },
+               success: function(data){
+
+                  Array.from(update_task_spendhours).forEach((update_task_time) => {
+
+                     $(update_task_time).attr("max", `${data}`);
+           
+                  });
+         
+               }
+      
+            });
+
+         }, 200);
+
       });
 
    }
@@ -3223,9 +4448,11 @@ function submit_file_path(){
   taskUpdate_tooltip();
 
   // Add new Task Update
-  function add_task_work_update(){
+  function pic_add_task_work_update(){
 
-   let add_newUpdate_btn = document.querySelectorAll('.add_newUpdate_btn');
+   let view_project_in_charge = document.querySelector('#view_project_in_charge');
+   let add_newUpdate_btn = $(view_project_in_charge).find('.add_newUpdate_btn');
+   // let add_newUpdate_btn = document.querySelectorAll('#view_project_in_charge .modal-right-content .add_newUpdate_btn');
 
       for(let i = 0; add_newUpdate_btn.length > i; i++){
 
@@ -3241,12 +4468,14 @@ function submit_file_path(){
 
             // $(dynamic_TableRow).insertAfter(tableRow_header[i]);
 
-            let taskId = $($('.taskId')[i]).attr('value');
+            let tableRow = $(add_newUpdate_btn[i]).parent().parent().parent().parent().parent().parent().parent();
+            let taskId = $(tableRow).find('.taskId').attr('value');
             let phase_of_work = $('.searchEmployee_pow').text();
             let services = $('.searchEmployee_service').text();
             let projectId = $('#projectTitle').attr('value');
             let projectName = $('#projectTitle').text();
-            let employeeId = $('.employeeId').attr('value');
+            let employeeId = $('#view_project_in_charge .employeeId').attr('value');
+            let employeeName = $('#view_project_in_charge .employee_fullName').text();
 
             let taskTitle = $($('.taskTitle')[i]).text();
             let date = new Date();
@@ -3264,16 +4493,42 @@ function submit_file_path(){
                   'taskTitle': taskTitle,
                   'dateToday': dateToday,
                   'employeeId': employeeId,
+                  'employeeName': employeeName,
                },
                success: function(data){
                   $('.taskUpdate_tbody').html(data);
 
-                  add_task_work_update();
+                  pic_add_task_work_update();
                   delete_task_work_update();
                   save_task_work_update();
                }
 
             });
+
+            //Task remaining time
+            setTimeout(() => {
+
+               let update_task_spendhours = document.querySelectorAll('.update_task_spendhours');
+
+               $.ajax({
+                  type: 'POST',
+                  url: 'show_task_allot_remaining_time.php',
+                  data: {
+                     'taskId': taskId,
+                  },
+                  success: function(data){
+
+                     Array.from(update_task_spendhours).forEach((update_task_time) => {
+
+                        $(update_task_time).attr("max", `${data}`);
+            
+                     });
+            
+                  }
+         
+               });
+
+            }, 200);
 
          });
 
@@ -3281,10 +4536,101 @@ function submit_file_path(){
 
   }
 
+
+    // Add new Task Update
+    function manager_add_task_work_update(){
+
+      let add_newUpdate_btn = document.querySelectorAll('#view_managers .modal-right-content .add_newUpdate_btn');
+   
+         for(let i = 0; add_newUpdate_btn.length > i; i++){
+   
+            $(add_newUpdate_btn[i]).off().on('click', ()=> {
+   
+               // let tableRow_header = document.querySelectorAll('.taskUpdate_header');
+               // let dynamic_TableRow = `<tr>
+               //                            <td><input type='text'></td>
+               //                            <td><input type='date'></td>
+               //                            <td><input type='number'></td>
+               //                            <td>-</td>
+               //                         </tr>`;
+   
+               // $(dynamic_TableRow).insertAfter(tableRow_header[i]);
+   
+               let taskId = $($('.taskId')[i]).attr('value');
+               let phase_of_work = $('.searchEmployee_pow').text();
+               let services = $('.searchEmployee_service').text();
+               let projectId = $('#projectTitle').attr('value');
+               let projectName = $('#projectTitle').text();
+               let employeeId = $('#view_managers .employeeId').attr('value');
+               let employeeName = $('#view_managers .employee_fullName').text();
+   
+               let taskTitle = $($('.taskTitle')[i]).text();
+               let date = new Date();
+               let dateToday = date.getFullYear() + "-" + "0" + (date.getMonth()+1)  + "-" + "0" + date.getDate();
+             
+               $.ajax({
+                  type: 'POST',
+                  url: 'task_work_update.php',
+                  data: {
+                     'taskId': taskId,
+                     'phase_of_work': phase_of_work,
+                     'services': services,
+                     'projectId': projectId,
+                     'projectName': projectName,
+                     'taskTitle': taskTitle,
+                     'dateToday': dateToday,
+                     'employeeId': employeeId,
+                     'employeeName': employeeName,
+                  },
+                  success: function(data){
+                     $('.taskUpdate_tbody').html(data);
+   
+                     // pic_add_task_work_update();
+                     manager_add_task_work_update();
+                     delete_task_work_update();
+                     save_task_work_update();
+                  }
+   
+               });
+
+               //Task remaining time
+               setTimeout(() => {
+
+                  let update_task_spendhours = document.querySelectorAll('.update_task_spendhours');
+
+                  $.ajax({
+                     type: 'POST',
+                     url: 'show_task_allot_remaining_time.php',
+                     data: {
+                        'taskId': taskId,
+                     },
+                     success: function(data){
+
+                        Array.from(update_task_spendhours).forEach((update_task_time) => {
+
+                           $(update_task_time).attr("max", `${data}`);
+               
+                        });
+               
+                     }
+            
+                  });
+
+               }, 200);
+
+   
+            });
+   
+         }
+   
+     }
+
   // Delete new task update
   function delete_task_work_update(){
 
       let delete_update_task = document.querySelectorAll('.delete_update_task');
+      // let taskUpdate_tbody = document.querySelectorAll('.taskUpdate_tbody');
+      
       let total_spend_hours = 0;
 
       for(let i = 0; delete_update_task.length > i; i++){
@@ -3292,11 +4638,15 @@ function submit_file_path(){
          $(delete_update_task[i]).off().on('click', ()=> {
 
             let update_task_id = $($('.update_task_id')[i]).text();
-            let taskId = $('.taskId').attr('value');
-            let tbody = $(delete_update_task[i]).parent().parent().parent();
+            // let taskId = $('.taskId').attr('value');
+            let tbody = $(delete_update_task[i]).parent().parent();
+            let parent_table_row = $(delete_update_task[i]).parent().parent().parent().parent().parent().parent();
+            let td_taskId = $(parent_table_row).find('.taskId');
+            let taskId = $(td_taskId).attr('value');
       
             let index = 2;
             let loop = 1;
+
 
             for(let a = 0; loop > a; a++){
 
@@ -3307,10 +4657,12 @@ function submit_file_path(){
                      url: 'delete_task_work_update.php',
                      data: {
                         'update_task_id': update_task_id,
-                        'taskId': taskId
+                        'taskId': taskId,
                      },
                      success: function(data){
-                        $('.taskUpdate_tbody').html(data);
+
+                        // $('.taskUpdate_tbody').html(data);
+                        $(tbody).html(data);
             
                      }
                   });
@@ -3319,6 +4671,7 @@ function submit_file_path(){
 
                } else {
 
+                  // Update The Employee Logs
                   setTimeout(() => {
 
                      let update_tasks_spendhours = $(tbody).find('.update_task_spendhours');
@@ -3344,20 +4697,66 @@ function submit_file_path(){
                            success: function(data){
                               $('.taskUpdate_tbody').html(data);
                               delete_task_work_update();
-                              add_task_work_update();
+                              pic_add_task_work_update();
+                              manager_add_task_work_update();
                               save_task_work_update();
                            }
                         });
-
-                        // delete_task_work_update();
-                        // add_task_work_update();
-                        // save_task_work_update();
 
                   }, 50);
 
                }
 
             }
+
+            //Update the employee logs total spend hours when update task was deleted
+            let tableRow = $(delete_update_task[i]).parent();
+            let update_task_spendhours = $(tableRow).find('.update_task_spendhours');
+            let spendhours = $(update_task_spendhours).attr('value');
+            let employeeId = $('.employeeId').attr('value');
+            let update_task_date = $('.update_task_date').attr('value');
+
+            $.ajax({
+               type: 'POST',
+               url: 'employees_date_logs_minus_update.php',
+               data: {
+                  'spendhours': spendhours,
+                  'employeeId': employeeId,
+                  'update_task_date': update_task_date,
+               },
+               success: function(data){
+
+               }
+            });
+
+            //Update task remaining time after delete the update
+            setTimeout(() => {
+
+               let update_task_spendhours = document.querySelectorAll('.update_task_spendhours');
+
+               $.ajax({
+                  type: 'POST',
+                  url: 'show_task_allot_remaining_time_after_update.php',
+                  data: {
+                     'taskId': taskId,
+                     'spendhours': spendhours,
+                  },
+                  success: function(data){
+
+                     Array.from(update_task_spendhours).forEach((update_task_time) => {
+
+                        $(update_task_time).attr("max", `${data}`);
+            
+                     });
+            
+                  }
+         
+               });
+
+            }, 200);
+
+            // Call a function to change the date color
+            dateColor();
 
          });
 
@@ -3381,11 +4780,11 @@ function submit_file_path(){
             let update_tasks_id = $(tbody).find('.update_task_id');
             let update_tasks_id_array = [];
 
-            Array.from(update_tasks_id).forEach((update_task_id) => {
-         
-               update_tasks_id_array.push($(update_task_id).text());
-   
-            });
+               Array.from(update_tasks_id).forEach((update_task_id) => {
+            
+                  update_tasks_id_array.push($(update_task_id).text());
+      
+               });
 
             let update_tasks_input = $(tbody).find('.update_task_input');
             let update_tasks_input_array = [];
@@ -3411,48 +4810,126 @@ function submit_file_path(){
 
                Array.from(update_tasks_spendhours).forEach((update_task_spendhours) => {
 
-                  update_tasks_spendhours_array.push($(update_task_spendhours).val());
-                  total_spend_hours += parseFloat($(update_task_spendhours).val().replace(/,/g, "")) || 0;
+                     update_tasks_spendhours_array.push($(update_task_spendhours).val());
+                     total_spend_hours += parseFloat($(update_task_spendhours).val().replace(/,/g, "")) || 0;
 
                });
 
+            console.log(update_tasks_spendhours);
 
-            if(update_tasks_id_array != 0){
+            //Check the PIC remaining time task before to add new updates
+            let remainingTime = $('.update_task_spendhours').attr('max');
 
-               $.ajax({
-                  type: 'POST',
-                  url: 'save_task_work_update.php',
-                  data: {
-                     'taskId': taskId,
-                     'update_tasks_id_array': update_tasks_id_array,
-                     'update_tasks_input_array': update_tasks_input_array,
-                     'update_tasks_date_array': update_tasks_date_array,
-                     'update_tasks_spendhours_array': update_tasks_spendhours_array,
-                     'total_spend_hours': total_spend_hours,
+            if(total_spend_hours > remainingTime && total_spend_hours != remainingTime ) {
+
+               Swal.fire({
+                  icon: "info",
+                  html: `
+                  Your remaining time for this task is ${remainingTime}. Kindly contact your manager to add more hours
+                  `,
+                });
+
+               total_spend_hours = 0;
+
+            } else {
+
+               if(update_tasks_id_array != 0){
+
+                  $.ajax({
+                     type: 'POST',
+                     url: 'save_task_work_update.php',
+                     data: {
+                        'taskId': taskId,
+                        'update_tasks_id_array': update_tasks_id_array,
+                        'update_tasks_input_array': update_tasks_input_array,
+                        'update_tasks_date_array': update_tasks_date_array,
+                        'update_tasks_spendhours_array': update_tasks_spendhours_array,
+                        'total_spend_hours': total_spend_hours,
+                     },
+                     success: function(data){
+                        $('.taskUpdate_tbody').html(data);
+      
+                        save_task_work_update();
+                        delete_task_work_update();
+                        pic_add_task_work_update();
+                        manager_add_task_work_update();
+      
+                     }
+                  });
    
-                  },
-                  success: function(data){
-                     $('.taskUpdate_tbody').html(data);
-   
-                     save_task_work_update();
-                     delete_task_work_update();
-                     add_task_work_update();
-   
-                  }
-               });
-   
-               $.ajax({
-                  type: 'POST',
-                  url: 'spend_task_work_update.php',
-                  data: {
-                     'taskId': taskId,
-                     'total_spend_hours': total_spend_hours,
-                  },
-                   success: function(data){
-                     // $($('.total_spend_hours')[i]).html(data);
-                     alert('Saved Updates');
-                  }
-               })
+                  setTimeout(() => {
+      
+                     $.ajax({
+                        type: 'POST',
+                        url: 'spend_task_work_update.php',
+                        data: {
+                           'taskId': taskId,
+                           'total_spend_hours': total_spend_hours,
+                        },
+                        success: function(data){
+                           // $($('.total_spend_hours')[i]).html(data);
+                           Swal.fire({
+                              position: "center",
+                              icon: "success",
+                              title: "Successful Save Updates!",
+                              showConfirmButton: false,
+                              timer: 1500
+                            });
+                        }
+                     })
+                     
+                  }, 50);
+
+                  //Task remaining time
+                  setTimeout(() => {
+
+                        let update_task_spendhours = document.querySelectorAll('.update_task_spendhours');
+
+                        $.ajax({
+                           type: 'POST',
+                           url: 'show_task_allot_remaining_time.php',
+                           data: {
+                              'taskId': taskId,
+                           },
+                           success: function(data){
+
+                              Array.from(update_task_spendhours).forEach((update_task_time) => {
+
+                                 $(update_task_time).attr("max", `${data}`);
+                     
+                              });
+                     
+                           }
+                  
+                        });
+
+                  }, 200);
+
+                     //To show the for PIC remaining time after adding new updates
+                     let projectId = $('#projectTitle').attr('value');
+                     let services = $('.searchEmployee_service').text();
+                     let phase_of_work = $('.searchEmployee_pow').text();
+
+                     let tableRow = $(save_update_task[i]).parent().parent().parent().parent().parent().parent().parent()
+                     let pic_task_remaining_time = $(tableRow).find('.pic_task_remaining_time');
+
+                     $.ajax({
+                        type: 'POST',
+                        url: 'show_pic_task_remaining_time.php',
+                        data: {
+                           'projectId': projectId,
+                           'taskId': taskId,
+                           'services': services,
+                           'phase_of_work': phase_of_work,
+                           'total_spend_hours': total_spend_hours,
+                        },
+                        success: function(data){
+                           $(pic_task_remaining_time).html(data);
+                        }
+               
+                     });
+
+               }
 
             }
 
@@ -3511,14 +4988,18 @@ openMenu();
 
 function calendarLogs() {
 
-   let calendarIcons = document.querySelector('.calendar-icon');
+   let calendarIcons = document.querySelectorAll('.calendar-icon');
    let calendar = document.querySelector('.calendar');
    let calendarOverlay = document.querySelector('.calendar-overlay');
    let rightContent = document.querySelector('.grid-right__content');
 
-   $(calendarIcons).off().on('click', ()=> {
+   // $(calendarIcons).off().on('click', ()=> {
 
-      if($(calendar).hasClass('d-none')) {
+   Array.from(calendarIcons).forEach((calendarIcon) => {
+
+      $(calendarIcon).off().on('click', ()=> {
+
+         if($(calendar).hasClass('d-none')) {
 
             $(calendar).addClass('d-none');
             $(calendar).removeClass('d-none');
@@ -3536,8 +5017,26 @@ function calendarLogs() {
 
          }
 
+         // Select All Dates in calendar
+         setTimeout(() => {
+            
+            //Call a function for add date value in event modal
+            dateCalendar();
+
+            //Call calendar date color
+            dateColor()
+
+         }, 50);
+
+      });
+
    });
 
+
+
+   // });
+
+   //Calendar Overlay Background
    $(calendarOverlay).off().on('click', ()=> {
 
       $(calendar).addClass('d-none');
@@ -3562,7 +5061,7 @@ calendarLogs();
       }
 
   }
-  linkTask()
+  linkTask();
 
   function loading(){
 
@@ -3593,40 +5092,63 @@ calendarLogs();
    const eventDescription = document.getElementById('eventDescription');
    const saveEventBtn = document.getElementById('saveEventBtn');
    let selectedDate = null;
+
+   let monthYearToday = document.getElementById('monthYear');
    
    
    // Generate calendar for the current month
    generateCalendar(currentMonth, currentYear);
    
    // Event listener for previous and next buttons
-   prevBtn.addEventListener('click', () => {
-     currentMonth--;
-     if (currentMonth < 0) {
-       currentMonth = 11;
-       currentYear--;
-     }
-     generateCalendar(currentMonth, currentYear);
+   // prevBtn.addEventListener('click', () => {
+
+   // });
+
+   // nextBtn.addEventListener('click', () => {
+   //    currentMonth++;
+   //    if (currentMonth > 11) {
+   //      currentMonth = 0;
+   //      currentYear++;
+   //    }
+   //    generateCalendar(currentMonth, currentYear);
+   //  });
+
+   // Event listener for previous and next buttons
+   $(prevBtn).off().on('click', ()=> {
+      currentMonth--;
+      if (currentMonth < 0) {
+        currentMonth = 11;
+        currentYear--;
+      }
+      generateCalendar(currentMonth, currentYear);
+
+      // Call a function to change the date color
+      dateColor();
    });
-   
-   nextBtn.addEventListener('click', () => {
-     currentMonth++;
-     if (currentMonth > 11) {
-       currentMonth = 0;
-       currentYear++;
-     }
-     generateCalendar(currentMonth, currentYear);
+
+   $(nextBtn).off().on('click', ()=> {
+      currentMonth++;
+      if (currentMonth > 11) {
+        currentMonth = 0;
+        currentYear++;
+      }
+      generateCalendar(currentMonth, currentYear);
+
+      // Call a function to change the date color
+      dateColor();
    });
    
    // Function to generate the calendar
    function generateCalendar(month, year) {
      monthYearElement.textContent = new Date(year, month).toLocaleString('default', { month: 'long' }) + ' ' + year;
      datesElement.innerHTML = '';
-   
+
      const firstDayOfMonth = new Date(year, month, 1);
      const lastDayOfMonth = new Date(year, month + 1, 0);
      const startDay = firstDayOfMonth.getDay();
      const endDay = lastDayOfMonth.getDate();
    
+  
      for (let i = 0; i < startDay; i++) {
        const dateElement = document.createElement('div');
        dateElement.classList.add('date');
@@ -3643,9 +5165,17 @@ calendarLogs();
        }
        dateElement.addEventListener('click', () => openEventModal(year, month, day));
        datesElement.appendChild(dateElement);
-   
+
+       monthYearToday = new Date(year, month, day);
+
+       let calendarDate = monthYearToday.getFullYear() + "-" + ("0" + (monthYearToday.getMonth()+1)).slice(-2) + "-" +  ("0" + (monthYearToday.getDate()+0)).slice(-2);
+  
+      //  console.log(calendarDate)
+
+      dateElement.setAttribute('value', calendarDate);
+
      }
-   
+
    }
    
    // Function to open the event modal
@@ -3653,12 +5183,11 @@ calendarLogs();
      selectedDate = new Date(year, month, day);
      eventDate.textContent = selectedDate.toDateString();
      eventDescription.value = getEventDescription(selectedDate) || '';
-     eventModal.style.display = 'block';
+   //   eventModal.style.display = 'block';
+     $(eventModal).css({ display: "block" });
    
      let strDate = selectedDate.getFullYear() + "-" + ("0" + (selectedDate.getMonth()+1)).slice(-2) + "-" +  ("0" + (selectedDate.getDate()+0)).slice(-2);
    
-     console.log(strDate);
-
       $.ajax({
          type: 'POST',
          url: 'viewLogs.php',
@@ -3669,9 +5198,27 @@ calendarLogs();
             // $('.mylogs_table_header').html(data)
             $(data).insertAfter('.mylogs_table_header');
          }
-
       })
-      
+
+      //Remove current total spend hours
+      $('.total_spend_hours span').remove();
+
+      //Create total spend hours
+      setTimeout(() => {
+         
+         let spendHours = document.querySelectorAll('.spendHours');
+         let totalHours = 0;
+
+         for(let i = 0; spendHours.length > i; i++){
+
+            totalHours += $(spendHours[i]).text() << 0;
+
+         }
+
+         $(`<span>${totalHours}</span>`).appendTo('.total_spend_hours')
+
+      }, 100);
+
    }
    
    // Function to close the event modal
@@ -3694,7 +5241,6 @@ calendarLogs();
      const description = eventDescription.value;
      setEventDescription(selectedDate, description);
     
-       
      closeEventModal();
    }
    
@@ -3715,24 +5261,1891 @@ calendarLogs();
    
    // Event listener for modal close button
    const closeBtn = document.getElementsByClassName('close')[0];
-   closeBtn.addEventListener('click', closeEventModal);
+   // closeBtn.addEventListener('click', closeEventModal);
+   $(closeBtn).on('click', ()=> closeEventModal)
+   // closeBtn.addEventListener('click', closeEventModal);
    
    // Event listener for outside modal click
    window.addEventListener('click', (event) => {
      if (event.target === eventModal) {
        closeEventModal();
      }
-
-     
-
    });
+  }
+  $('.calendar-icon').on('click', employeeCalendar) ;
+
+  //Date Calendar Function
+  function dateCalendar(){
+
+      let dateCalendar = document.querySelectorAll('.date');
+    
+      for(let i = 0; dateCalendar.length > i; i++){
+
+         $(dateCalendar[i]).off().on('click', ()=> {
+
+           //Add date value in event modal
+           let dateValue = $(dateCalendar[i]).attr('value');
+           let eventDate = document.querySelector('#eventDate');
+            
+           $(eventDate).attr('value', dateValue);
+
+           //Call delete logs function
+           delete_logs()
+         }); 
+      }
+
+   } 
+   // dateCalendar()
+
+   function dateColor(){
+
+      let dateCalendar = document.querySelectorAll('.date');
+
+      for(let i = 0; dateCalendar.length > i; i++){
+
+      //Remove Class
+
+      $(dateCalendar[i]).removeClass("bg-green");
+      $(dateCalendar[i]).removeClass("bg-red");
+
+      //Calendar Date Logs Color
+      let calendarDate = $(dateCalendar[i]).attr('value');
+      let dateNumber = $(dateCalendar[i]).text();
    
+      $.ajax({
+         type: 'POST',
+         url: 'date_logs_color.php',
+         data: {
+            'calendarDate': calendarDate,
+            'dateNumber': dateNumber,
+         },
+         success: function(data){
+            $(dateCalendar[i]).addClass(data);
+            // $(dateCalendar[i]).html(data);
+            // $(data).insertAfter('.dates');
+         }
+      });
+
+   }
+}
+
+  //Add new logs
+  function addLogs(){
+
+   let addLogs_btn = document.querySelector('.add_logs');
+   let eventDate = document.querySelector('#eventDate');
+   let add_logs_tooltip = document.querySelector('.add_logs_tooltip');
+
+      $(addLogs_btn).off().on('click', ()=> {
+
+         // Select Date and get date value attribute
+         let dateClick = $(eventDate).attr('value');
+
+            //Add new logs tooltip
+            if($(add_logs_tooltip).hasClass('d-none')) {
+
+               $(add_logs_tooltip).removeClass('d-none');
+    
+            } else {
+               
+               $(add_logs_tooltip).addClass('d-none');
+
+            }
+
+            //Select Date and Quary all user project
+            $.ajax({
+               type: 'POST',
+               url: 'employee-logs-add.php',
+               data: {
+                  'dateClick': dateClick,
+               },
+               success: function(data){
+                  $('#select_project').html(data);
+               }
+
+            });
+
+      });
 
   }
-  employeeCalendar();
+  addLogs();
+
+  function calendar_select_task() {
+
+     let selectTask = document.querySelector('#select_task');
+     
+     $(selectTask).on('change', ()=> {
+
+         let selectedTask_val = $('#select_task :selected').val()
+         let add_logs_task_spend_hours = $('#add_logs_task_spend_hours');
+
+         $.ajax({
+            type: 'POST',
+            url: 'show_task_allot_remaining_time_calendar.php',
+            data: {
+               'selectedTask_val': selectedTask_val,
+            },
+            success: function(data){
+               $(add_logs_task_spend_hours).attr("max", `${data}`);
+            }
+
+         });
+
+     })
+     
+   //   $('#select_task :selected').val()
+
+  }
+  calendar_select_task();
+
+  function addLogs_select_project(){
+
+      let select_project = document.querySelector('select#select_project');
+
+      $(select_project).off().on('click', ()=> {
+
+         let option_project = document.querySelectorAll('select#select_project option');
+
+         for(let i = 0; option_project.length > i; i++){
+
+            if(option_project[i].selected){
+
+               let projectId = $(option_project[i]).attr('value');
+
+               $.ajax({
+                  type: 'POST',
+                  url: 'employee-logs-add.php',
+                  data: {
+                     'projectId': projectId,
+                  },
+                  success: function(data){
+                     $('#select_task').html(data);
+                     // $('#eventDate').html(data);
+                  }
+
+               });
+
+            }
+
+         }
+
+      });
+
+  }
+  addLogs_select_project()
+
+  function add_logs_save(){
+
+      // Save new logs
+      let add_logs_save = document.querySelector('.add_logs_save');
+ 
+         $(add_logs_save).off().on('click', ()=> {
+
+            // let projectName = $('#select_project :selected').text()
+            let selected_project_id = $('#select_project :selected').attr('value');
+            // let TaskName = $('#select_task :selected').text();
+            let selected_task_id = $('#select_task :selected').attr('value');
+            let selectedDate = $('#eventDate').attr('value');
+            let add_logs_task_update = $('#add_logs_task_update').val();
+            let add_logs_task_spend_hours = $('#add_logs_task_spend_hours').val();
+
+            // console.log(projectName);
+            // console.log(TaskName);
+
+            if(selected_project_id == undefined){
+
+               alert('Please Select Your Project');
+
+            } else if (selected_task_id == '') {
+
+               alert('Please Select Your Task');
+
+            } else if(add_logs_task_update == '') {
+
+               alert('Please Describe Your Task Update');
+
+            } else if(add_logs_task_spend_hours == '') {
+
+               alert('Kindly Put How Many Hours Do You Spend');
+
+            } else {
+
+               $.ajax({
+                  type: 'POST',
+                  url: 'employee-logs-add.php',
+                  data: {
+                     'selected_project_id': selected_project_id,
+                     'selected_task_id': selected_task_id,
+                     'selectedDate': selectedDate,
+                     'add_logs_task_update': add_logs_task_update,
+                     'add_logs_task_spend_hours': add_logs_task_spend_hours,
+                  },
+                  success: function(data){
+             
+                     //Remove and refresh update data
+                     let mylogs_update = document.querySelectorAll('.mylogs_update');
+                     let total_spend_hours = document.querySelectorAll('.total_spend_hours span')
+                     
+                     $(mylogs_update).remove();
+                     $(total_spend_hours).remove();
+                     
+                     setTimeout(() => {
+
+                        $(data).insertAfter('.mylogs_table_header');
+         
+                        let spendHours = document.querySelectorAll('.spendHours');
+                        let totalHours = 0;
+               
+                        for(let i = 0; spendHours.length > i; i++){
+               
+                           totalHours += $(spendHours[i]).text() << 0;
+               
+                        }
+               
+                        $(`<span>${totalHours}</span>`).appendTo('.total_spend_hours')
+                       
+                        //Call Delete Logs function
+                        delete_logs();
+
+                     }, 100);
+
+                     //Call a function to change the date color
+                     dateColor()
+                  }
+
+               });
+
+            }
+
+
+         });
+  }
+  add_logs_save();
+
+  function delete_logs(){
+
+   setTimeout(() => {
+
+      let deletelogs_btn = document.querySelectorAll('.delete_update_task');
+
+      for(let i = 0; deletelogs_btn.length > i; i++){
+
+         $(deletelogs_btn[i]).off().on('click', ()=> {
+
+            let taskUpdate_id = $(deletelogs_btn[i]).parent().attr('id');
+            let selectedDate = $('#eventDate').attr('value');
+            let tableRow = $(deletelogs_btn[i]).parent();
+            let taskId = $(tableRow).find('.taskId').attr('value');
+            let update_task_spendhours = $(tableRow).find('.spendHours');
+            let spendhours = $(update_task_spendhours).text();
+            let update_task_date = $('#eventDate').attr('value');
+
+            $.ajax({
+               type: 'POST',
+               url: 'employee-logs-delete.php',
+               data: {
+                  'taskUpdate_id': taskUpdate_id,
+                  'selectedDate': selectedDate,
+                  'spendhours': spendhours,
+                  'taskId': taskId,
+               },
+               success: function(data){
+
+                  $(data).insertAfter('.mylogs_table_header');
+                  // Remove and refresh update data
+                  
+                  let mylogs_update = document.querySelectorAll('.mylogs_update');
+                  let total_spend_hours = document.querySelectorAll('.total_spend_hours span');
+                     
+                  $(mylogs_update).remove();
+                  $(total_spend_hours).remove();
+                     
+                  setTimeout(() => {
+
+                     $(data).insertAfter('.mylogs_table_header');
+         
+                     let spendHours = document.querySelectorAll('.spendHours');
+                     let totalHours = 0;
+               
+                     for(let i = 0; spendHours.length > i; i++){
+               
+                        totalHours += $(spendHours[i]).text() << 0;
+               
+                     }
+               
+                     $(`<span>${totalHours}</span>`).appendTo('.total_spend_hours');
+
+                     //Call Delete Logs function
+                     delete_logs();
+
+                  }, 50);
+
+               }
+            });
+
+            //Update the employee logs total spend hours when update task was deleted
+ 
+            $.ajax({
+               type: 'POST',
+               url: 'employees_date_logs_minus_update.php',
+               data: {
+                  'spendhours': spendhours,
+                  // 'employeeId': employeeId,
+                  'update_task_date': update_task_date,
+               },
+               success: function(data){
+                  // $('#eventDate').html(data);
+               }
+            });
+
+            // Call a function to change the date color
+            dateColor();
+
+            //Update the task remaining time after the update
+         
+
+         });
+
+      }
+
+   }, 100);
+   
+  }
+
+function deliverablesEmployee(){
+
+   strDate = new Date();
+
+   let dateToday = strDate.getFullYear() + "-" + ("0" + (strDate.getMonth()+1)).slice(-2) + "-" +  ("0" + (strDate.getDate()+0)).slice(-2);
+   let deliverablesDate = document.querySelectorAll('.deliverablesDate');
+   let deliverablesDay = document.querySelectorAll('.deliverablesDay');
+   let deliverablesUserId = document.querySelectorAll('.deliverablesUserId');
+   let deliverablesLogs = document.querySelectorAll('.deliverablesLogs');
+   let deliverablesCalendar = document.querySelector('.deliverablesDates');
+   
+
+   //Deliverables Calendar Default Value Date Today
+   $(deliverablesCalendar).attr('value', dateToday);
+
+      for(let i = 0; deliverablesDate.length > i; i++){
+
+         $(`<span>${dateToday}</span>`).appendTo(deliverablesDate[i]);
+
+         if(strDate.getDay() == 1) {
+
+            let dayToday = 'Monday';
+
+            $(`<span>${dayToday}</span>`).appendTo(deliverablesDay[i]);
+    
+         } else if(strDate.getDay() == 2) {
+
+            let dayToday = 'Tuesday';
+
+            $(`<span>${dayToday}</span>`).appendTo(deliverablesDay[i]);
+
+         } else if(strDate.getDay() == 3) {
+
+            let dayToday = 'Wednesday';
+
+            $(`<span>${dayToday}</span>`).appendTo(deliverablesDay[i]); 
+
+         } else if(strDate.getDay() == 4) {
+
+            let dayToday = 'Thursday';
+
+            $(`<span>${dayToday}</span>`).appendTo(deliverablesDay[i]); 
+
+         } else if(strDate.getDay() == 5) {
+
+            let dayToday = 'Friday';
+
+            $(`<span>${dayToday}</span>`).appendTo(deliverablesDay[i]); 
+
+         } else if(strDate.getDay() == 6) {
+
+            let dayToday = 'Saturday';
+
+            $(`<span>${dayToday}</span>`).appendTo(deliverablesDay[i]); 
+
+         } else if(strDate.getDay() == 7) {
+
+            let dayToday = 'Sunday';
+
+            $(`<span>${dayToday}</span>`).appendTo(deliverablesDay[i]); 
+
+         }
+
+            let userId = $(deliverablesUserId[i]).attr('value');
+
+            $.ajax({
+               type: 'POST',
+               url: 'deliverables_logs_hours.php',
+               data: {
+                  'dateToday': dateToday,
+                  'userId': userId,
+               }, 
+               success: function(data){
+                  $(deliverablesLogs[i]).html(data);
+               }
+
+            });
+
+      }
+
+}
+deliverablesEmployee();
+
+function deliverablesDailyTasks() {
+
+   let deliverablesDailyTasks = document.querySelectorAll('.deliverablesDailyTasks');
+
+   for(let i = 0; deliverablesDailyTasks.length > i; i++){
+
+      $(deliverablesDailyTasks[i]).off().on('click', ()=> {
+
+         let tableRow = $(deliverablesDailyTasks[i]).parent().parent();
+         let userId = $(tableRow).find('.deliverablesUserId').attr('value');
+         let deliverablesDate = $(tableRow).find('.deliverablesDate').text();
+         let deliverablesTasks = $(tableRow).find('.deliverablesTasks');
+         let deliverablesTooltip = document.querySelectorAll('.deliverablesTasks')
+
+         $.ajax({
+            type: 'POST',
+            url: 'deliverables_task_list.php',
+            data: {
+               'userId': userId,
+               'deliverablesDate': deliverablesDate,
+            },
+            success: function(data){
+              $(deliverablesTasks).html(data);
+            }
+         });
+
+         if($(deliverablesTasks).hasClass('d-none')) {
+
+            $(deliverablesTooltip).addClass('d-none');
+
+            $(deliverablesTasks).removeClass('d-none');
+
+         } else {
+            
+            $(deliverablesTasks).addClass('d-none');
+
+         }
+
+      });
+
+   }
+
+}
+deliverablesDailyTasks();
+
+function deliverablesChangeDate() {
+
+   let deliverablesDates = document.querySelector('.deliverablesDates');
+   let deliverablesDate = document.querySelectorAll('.deliverablesDate');
+   let deliverablesDay = document.querySelectorAll('.deliverablesDay');
+ 
+   $(deliverablesDates).off().on('change', ()=> {
+
+      $(deliverablesDay).children('span').remove();
+      $(deliverablesDate).children('span').remove();
+      // $(loadingContent).removeClass('d-none');
+
+      let selectedDate = $(deliverablesDates).val();
+      let strDate = new Date(selectedDate);
+
+      for(let i = 0; deliverablesDate.length > i; i++){
+
+         // $(`<span>${selectedDate}</span>`).appendTo(deliverablesDate[i]);
+
+         if(strDate.getDay() == 1) {
+
+            let dayToday = 'Monday';
+            
+            $.ajax({
+               type: 'POST',
+               url: 'deliverables_change_date.php',
+               data: {
+                  'selectedDate': selectedDate,
+                  'dayToday': dayToday,
+               },
+               success: function(data){
+
+                  $('.deliverablesContent').html(data);
+
+                  // Fetch daily employee task work
+                  deliverablesDailyTasks();
+
+               },
+               complete: function() {
+
+                  setTimeout(() => {
+                     let loadingContent = document.querySelector('.loading-content');
+                     $(loadingContent).addClass('d-none');
+                  }, 100);
+
+               }
+            });
+    
+         } else if(strDate.getDay() == 2) {
+
+            let dayToday = 'Tuesday';
+
+            $.ajax({
+               type: 'POST',
+               url: 'deliverables_change_date.php',
+               data: {
+                  'selectedDate': selectedDate,
+                  'dayToday': dayToday,
+               },
+               success: function(data){
+                  $('.deliverablesContent').html(data);
+
+                  // Fetch daily employee task work
+                  deliverablesDailyTasks();
+               },
+               complete: function() {
+
+                  setTimeout(() => {
+                     let loadingContent = document.querySelector('.loading-content');
+                     $(loadingContent).addClass('d-none');
+                  }, 100);
+
+               }
+            });
+
+         } else if(strDate.getDay() == 3) {
+
+            let dayToday = 'Wednesday';
+
+            $.ajax({
+               type: 'POST',
+               url: 'deliverables_change_date.php',
+               data: {
+                  'selectedDate': selectedDate,
+                  'dayToday': dayToday,
+               },
+               success: function(data){
+                  $('.deliverablesContent').html(data);
+
+                  // Fetch daily employee task work
+                  deliverablesDailyTasks();
+               },
+               complete: function() {
+
+                  setTimeout(() => {
+                     let loadingContent = document.querySelector('.loading-content');
+                     $(loadingContent).addClass('d-none');
+                  }, 100);
+
+               }
+            });
+
+         
+         } else if(strDate.getDay() == 4) {
+
+            let dayToday = 'Thursday';
+
+            $.ajax({
+               type: 'POST',
+               url: 'deliverables_change_date.php',
+               data: {
+                  'selectedDate': selectedDate,
+                  'dayToday': dayToday,
+               },
+               success: function(data){
+                  $('.deliverablesContent').html(data);
+
+                  // Fetch daily employee task work
+                  deliverablesDailyTasks();
+
+               },
+               complete: function() {
+
+                  setTimeout(() => {
+                     let loadingContent = document.querySelector('.loading-content');
+                     $(loadingContent).addClass('d-none');
+                  }, 100);
+
+               }
+            });
+
+         } else if(strDate.getDay() == 5) {
+
+            let dayToday = 'Friday';
+
+            $.ajax({
+               type: 'POST',
+               url: 'deliverables_change_date.php',
+               data: {
+                  'selectedDate': selectedDate,
+                  'dayToday': dayToday,
+               },
+               success: function(data){
+                  $('.deliverablesContent').html(data);
+
+                  // Fetch daily employee task work
+                  deliverablesDailyTasks();
+               },
+               complete: function() {
+
+                  setTimeout(() => {
+                     let loadingContent = document.querySelector('.loading-content');
+                     $(loadingContent).addClass('d-none');
+                  }, 100);
+
+               }
+            });
+
+         } else if(strDate.getDay() == 6) {
+
+            let dayToday = 'Saturday';
+
+            $.ajax({
+               type: 'POST',
+               url: 'deliverables_change_date.php',
+               data: {
+                  'selectedDate': selectedDate,
+                  'dayToday': dayToday,
+               },
+               success: function(data){
+                  $('.deliverablesContent').html(data);
+
+                  // Fetch daily employee task work
+                  deliverablesDailyTasks();
+               },
+               complete: function() {
+
+                  setTimeout(() => {
+                     let loadingContent = document.querySelector('.loading-content');
+                     $(loadingContent).addClass('d-none');
+                  }, 100);
+
+               }
+            });
+
+         } else if(strDate.getDay() == 7) {
+
+            let dayToday = 'Sunday';
+
+            $.ajax({
+               type: 'POST',
+               url: 'deliverables_change_date.php',
+               data: {
+                  'selectedDate': selectedDate,
+                  'dayToday': dayToday,
+               },
+               success: function(data){
+                  $('.deliverablesContent').html(data);
+
+                  // Fetch daily employee task work
+                  deliverablesDailyTasks();
+               },
+               complete: function() {
+
+                  setTimeout(() => {
+                     let loadingContent = document.querySelector('.loading-content');
+                     $(loadingContent).addClass('d-none');
+                  }, 100);
+
+               }
+            });
+
+         }
+
+      }
+
+   });
+
+}
+deliverablesChangeDate();
+
+function loading(){
+
+   setTimeout(() => {
+      let loading = document.querySelector('.loading');
+      $(loading).addClass('d-none');
+   }, 1000);
+  
+}
+$(window).on('load', loading);
+
+function loadingContent(){
+
+   setTimeout(() => {
+      let loading = document.querySelector('.loading-content');
+      $(loading).addClass('d-none');
+   }, 1000);
+
+   // $(document).on('load', ()=> {
+
+   //    setTimeout(() => {
+   //       let loading = document.querySelector('.loading-content');
+   //       $(loading).addClass('d-none');
+   
+   //    }, 1000);
+
+   // });
+
+}
+// loadingContent();
+
+function deliverablesSearch(){
+
+   let searchFilter = document.querySelector('.deliverablesSearch');
+
+   $(searchFilter).on('keydown', ()=> {
+
+      setTimeout(() => {
+
+         let searchValue = $(searchFilter).val();
+         let selectedDate = $('.deliverablesDates').val();
+         let setDay = new Date(selectedDate);
+         
+         if(setDay.getDay() == 1){
+
+            let daySet = 'Monday';
+
+            $.ajax({
+               type: 'POST',
+               url: 'deliverables_search_employee.php',
+               data: {
+                  'searchValue': searchValue,
+                  'selectedDate': selectedDate,
+                  'daySet': daySet,
+               },
+               success: function(data){
+                  $('.deliverablesContent').html(data);
+
+                  // Fetch daily employee task work
+                  deliverablesDailyTasks();
+   
+               }
+            });
+
+         }else if(setDay.getDay() == 2){
+
+            let daySet = 'Tuesday';
+
+            $.ajax({
+               type: 'POST',
+               url: 'deliverables_search_employee.php',
+               data: {
+                  'searchValue': searchValue,
+                  'selectedDate': selectedDate,
+                  'daySet': daySet,
+               },
+               success: function(data){
+                  $('.deliverablesContent').html(data);
+
+                  // Fetch daily employee task work
+                  deliverablesDailyTasks();
+               }
+            });
+         
+         }else if(setDay.getDay() == 3){
+
+            let daySet = 'Wednesday';
+
+            $.ajax({
+               type: 'POST',
+               url: 'deliverables_search_employee.php',
+               data: {
+                  'searchValue': searchValue,
+                  'selectedDate': selectedDate,
+                  'daySet': daySet,
+               },
+               success: function(data){
+                  $('.deliverablesContent').html(data);
+   
+                  // Fetch daily employee task work
+                  deliverablesDailyTasks();
+
+               }
+            });
+
+         } else if(setDay.getDay() == 4) {
+
+            let daySet = 'Thursday';
+
+            $.ajax({
+               type: 'POST',
+               url: 'deliverables_search_employee.php',
+               data: {
+                  'searchValue': searchValue,
+                  'selectedDate': selectedDate,
+                  'daySet': daySet,
+               },
+               success: function(data){
+                  $('.deliverablesContent').html(data);
+   
+                  // Fetch daily employee task work
+                  deliverablesDailyTasks();
+
+               }
+            });
+
+         } else if(setDay.getDay() == 5) {
+
+            let daySet = 'Friday';
+
+            $.ajax({
+               type: 'POST',
+               url: 'deliverables_search_employee.php',
+               data: {
+                  'searchValue': searchValue,
+                  'selectedDate': selectedDate,
+                  'daySet': daySet,
+               },
+               success: function(data){
+                  $('.deliverablesContent').html(data);
+   
+                  // Fetch daily employee task work
+                  deliverablesDailyTasks();
+
+               }
+            });
+
+         } else if(setDay.getDay() == 6) {
+
+            let daySet = 'Saturday';
+
+            $.ajax({
+               type: 'POST',
+               url: 'deliverables_search_employee.php',
+               data: {
+                  'searchValue': searchValue,
+                  'selectedDate': selectedDate,
+                  'daySet': daySet,
+               },
+               success: function(data){
+                  $('.deliverablesContent').html(data);
+   
+                  // Fetch daily employee task work
+                  deliverablesDailyTasks();
+
+               }
+            });
+
+         } else if(setDay.getDay() == 7) {
+
+            let daySet = 'Sunday';
+
+            $.ajax({
+               type: 'POST',
+               url: 'deliverables_search_employee.php',
+               data: {
+                  'searchValue': searchValue,
+                  'selectedDate': selectedDate,
+                  'daySet': daySet,
+               },
+               success: function(data){
+                  $('.deliverablesContent').html(data);
+   
+                  // Fetch daily employee task work
+                  deliverablesDailyTasks();
+
+               }
+            });
+
+         }
+         
+         // console.log(deliverablesDates);
+         
+      }, 50);
+
+   });
+
+}
+deliverablesSearch();
+
+function show_phase_of_work() {
+
+   let content_table = document.querySelectorAll('.project_services_table');
+
+   for(let i = 0; content_table.length > i; i++) {
+
+     let add_pow = $(content_table[i]).find('.add_phase_of_work_btn');
+
+      $(add_pow).on('click', ()=> {
+
+         let phaseOfwork = $(add_pow).attr('id');
+         let projectId = $('#projectTitle').attr('value');
+         let phase_of_work = $(content_table[i]).find('.phase_of_work ');
+
+         $.ajax({
+            type: 'POST',
+            url: 'show-phase-of-work.php',
+            data: {
+               'phaseOfwork': phaseOfwork,
+               'projectId': projectId,
+            },
+            success: function(data){
+               // $(data).insertAfter(phaseOfwork);
+               $(phase_of_work).html(data);
+            }
+
+         });
+
+         if($(phase_of_work).hasClass('d-none')) {
+
+            $(phase_of_work).addClass('d-none');
+
+            $(phase_of_work).removeClass('d-none');
+
+         } else {
+            
+            $(phase_of_work).addClass('d-none');
+
+         }
+
+         //Add Phase Of Work
+         add_phase_of_work();
+         
+      });
+
+   }
+
+}
+show_phase_of_work();
+
+// Add phase of work in ongoing project
+function add_phase_of_work() {
+
+   setTimeout(() => {
+
+      let phase_of_work = document.querySelectorAll('.phase_of_work span');
+
+      for(let i = 0; phase_of_work.length > i; i++){
+
+         $(phase_of_work[i]).on('click', ()=> {
+
+            let pow_text = $(phase_of_work[i]).text();
+
+            if (confirm(`Are you sure to add ${pow_text}?`)) {
+
+               let add_phase_of_work = $(phase_of_work[i]).attr('class');
+               let projectId = $('#projectTitle').attr('value');
+
+               $.ajax({
+                  type: 'POST',
+                  url: 'add_phase_of_work.php',
+                  data: {
+                     'add_phase_of_work': add_phase_of_work,
+                     'projectId': projectId,
+                  },
+                  success: function(data) {
+                     window.location.reload();
+                  }
+
+               });
+
+            } 
+            
+         });
+
+      }
+      
+   }, 50);
+   
+}
+add_phase_of_work();
+
+
+function show_revises_project_list(){
+
+   $(document).on('mouseup', (e) => {
+
+   let revise_btn = document.querySelector('button.check_revise_btn');
+   let revise_list_container = document.querySelector('.revise_list_container');
+   
+      if($(revise_btn).is(e.target)) {
+
+         if(!$(revise_list_container).hasClass('d-none')) {
+
+            $(revise_list_container).addClass('d-none');
+
+         } else {
+
+            $(revise_list_container).removeClass('d-none');
+            
+         }
+
+      } else {
+
+         if(!$(revise_list_container).hasClass('d-none')) {
+
+            $(revise_list_container).addClass('d-none');
+
+         } 
+
+      }
+
+   });
+      
+}
+show_revises_project_list();
+
+function show_services(){
+
+   $(document).on('mouseup', (e)=> {
+
+      let add_services = document.querySelector('.add-services');
+      let add_services_container = document.querySelector('.add_services_container');
+
+      if($(add_services).is(e.target)) {
+
+         let projectId = $('#projectTitle').attr('value');
+
+         $.ajax({
+            type: 'POST',
+            url: 'show-services.php',
+            data: {
+               'projectId': projectId,
+            },
+            success: function(data){
+               $('.add_services_container').html(data);
+
+               add_services_func(); 
+            }
+         })
+
+         if(!$(add_services_container).hasClass('d-none')) {
+
+            $(add_services_container).addClass('d-none');
+
+         } else {
+
+            $(add_services_container).removeClass('d-none');
+            
+         }
+
+      } else {
+
+         if(!$(add_services_container).hasClass('d-none')) {
+
+            $(add_services_container).addClass('d-none');
+
+         } 
+
+      }
+
+   });
+
+
+   // $(add_services).on('click', ()=> {
+
+   //    let projectId = $('#projectTitle').attr('value');
+
+   //    $.ajax({
+   //       type: 'POST',
+   //       url: 'show-services.php',
+   //       data: {
+   //          'projectId': projectId,
+   //       },
+   //       success: function(data){
+   //          $('.add_services_container').html(data);
+   //       }
+   //    })
+
+
+   //    if($(add_services_container).hasClass('d-none')) {
+
+   //       $(add_services_container).addClass('d-none');
+
+   //       $(add_services_container).removeClass('d-none');
+
+   //    } else {
+         
+   //       $(add_services_container).addClass('d-none');
+
+   //    }
+
+      //Add Services
+
+   // });
+
+}
+show_services();
+
+function add_services_func(){
+
+   setTimeout(() => {
+
+      let services = document.querySelectorAll('.add_services_container span');
+
+      for(let i = 0; services.length > i; i++){
+
+         $(services[i]).on('click', ()=> {
+
+            let services_text = $(services[i]).text();
+
+            if (confirm(`Are you sure to add ${services_text}?`)) {
+
+            let add_services = $(services[i]).attr('class');
+            let projectId = $('#projectTitle').attr('value');
+
+               $.ajax({
+                  type: 'POST',
+                  url: 'add_services.php',
+                  data: {
+                     'add_services': add_services,
+                     'projectId': projectId,
+                  },
+                  success: function(data){
+                        window.location.reload();
+                  }
+               });
+
+            }
+
+         }); 
+
+      }
+
+   }, 50);
+
+}
+add_services_func();
+
+function add_project_revise(){
+
+   let addRevice = document.querySelector('.add-revice');
+
+   $(addRevice).on('click', ()=> {
+
+      let projectId = $('#projectTitle').attr('value');
+
+         Swal.fire({
+            title: "Do you want to save the changes?",
+            showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: "Save",
+            denyButtonText: `No`
+         }).then((result) => {
+         /* Read more about isConfirmed, isDenied below */
+         if (result.isConfirmed) {
+
+            $.ajax({
+               type: 'POST',
+               url: 'add_project_revise.php',
+               data: {
+                  'projectId': projectId,
+               },
+               success: function(data){
+                  Swal.fire("Successful Added Revise!", "", "success");
+                  
+                  setTimeout(() => {
+                     window.location.href = `/viewproject.php?ID=${data}`;
+                  }, 1000);
+                  
+               }
+            });
+           
+         } else if (result.isDenied) {
+
+           Swal.fire("cancel success", "", "info");
+
+         }
+       });
+
+   });
+
+}
+add_project_revise();
+
+function table_form_link(){
+
+   let projectLink = document.querySelectorAll('.select_project');
+
+   for (let i = 0; projectLink.length > i; i++ ){
+
+      $(projectLink[i]).on('click', ()=> {
+         window.location = $(projectLink[i]).data("href");
+     });
+
+   }
+
+}
+table_form_link();
+
+function table_form_link_project_records(){
+
+   let projectLink = document.querySelectorAll('.select_project_records');
+
+   for (let i = 0; projectLink.length > i; i++ ){
+
+      $(projectLink[i]).on('click', ()=> {
+         window.location = $(projectLink[i]).data("href");
+     });
+
+   }
+
+}
+table_form_link_project_records();
+
+//Add additional time for manager
+function manager_additional_time_btn(){
+
+   let additional_time_btn = document.querySelectorAll('.manager_additional_time_btn');
+
+   for(let i = 0; additional_time_btn.length > i; i++){
+
+      $(additional_time_btn[i]).on('click', ()=> {
+   
+         let additionalTime = $(additional_time_btn[i]).parent();
+         let add_time_input = $(additionalTime).find('.add_time_input');
+
+         if($(add_time_input).hasClass('d-none')) {
+
+            $(add_time_input).removeClass('d-none');
+ 
+         } else {
+            
+            $(add_time_input).addClass('d-none');
+
+         }
+
+         submit_manager_additional_time();
+         
+      });
+
+   }
+
+}
+manager_additional_time_btn();
+
+function submit_manager_additional_time() {
+
+   let submit_additional_time = document.querySelectorAll('.submit_additional_time');
+   let user_container = document.querySelectorAll('.user_container');
+
+   for(let i = 0; submit_additional_time.length > i; i++){
+
+      $(submit_additional_time[i]).off().on('click', ()=> {
+
+         let searchEmployee_service = $('.searchEmployee_service').text();
+         let searchEmployee_pow = $('.searchEmployee_pow').text();
+         let managerId = $(user_container[i]).attr('value');
+         let additional_time = $($('.additional_time_value')[i]).val();
+         let projectId = $('#projectTitle').attr('value');
+         let allot_time_container = $($('.user_allot_time')[i]);
+         let current_allot_time = $(allot_time_container).find('span');
+
+         if(additional_time == 0){
+
+            alert('You can only add 1 hour or more');
+
+         } else {
+
+            Swal.fire({
+               position: "center",
+               icon: "success",
+               title: "Successful Added Time!",
+               showConfirmButton: false,
+               timer: 1500
+             });
+
+            //Update the allot and remaining time
+            $.ajax({
+               type: 'POST',
+               url: 'add_allot_time_to_manager.php',
+               data: {
+                  'services': searchEmployee_service,
+                  'phase_of_work': searchEmployee_pow,
+                  'managerId': managerId,
+                  'projectId': projectId,
+                  'additional_time': additional_time,
+               },
+               success: function(data){
+                     $(current_allot_time).html(data);
+                
+               }
+
+            });
+
+            //Change the remaining time
+            let remaining_time = $($('.user_remaining_time span')[i]).text();
+            let update_remaining_time = parseInt(additional_time) + parseInt(remaining_time);
+
+            $($('.user_remaining_time span')[i]).text(update_remaining_time);
+            
+         }
+         
+      });
+
+   }
+   
+}
+submit_manager_additional_time();
+
+//Show maximum additional time for PIC tasks
+function pic_add_allot_time(){
+
+   let additional_time_btn = document.querySelectorAll('#view_project_in_charge .pic_task_allot_time .additional_time_btn');
+   let add_time_input_all = document.querySelectorAll('#view_project_in_charge .pic_task_allot_time .add_time_input');
+
+   for(let i = 0; additional_time_btn.length > i; i++){
+
+      $(additional_time_btn[i]).off().on('click', ()=> {
+
+         let additionalTime = $(additional_time_btn[i]).parent();
+         let add_time_input = $(additionalTime).find('.add_time_input');
+         let tableRow = $(additional_time_btn[i]).parent().parent();
+         let additional_time_value = $(tableRow).find('.additional_time_value');
+         let taskId = $(tableRow).find('.taskId').attr('value');
+         let managerId = $(tableRow).find('.managerId').attr('value');
+         let searchEmployee_service = $('.searchEmployee_service').text();
+         let searchEmployee_pow = $('.searchEmployee_pow').text();
+         let projectId = $('#projectTitle').attr('value');
+
+         $.ajax({
+            type: 'POST',
+            url: 'max_additional_time_value.php',
+            data: {
+               'taskId': taskId,
+               'managerId': managerId,
+               'services': searchEmployee_service,
+               'phase_of_work': searchEmployee_pow,
+               'projectId': projectId,
+            },
+            success: function(data){
+               $(additional_time_value).attr("max", `${data}`);
+            }
+         });
+         
+
+         if($(add_time_input).hasClass('d-none')) {
+
+            Array.from(add_time_input_all).forEach((all_add_time_btn) => {
+
+               $(all_add_time_btn).addClass('d-none');
+   
+            });
+
+            $(add_time_input).removeClass('d-none');
+ 
+         } else {
+            
+            $(add_time_input).addClass('d-none');
+
+         }
+
+         submit_pic_add_allot_time();
+         submit_manager_add_allot_time();
+         
+      });
+
+   }
+
+}
+pic_add_allot_time();
+
+//Submit additional time for PIC tasks
+function submit_pic_add_allot_time(){
+
+   let submit_additional_time = document.querySelectorAll('#view_project_in_charge .pic_task_allot_time .add_time_input .submit_additional_time');
+   let additional_time_value = document.querySelectorAll('#view_project_in_charge .pic_task_allot_time .add_time_input .additional_time_value');
+   
+   let searchEmployee_service = $('.searchEmployee_service').text();
+   let searchEmployee_pow = $('.searchEmployee_pow').text();
+   let projectId = $('#projectTitle').attr('value');
+
+   for(let i = 0; submit_additional_time.length > i; i++){
+
+      $(submit_additional_time[i]).off().on('click', ()=> {
+
+         let tableRow = $(submit_additional_time[i]).parent().parent().parent();
+         let taskId = $(tableRow).find('.taskId').attr('value');
+         let span = $(tableRow).find('.pic_task_allot_time span');
+         let pic_task_remaining_time = $(tableRow).find('.pic_task_remaining_time');
+
+         let max_allot_time = $(additional_time_value[i]).attr('max');
+         let additional_allot_time = $(additional_time_value[i]).val();
+
+         if(additional_allot_time <= 0) {
+
+            Swal.fire({
+               icon: "info",
+               html: `You can add 1 hour or more`,
+               showCloseButton: true,
+               showCancelButton: true,
+               focusConfirm: false,
+             });
+ 
+         } else if(parseInt(max_allot_time) < parseInt(additional_allot_time)) {
+            Swal.fire({
+               icon: "info",
+               html: `Your Remaining Time is ${max_allot_time} Hours`,
+               showCloseButton: true,
+               showCancelButton: true,
+               focusConfirm: false,
+             });
+            // alert(`Your Remaining Time is ${max_allot_time} Hours`)
+
+         } else {
+
+            Swal.fire({
+               position: "center",
+               icon: "success",
+               title: "Successful Added Time!",
+               showConfirmButton: false,
+               timer: 1500
+            });
+
+            $.ajax({
+               type: 'POST',
+               url: 'submit_pic_add_allot_time.php',
+               data: {
+                  'projectId': projectId,
+                  'taskId': taskId,
+                  'services': searchEmployee_service,
+                  'phase_of_work': searchEmployee_pow,
+                  'additional_allot_time': additional_allot_time,
+               },
+               success: function(data){
+                  $(span).text(data);
+
+                  //Update remaining time
+                  let update_remaining_time = parseFloat($(pic_task_remaining_time).text()) + parseFloat(additional_allot_time);
+
+                  $($(pic_task_remaining_time)).text(update_remaining_time);
+
+                  //Add class after submit
+                  $(submit_additional_time[i]).parent().addClass('d-none');
+               }
+
+            });
+
+         }
+
+      });
+
+   }
+ 
+}
+submit_pic_add_allot_time()
+
+//Show maximum additional time for Manager tasks
+function manager_add_allot_time(){
+
+   let additional_time_btn = document.querySelectorAll('#view_managers .pic_task_allot_time .additional_time_btn');
+   let add_time_input_all = document.querySelectorAll('#view_managers .pic_task_allot_time .add_time_input');
+
+   for(let i = 0; additional_time_btn.length > i; i++){
+
+      $(additional_time_btn[i]).off().on('click', ()=> {
+
+         console.log('okay');
+
+         let additionalTime = $(additional_time_btn[i]).parent();
+         let add_time_input = $(additionalTime).find('.add_time_input');
+         let tableRow = $(additional_time_btn[i]).parent().parent();
+         let additional_time_value = $(tableRow).find('.additional_time_value');
+         let taskId = $(tableRow).find('.taskId').attr('value');
+         let managerId = $(tableRow).find('.managerId').attr('value');
+         let searchEmployee_service = $('.searchEmployee_service').text();
+         let searchEmployee_pow = $('.searchEmployee_pow').text();
+         let projectId = $('#projectTitle').attr('value');
+
+         $.ajax({
+            type: 'POST',
+            url: 'max_additional_time_value.php',
+            data: {
+               'taskId': taskId,
+               'managerId': managerId,
+               'services': searchEmployee_service,
+               'phase_of_work': searchEmployee_pow,
+               'projectId': projectId,
+            },
+            success: function(data){
+               $(additional_time_value).attr("max", `${data}`);
+            }
+         });
+         
+
+         if($(add_time_input).hasClass('d-none')) {
+
+            Array.from(add_time_input_all).forEach((all_add_time_btn) => {
+
+               $(all_add_time_btn).addClass('d-none');
+   
+            });
+
+            $(add_time_input).removeClass('d-none');
+ 
+         } else {
+            
+            $(add_time_input).addClass('d-none');
+
+         }
+
+         submit_pic_add_allot_time();
+         submit_manager_add_allot_time();
+         
+      });
+
+   }
+
+}
+manager_add_allot_time();
+
+//Submit additional time for PIC tasks
+function submit_manager_add_allot_time(){
+
+   let submit_additional_time = document.querySelectorAll('#view_managers .pic_task_allot_time .add_time_input .submit_additional_time');
+   let additional_time_value = document.querySelectorAll('#view_managers .pic_task_allot_time .add_time_input .additional_time_value');
+   
+   let searchEmployee_service = $('.searchEmployee_service').text();
+   let searchEmployee_pow = $('.searchEmployee_pow').text();
+   let projectId = $('#projectTitle').attr('value');
+
+   for(let i = 0; submit_additional_time.length > i; i++){
+
+      $(submit_additional_time[i]).off().on('click', ()=> {
+
+         let tableRow = $(submit_additional_time[i]).parent().parent().parent();
+         let taskId = $(tableRow).find('.taskId').attr('value');
+         let span = $(tableRow).find('.pic_task_allot_time span');
+         let pic_task_remaining_time = $(tableRow).find('.pic_task_remaining_time');
+
+         let max_allot_time = $(additional_time_value[i]).attr('max');
+         let additional_allot_time = $(additional_time_value[i]).val();
+
+         if(additional_allot_time <= 0) {
+
+            Swal.fire({
+               icon: "info",
+               html: `You can add 1 hour or more`,
+               showCloseButton: true,
+               showCancelButton: true,
+               focusConfirm: false,
+             });
+ 
+         } else if(parseInt(max_allot_time) < parseInt(additional_allot_time)) {
+            Swal.fire({
+               icon: "info",
+               html: `Your Remaining Time is ${max_allot_time} Hours`,
+               showCloseButton: true,
+               showCancelButton: true,
+               focusConfirm: false,
+             });
+            // alert(`Your Remaining Time is ${max_allot_time} Hours`)
+
+         } else {
+
+            Swal.fire({
+               position: "center",
+               icon: "success",
+               title: "Successful Added Time!",
+               showConfirmButton: false,
+               timer: 1500
+            });
+
+            $.ajax({
+               type: 'POST',
+               url: 'submit_pic_add_allot_time.php',
+               data: {
+                  'projectId': projectId,
+                  'taskId': taskId,
+                  'services': searchEmployee_service,
+                  'phase_of_work': searchEmployee_pow,
+                  'additional_allot_time': additional_allot_time,
+               },
+               success: function(data){
+                  $(span).text(data);
+
+                  //Update remaining time
+                  let update_remaining_time = parseFloat($(pic_task_remaining_time).text()) + parseFloat(additional_allot_time);
+
+                  $($(pic_task_remaining_time)).text(update_remaining_time);
+
+                  //Add class after submit
+                  $(submit_additional_time[i]).parent().addClass('d-none');
+               }
+
+            });
+
+         }
+
+      });
+
+   }
+ 
+}
+submit_manager_add_allot_time()
+
+function versionClick() {
+
+   let versionButton = document.querySelector('.version-button_update');
+   let versionOverlay = document.querySelector('.version-update_overlay');
+   let versionUpdate_container = document.querySelector('.version-update_container');
+
+   $(versionButton).off().on('click', ()=> {
+
+      if($(versionUpdate_container).hasClass('d-none')) {
+
+         $(versionUpdate_container).removeClass('d-none');
+
+      } 
+
+   });
+
+   $(versionOverlay).off().on('click', ()=> {
+
+      $(versionUpdate_container).addClass('d-none');
+
+   });
+
+}
+versionClick();
+
+function versionClose() {
+
+   let closeBtn = document.querySelector('.closeBtn');
+   let versionUpdate_container = document.querySelector('.version-update_container');
+
+   $(closeBtn).off().on('click', ()=> {
+
+      $(versionUpdate_container).addClass('d-none');
+
+   });
+
+}
+versionClose();
+
+// Close Check Files
+function closeCheckFiles(){
+
+   $(document).on('mouseup', (e)=> {
+
+      let checkfilepathBtn = document.querySelectorAll('.checkfilepathBtn');
+
+      Array.from(checkfilepathBtn).forEach((btn) => {
+
+         let check_filepath_td = $(btn).parent();
+         let check_filepath_tooltip = $(check_filepath_td).find('.check_filepath_tooltip');
+
+         if(!$(btn).is(e.target) && $(btn).has(e.target).length === 0) {
+
+            if(!$(check_filepath_tooltip).hasClass('d-none')) {
+
+               $(check_filepath_tooltip).addClass('d-none');
+
+            }
+
+         }
+
+      });
+
+   });
+
+}
+closeCheckFiles()
+
+// Close Upload File Path
+function closeUploadFilePath(){
+
+   $(document).on('mouseup', (e)=> {
+
+      let uploadPathBtn = document.querySelectorAll('.uploadPathBtn');
+
+      Array.from(uploadPathBtn).forEach((btn) => {
+
+         let upload_filepath_td = $(btn).parent();
+         let upload_filepath_tooltip = $(upload_filepath_td).find('.upload_filepath_tooltip');
+
+         if(!$(btn).is(e.target) && $(btn).has(e.target).length === 0){
+
+            if(!$(upload_filepath_tooltip).hasClass('d-none')) {
+
+               $(upload_filepath_tooltip).addClass('d-none');
+
+            }
+
+         }
+
+      });
+
+   });
+
+}
+closeUploadFilePath()
+
+// Close Tasks Update
+function closeTaskUpdate(){
+
+   $(document).on('mouseup', (e)=> {
+
+      let taskUpdate_btn = document.querySelectorAll('.taskUpdate_btn');
+
+      Array.from(taskUpdate_btn).forEach((btn) => {
+
+         let taskUpdate_container = $(btn).parent();
+         let taskUpdate_tooltip = $(taskUpdate_container).find('.taskUpdate_tooltip');
+         let taskUpdate_children = $(taskUpdate_container).find('*');
+
+         if (!$(btn).is(e.target) && $(btn).has(e.target).length === 0 && !$(taskUpdate_children).is(e.target)) {
+
+            if(!$(taskUpdate_tooltip).hasClass('d-none')) {
+
+               $(taskUpdate_tooltip).addClass('d-none');
+
+            }
+
+         }
+
+      });
+
+   });
+
+}
+closeTaskUpdate();
+
+//Close Phase of work status
+function closePowStatus(){
+
+   $(document).on('mouseup', (e)=> { 
+
+      let status_tooltip_boxes = document.querySelectorAll('.status_tooltip');
+      
+      Array.from(status_tooltip_boxes).forEach((status_tooltip_box) => {
+
+         let status_tooltip_container = $(status_tooltip_box).parent();
+         let textStatus_button = $(status_tooltip_container).find('.text_status');
+
+         if(!$(status_tooltip_box).is(e.target) && $(status_tooltip_box).has(e.target).length === 0 && !$(textStatus_button).is(e.target)) {
+
+            if(!$(status_tooltip_box).hasClass('d-none')) {
+
+               $(status_tooltip_box).addClass('d-none');
+
+            }
+
+         }
+
+      });
+
+   });
+}
+closePowStatus()
+
+//Close Lagout Menu
+function closeChevronDown() {
+
+   $(document).on('mouseup', (e)=> {
+
+      // e.stopPropagation();
+
+      let chevronDown_section = $('.chevron-down-section');
+      let chevrondown = $('.chevron-down');
+
+      if (!chevronDown_section.is(e.target) && chevronDown_section.has(e.target).length === 0 && !chevrondown.is(e.target)){
+
+         if(!$(chevronDown_section).hasClass('d-none')) {
+
+            $(chevronDown_section).addClass('d-none');
+
+         }
+
+      } 
+
+   })
+
+}
+closeChevronDown();
+
+function chevronDown(){
+
+   let chevronDown = document.querySelector('.chevron-down');
+   let chevronDown_section = document.querySelector('.chevron-down-section');
+
+   $(chevronDown).on('click', ()=> {
+
+      if($(chevronDown_section).hasClass('d-none')) {
+
+         $(chevronDown_section).removeClass('d-none');
+
+      } else {
+
+         $(chevronDown_section).addClass('d-none');
+
+      }
+
+   });
+
+}
+chevronDown();
+
+function userChange_password() {
+   
+   let submitNew_password = document.querySelector('.submit-new-password');
+   let currentPassword = document.querySelector('.current-password');
+   let newPassword = document.querySelector('.new-password');
+   let retypeNew_password = document.querySelector('.retype-new-password');
+
+   $(submitNew_password).off().on('click', ()=> {
+
+      if($(newPassword).val() == $(retypeNew_password).val()){
+
+         $.ajax({
+            type: 'POST',
+            url: 'user_change_password.php',
+            data: {
+               'currentPassword': $(currentPassword).val(),
+               'newPassword': $(newPassword).val(),
+               'retypeNew_password': $(retypeNew_password).val(),
+            },
+            success: function(data){
+
+               data = data.replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '');
+
+               if(data == 'successful') {
+
+                  Swal.fire({
+                     title: "Password changed successfully!",
+                     text: "You clicked the button!",
+                     icon: "success"
+                   });
+
+                   setTimeout(() => {
+                     
+                     location.reload();
+
+                   }, 1000);
+
+               } else {
+
+                  Swal.fire({
+                     icon: "error",
+                     title: "Oops...",
+                     text: "Wrong current password!",
+                     // footer: '<a href="#">Why do I have this issue?</a>'
+                   });
+
+               }
+
+            }
+         });
+         
+      } else {
+
+         Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "The re-type password confirmation does not match.",
+            // footer: '<a href="#">Why do I have this issue?</a>'
+          });
+
+      }
+
+   });
+
+}
+userChange_password();
+
 
 
 });
 
-
-//Calendar

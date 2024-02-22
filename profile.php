@@ -1,3 +1,4 @@
+<?php include 'force_login.php'; ?>
 <?php $page = 'profile'; include 'header.php'; ?>
 <?php include_once 'sidebar.php'; ?>
 <?php include_once 'assign-project.php'; ?>
@@ -32,6 +33,10 @@
                     </div>
                     <div class="profile-info">
                         <?php if(isset($_SESSION['UserLogin'])){ ?>
+                            <div class="profile-info__content d-none">
+                                <span>User Id</span>
+                                <p class='profile-userId'><?php echo $user_profile['ID']; ?></p>
+                            </div>
                             <div class="profile-info__content">
                                 <span>Name</span>
                                 <p ><?php echo $_SESSION['UserLogin']; ?> <?php echo $_SESSION['Userlname']; ?></p>
@@ -48,6 +53,7 @@
                     </div>
                     <div class="mydesc">
                         <h3>About</h3>
+                        <!-- <div><p class="exeee">clickkkkkkkkkkkkkk</p></div> -->
                         <p class='current-bio'><?php echo $user_profile['user_bio']; ?></p>
                         <div class="edit-bio">
                             <button class="edit_bio_btn"><a href="#">Edit</a></button>
@@ -78,12 +84,12 @@
                     <div class="content-table">
                         <div class="search-action__wrapper">
                             <div class="search-action">
-                                <input class="search" type="text">
-                                <div class="search-button">Search</div>
+                                <input class="search-task-input" type="text">
+                                <div class="search-task">Search</div>
                             </div>
 
                             <div class="calendar-logs">
-                                <img class='calendar-icon' src="img/calendar-days-solid.svg" alt="">
+                                <img class='calendar-icon' id='calendarIcon' src="img/calendar-days-solid.svg" alt="">
                             </div>
                         </div>
             
@@ -97,9 +103,13 @@
                                     <th>Task Notes</th>
                                     <th>Date Started</th>
                                     <th>Due Date</th>
+                                    <th>Allot Time</th>
+                                    <th>Manager</th>
                                     <th>Status</th>
                                     <th></th>
                                 </tr>
+                            </tbody>
+                        <tbody>
 
                                 <!-- tasks-new.php -->
 
@@ -118,6 +128,8 @@
                                                         <td><?php echo $tasks_info['notes']; ?></td>
                                                         <td><?php echo $newTasks_info['date_started']; ?></td>
                                                         <td><?php echo $newTasks_info['due_date']; ?></td>
+                                                        <td class='allot_time'><?php echo $newTasks_info['allot_time']; ?></td>
+                                                        <td><?php echo $newTasks_info['sent_by']; ?></td>
                                                         <td><?php echo $newTasks_info['status']; ?></td>
                                                         <td class='invite_status_td'>
                                                             <button class='new-task-btn'>
@@ -156,10 +168,9 @@
                                      
                                         <?php } while($newTasks_info = $newTasks->fetch_assoc()); ?>
                                         
-
                                     <?php } ?>
-
-                                <!-- tasks-table-profile.php -->
+                                </tbody>
+                                <tbody  class="usertasks-table">
 
                                 <?php if(!empty($tasks_info['id'])) { ?>
 
@@ -167,7 +178,7 @@
 
                                         <?php if($tasks_info['invite_status'] == 'accept' || $tasks_info['invite_status'] == 'decline') { ?>
 
-                                                <tr class="task-table_row clickable-row" data-href='<?php echo $URL ?>/viewproject.php?ID=<?php echo $tasks_info['project_id'] ?>' value="<?php echo $tasks_info['id']; ?>">
+                                                <tr class="task-table_row clickable-row" data-href='viewproject.php?ID=<?php echo $tasks_info['project_id'] ?>' value="<?php echo $tasks_info['id']; ?>">
                                                     <td><?php echo $tasks_info['project_name']; ?></td>
                                                     <td><?php echo $tasks_info['services']; ?></td>
                                                     <td><?php echo $tasks_info['phase_of_work']; ?></td>
@@ -177,6 +188,8 @@
                                                     </td>
                                                     <td><?php echo $tasks_info['date_started']; ?></td>
                                                     <td><?php echo $tasks_info['due_date']; ?></td>
+                                                    <td class='allot_time'><?php echo $tasks_info['allot_time']; ?></td>
+                                                    <td><?php echo $tasks_info['sent_by']; ?></td>
                                                     <td><?php echo $tasks_info['status']; ?></td>
                                                     <td><?php echo $tasks_info['invite_status'] ?></td>
                                                 </tr>
@@ -270,15 +283,15 @@
 </div>
 
     
-<div class="calendar-overlay d-none"></div>
-    <div class="calendar d-none">
+<!-- <div class="calendar-overlay aaaaaaaaaaa d-none"></div> -->
+    <!-- <div class="calendar d-none">
         <div class="calendar-header">
             <button id="prevBtn">&lt;</button>
             <h1 id="monthYear"></h1>
             <button id="nextBtn">&gt;</button>
         </div>
             <div class="days">
-                <div class="day">Sun</div>
+                <div class="day">Sunaaaaaaa</div>
                 <div class="day">Mon</div>
                 <div class="day">Tue</div>
                 <div class="day">Wed</div>
@@ -294,44 +307,79 @@
             <div class="date" data-day="5">5</div>
             <div class="date" data-day="6">6</div>
         </div>
-    </div>
+        </div>
+    </div> -->
+
 
       <!-- Modal for Event Details -->
-    <div class="modal modal-logs event show-modal hidden" id="eventModal">
-        <div class="modal-content">
+    <!-- <div class="modal modal-logs event show-modal hidden" id="eventModal">
+        <div class="modal-content"> -->
 
          <!-- <span class="close">&times;</span> -->
-            <h2 id="eventDate"></h2>
+            <!-- <h2 id="eventDate"></h2>
             <textarea class="area d-none" id="eventDescription"></textarea>
             <button class='d-none' id="saveEventBtn">Save</button>
             <div class="content-table">
-                <table>
+                <table class='calendarModal_logs'>
                     <tbody>
                         <tr class="mylogs_table_header">
                             <th class="d-none">Update Task Id</th>
                             <th>Project Name</th>
                             <th>Service</th>
                             <th>Phase of work</th>
+                            <th>Task Title</th>
                             <th>Updates</th>
-                            <th>Date</th>
                             <th>Spend Hours</th>
                             <th></th>
-                        </tr>
+                        </tr> -->
 
-                        <tr>
-                            <td><img class="add_newUpdate_btn" src="/img/add-icon.png" width="25"></td>
+                        <!-- For dynamic content (viewlogs.php) -->
+
+                        <!-- <tr>
+                            <td class='add_logs_td'>
+                                <img class='add_logs' src='img/add-icon.png' width='25'>
+                                <div class='add_logs_tooltip d-none'>
+                                    <table>
+                                        <tbody>
+                                            <tr class='add_logs_header'>
+                                                <th>My Project</th>
+                                                <th>My Task</th>
+                                                <th>Task Update</th>
+                                                <th>Spend Hours</th>
+                                                <th></th>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <select id="select_project"></select>
+                                                </td>
+                                                <td>
+                                                    <select id="select_task"></select>
+                                                </td>
+                                                <td>
+                                                    <input id="add_logs_task_update" type="text">
+                                                </td>
+                                                <td>
+                                                    <input id="add_logs_task_spend_hours" type="number">
+                                                </td>
+                                                <td>
+                                                    <img class='add_logs_save' src="img/add-icon.png" alt="" width="25">
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </td>
                             <td></td>
-                            <td><button class="save_update_tasks">Save</button></td>
+                            <td> </td>
                             <td></td>
-                            <td></td>
-                            <td>Total Hours:<span class="total_spend_hours"></span></td>
+                            <td>Total Hours:</td>
+                            <td class='total_spend_hours'></td>
                             <td></td>
                         </tr>
                     </tbody>
-            </table>
+                </table>
             </div>
-
         </div>
-    </div>
+    </div> -->
 
 <?php include 'footer.php'; ?>

@@ -16,6 +16,8 @@ $logout = new Userslog('logout');
 $logout->userRecord();
 
 unset($_SESSION['UserLogin']);
+unset($_SESSION['Access']);
+unset($_SESSION['UserId']);
 echo header("Location: index.php");
 
 

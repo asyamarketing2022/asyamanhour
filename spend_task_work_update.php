@@ -1,5 +1,6 @@
 <?php include_once('connections/DBconnection.php'); ?>
 
+
 <?php 
 
 $db = new DBconnection();
@@ -13,12 +14,10 @@ $con = $db->connection();
         $sql_update = "UPDATE `employees_tasks` SET `total_spend_hours` = '$total_spend_hours' WHERE id = '$taskId'";
         $con->query($sql_update) or die($con->error);
 
-        // $query_spend_total_hours = "SELECT * FROM `employees_tasks` WHERE id = $taskId";
-        // $spend_total_hours = $con->query($query_spend_total_hours) or die ($con->error);
-        // $total_hours = $spend_total_hours->fetch_assoc();
 
-        // echo $total_spend_hours;
-      
+        //Call a function to add all spend hours and update the employees_logs_hours table
+        include_once('employees_date_logs_auto_update.php');
+
     }
 
 ?>

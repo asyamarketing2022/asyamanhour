@@ -1,3 +1,4 @@
+<?php include 'force_login.php'; ?>
 <?php $page = 'project'; include 'header.php'; ?>
 <?php include 'add-project.php'; ?>
 <?php include 'update-project.php'; ?>
@@ -6,21 +7,34 @@
 <?php include 'assign-project.php'; ?>
 <?php include 'project-history.php'; ?>
 <?php include 'departmentManager.php'; ?>
+<?php include 'project-table-employees.php'; ?>
 
 
 <?php include("sidebar.php"); ?>
 
         <div class="grid-right__content">
             <div class="search-action__wrapper mt-4">
+                <div class="float-start">
+                    <h1>Projects</h1>
+                    <div class="search-action">
+               
+                        <input class='projectSearch' type="text" placeholder=" Project Name" size="25">
+                        <button type="button" class="search-button submit_projectSearch">Search</button>
+
+                    </div>
+                </div>
                 <!-- <div class="search-action">
                     <input class="search" type="text">
                     <div class="search-button">Search</div>
                 </div> -->
 
-                <?php if(isset($_SESSION['UserLogin']) && $_SESSION['Access'] == "admin") { ?>
 
-                <button type="button" class="btn" data-toggle="modal" data-target="#add_project"><i class="fa fa-plus"></i> Add Project</button>
-
+                <?php if(isset($_SESSION['UserLogin']) && $_SESSION['Access'] == "admin" || isset($_SESSION['UserLogin']) && $_SESSION['Access'] == "contract & billing")   { ?>
+                    
+                    <div class='select-action__sort show float-start float-sm-end'>
+                        <button type="button" class="btn add_project" data-toggle="modal" data-target="#add_project"><i class="fa fa-plus"></i> Add Project</button>
+                    </div>
+                    
                 <?php } ?>
             </div>
                     
@@ -38,6 +52,7 @@
 
             <div class="content-table">
                 <table>
+    
                     <tr>
                         <th>Project Name</th>
                         <th>Location</th>
@@ -45,36 +60,45 @@
                         <th>Typology</th>
                         <th>Company Name</th>
                         <th>Client Name</th>
-                        <th></th>
+                        <!-- <th></th> -->
                     </tr>
+               
+                    <tbody class='userProject-table'>
                     
                     <!-- project-table.php for SQL -->
 
-                    <form action="" method="POST">
+                    <?php if((isset($_SESSION['UserLogin']) && $_SESSION['Access'] != "manager") && (isset($_SESSION['UserLogin']) && $_SESSION['Access'] != "employee")) { ?>
 
-                        <?php if(!empty($projectInfo['id'])) { ?>
+                            <?php if(!empty($projectInfo['id'])) { ?>
 
-                            <?php do { ?>
-                                <tr class="table-row_projects table-form" value="<?php echo $projectInfo['id'] ?>">
-                                    <td><?php echo $projectInfo['project_name'] ?></td>
-                                    <td><?php echo $projectInfo['location'] ?></td>
-                                    <td><?php echo $projectInfo['lot_areas'] ?></td>
-                                    <td><?php echo $projectInfo['typology'] ?></td>
-                                    <td><?php echo $projectInfo['company_name'] ?></td>
-                                    <td><?php echo $projectInfo['client_name'] ?></td>
+                                <?php do { ?>
 
-                                    <?/* php if(isset($_SESSION['UserLogin']) && $_SESSION['Access'] == "admin") { */?>
-         
-                                        <td><a class="" href="viewproject.php?ID=<?php echo $projectInfo['id'] ?>">View</a></td>
-                                        
-                                    <?/*php } */?>
+                                    <?php if($projectInfo['status'] != 'revise' ) { ?>
 
-                                </tr>
-                            <?php } while($projectInfo = $project->fetch_assoc()); ?>
+                                    <tr class="table-row_projects select_project table-form" value="<?php echo $projectInfo['id'] ?>" data-href="viewproject.php?ID=<?php echo $projectInfo['id'] ?>">
+                                        <td><?php echo $projectInfo['project_name'] ?></td>
+                                        <td><?php echo $projectInfo['location'] ?></td>
+                                        <td><?php echo $projectInfo['lot_areas'] ?></td>
+                                        <td><?php echo $projectInfo['typology'] ?></td>
+                                        <td><?php echo $projectInfo['company_name'] ?></td>
+                                        <td><?php echo $projectInfo['client_name'] ?></td>
+                                    </tr>
 
-                         <?php } ?>   
+                                    <?php } ?>
 
-                    </form>
+                                <?php } while($projectInfo = $project->fetch_assoc()); ?>
+
+                            <?php } ?>   
+
+                    <?php } else { ?>
+
+                        <!-- Check project-table-employees.php for codes -->
+                        <?php echo $pms_project_table; ?>
+
+                    <?php } ?>
+
+                    </tbody>
+                
                 </table>
             </div>
         </div>
