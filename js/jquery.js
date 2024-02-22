@@ -2642,6 +2642,9 @@ function submit_file_path(){
                      taskColor()
                      taskDone_disable();
                      taskChange_status();
+                     taskUpdate_tooltip();
+                     add_task_work_update();
+               
       
                   }, 70);
                });
@@ -3169,6 +3172,297 @@ function submit_file_path(){
   }
   taskChange_status();
 
+  function taskUpdate_tooltip(){
+
+   let taskUpdate_btn = document.querySelectorAll('.taskUpdate_btn');
+   let taskUpdate_tooltip_all = document.querySelectorAll('.taskUpdate_tooltip');
+
+   for(let i = 0; taskUpdate_btn.length > i; i++){
+
+      $(taskUpdate_btn[i]).off().on('click', ()=> {
+
+        let tdContainer = $(taskUpdate_btn[i]).parent();
+        let taskUpdate_tooltip = $(tdContainer).find('.taskUpdate_tooltip');
+        let taskId = $($('.taskId')[i]).attr('value');
+
+         $.ajax({
+            type: 'POST',
+            url: 'view_task_work_update.php',
+            data: {
+               'taskId': taskId,
+            },
+            success: function(data){
+               $('.taskUpdate_tbody').html(data);
+
+               add_task_work_update();
+               delete_task_work_update();
+               save_task_work_update()
+            }
+         });
+
+        if($(taskUpdate_tooltip).hasClass('d-none')) {
+
+         Array.from(taskUpdate_tooltip_all).forEach((taskUpdate_tooltip_close) => {
+
+            $(taskUpdate_tooltip_close).addClass('d-none');
+
+         });
+   
+         $(taskUpdate_tooltip).removeClass('d-none');
+
+         } else {
+            
+            $(taskUpdate_tooltip).addClass('d-none');
+
+         }
+      });
+
+   }
+
+  }
+  taskUpdate_tooltip();
+
+  // Add new Task Update
+  function add_task_work_update(){
+
+   let add_newUpdate_btn = document.querySelectorAll('.add_newUpdate_btn');
+
+      for(let i = 0; add_newUpdate_btn.length > i; i++){
+
+         $(add_newUpdate_btn[i]).off().on('click', ()=> {
+
+            // let tableRow_header = document.querySelectorAll('.taskUpdate_header');
+            // let dynamic_TableRow = `<tr>
+            //                            <td><input type='text'></td>
+            //                            <td><input type='date'></td>
+            //                            <td><input type='number'></td>
+            //                            <td>-</td>
+            //                         </tr>`;
+
+            // $(dynamic_TableRow).insertAfter(tableRow_header[i]);
+
+            let taskId = $($('.taskId')[i]).attr('value');
+            let phase_of_work = $('.searchEmployee_pow').text();
+            let services = $('.searchEmployee_service').text();
+            let projectId = $('#projectTitle').attr('value');
+            let projectName = $('#projectTitle').text();
+            let employeeId = $('.employeeId').attr('value');
+
+            let taskTitle = $($('.taskTitle')[i]).text();
+            let date = new Date();
+            let dateToday = date.getFullYear() + "-" + "0" + (date.getMonth()+1)  + "-" + "0" + date.getDate();
+          
+            $.ajax({
+               type: 'POST',
+               url: 'task_work_update.php',
+               data: {
+                  'taskId': taskId,
+                  'phase_of_work': phase_of_work,
+                  'services': services,
+                  'projectId': projectId,
+                  'projectName': projectName,
+                  'taskTitle': taskTitle,
+                  'dateToday': dateToday,
+                  'employeeId': employeeId,
+               },
+               success: function(data){
+                  $('.taskUpdate_tbody').html(data);
+
+                  add_task_work_update();
+                  delete_task_work_update();
+                  save_task_work_update();
+               }
+
+            });
+
+         });
+
+      }
+
+  }
+
+  // Delete new task update
+  function delete_task_work_update(){
+
+      let delete_update_task = document.querySelectorAll('.delete_update_task');
+      let total_spend_hours = 0;
+
+      for(let i = 0; delete_update_task.length > i; i++){
+
+         $(delete_update_task[i]).off().on('click', ()=> {
+
+            let update_task_id = $($('.update_task_id')[i]).text();
+            let taskId = $('.taskId').attr('value');
+            let tbody = $(delete_update_task[i]).parent().parent().parent();
+      
+            let index = 2;
+            let loop = 1;
+
+            for(let a = 0; loop > a; a++){
+
+               if(loop != index) {
+
+                  $.ajax({
+                     type: 'POST',
+                     url: 'delete_task_work_update.php',
+                     data: {
+                        'update_task_id': update_task_id,
+                        'taskId': taskId
+                     },
+                     success: function(data){
+                        $('.taskUpdate_tbody').html(data);
+            
+                     }
+                  });
+
+                  loop++
+
+               } else {
+
+                  setTimeout(() => {
+
+                     let update_tasks_spendhours = $(tbody).find('.update_task_spendhours');
+                     let update_tasks_spendhours_array = [];
+
+                     Array.from(update_tasks_spendhours).forEach((update_task_spendhours) => {
+                  
+                        update_tasks_spendhours_array.push($(update_task_spendhours).val());
+               
+                        // total_spend_hours += parseFloat($(update_task_spendhours).val());
+                        total_spend_hours += parseFloat($(update_task_spendhours).val().replace(/,/g, "")) || 0;
+      
+                     });
+   
+                        $.ajax({
+                           type: 'POST',
+                           url: 'delete_task_work_update.php',
+                           data: {
+                              'total_spend_hours': total_spend_hours,
+                              // 'update_task_id': update_task_id,
+                              'taskId': taskId,
+                           },
+                           success: function(data){
+                              $('.taskUpdate_tbody').html(data);
+                              delete_task_work_update();
+                              add_task_work_update();
+                              save_task_work_update();
+                           }
+                        });
+
+                        // delete_task_work_update();
+                        // add_task_work_update();
+                        // save_task_work_update();
+
+                  }, 50);
+
+               }
+
+            }
+
+         });
+
+      }
+
+  }
+
+   // Save new task update
+   function save_task_work_update(){
+
+      let save_update_task = document.querySelectorAll('.save_update_tasks');
+      let total_spend_hours = 0;
+
+      for(let i = 0; save_update_task.length > i; i++){
+
+         $(save_update_task[i]).off().on('click', ()=> {
+
+            let taskId = $($('.taskId')[i]).attr('value');
+            let tbody = $(save_update_task[i]).parent().parent().parent();
+
+            let update_tasks_id = $(tbody).find('.update_task_id');
+            let update_tasks_id_array = [];
+
+            Array.from(update_tasks_id).forEach((update_task_id) => {
+         
+               update_tasks_id_array.push($(update_task_id).text());
+   
+            });
+
+            let update_tasks_input = $(tbody).find('.update_task_input');
+            let update_tasks_input_array = [];
+
+               Array.from(update_tasks_input).forEach((update_task_input) => {
+         
+                  update_tasks_input_array.push($(update_task_input).val());
+      
+               });
+
+
+            let update_tasks_date = $(tbody).find('.update_task_date');
+            let update_tasks_date_array = [];
+
+               Array.from(update_tasks_date).forEach((update_task_date) => {
+            
+                  update_tasks_date_array.push($(update_task_date).val());
+      
+               });
+
+            let update_tasks_spendhours = $(tbody).find('.update_task_spendhours');
+            let update_tasks_spendhours_array = [];
+
+               Array.from(update_tasks_spendhours).forEach((update_task_spendhours) => {
+
+                  update_tasks_spendhours_array.push($(update_task_spendhours).val());
+                  total_spend_hours += parseFloat($(update_task_spendhours).val().replace(/,/g, "")) || 0;
+
+               });
+
+
+            if(update_tasks_id_array != 0){
+
+               $.ajax({
+                  type: 'POST',
+                  url: 'save_task_work_update.php',
+                  data: {
+                     'taskId': taskId,
+                     'update_tasks_id_array': update_tasks_id_array,
+                     'update_tasks_input_array': update_tasks_input_array,
+                     'update_tasks_date_array': update_tasks_date_array,
+                     'update_tasks_spendhours_array': update_tasks_spendhours_array,
+                     'total_spend_hours': total_spend_hours,
+   
+                  },
+                  success: function(data){
+                     $('.taskUpdate_tbody').html(data);
+   
+                     save_task_work_update();
+                     delete_task_work_update();
+                     add_task_work_update();
+   
+                  }
+               });
+   
+               $.ajax({
+                  type: 'POST',
+                  url: 'spend_task_work_update.php',
+                  data: {
+                     'taskId': taskId,
+                     'total_spend_hours': total_spend_hours,
+                  },
+                   success: function(data){
+                     // $($('.total_spend_hours')[i]).html(data);
+                     alert('Saved Updates');
+                  }
+               })
+
+            }
+
+         });
+
+      }
+
+   }
+
+
   function closeMenu(){
 
       let closeMenuBtn = document.querySelector('.close-btn-menu');
@@ -3215,6 +3509,46 @@ function submit_file_path(){
 }
 openMenu();
 
+function calendarLogs() {
+
+   let calendarIcons = document.querySelector('.calendar-icon');
+   let calendar = document.querySelector('.calendar');
+   let calendarOverlay = document.querySelector('.calendar-overlay');
+   let rightContent = document.querySelector('.grid-right__content');
+
+   $(calendarIcons).off().on('click', ()=> {
+
+      if($(calendar).hasClass('d-none')) {
+
+            $(calendar).addClass('d-none');
+            $(calendar).removeClass('d-none');
+
+            $(calendarOverlay).addClass('d-none');
+            $(calendarOverlay).removeClass('d-none');
+
+            $(rightContent).css('overflow', 'hidden');
+
+         } else {
+            
+            $(calendar).addClass('d-none');
+            $(calendarOverlay).addClass('d-none');
+            $(rightContent).css('overflow', 'auto');
+
+         }
+
+   });
+
+   $(calendarOverlay).off().on('click', ()=> {
+
+      $(calendar).addClass('d-none');
+      $(calendarOverlay).addClass('d-none');
+      $(rightContent).css('overflow', 'auto');
+
+   });
+
+}
+calendarLogs();
+
   function linkTask(){
 
       let clickable_row = document.querySelectorAll('.clickable-row');
@@ -3242,6 +3576,163 @@ openMenu();
    location.reload();
   })
 
+
+  //Employee Calendar Logs
+  function employeeCalendar(){
+
+   const currentDate = new Date();
+   let currentMonth = currentDate.getMonth();
+   let currentYear = currentDate.getFullYear();
+   
+   const monthYearElement = document.getElementById('monthYear');
+   const datesElement = document.getElementById('dates');
+   const prevBtn = document.getElementById('prevBtn');
+   const nextBtn = document.getElementById('nextBtn');
+   const eventModal = document.getElementById('eventModal');
+   const eventDate = document.getElementById('eventDate');
+   const eventDescription = document.getElementById('eventDescription');
+   const saveEventBtn = document.getElementById('saveEventBtn');
+   let selectedDate = null;
+   
+   
+   // Generate calendar for the current month
+   generateCalendar(currentMonth, currentYear);
+   
+   // Event listener for previous and next buttons
+   prevBtn.addEventListener('click', () => {
+     currentMonth--;
+     if (currentMonth < 0) {
+       currentMonth = 11;
+       currentYear--;
+     }
+     generateCalendar(currentMonth, currentYear);
+   });
+   
+   nextBtn.addEventListener('click', () => {
+     currentMonth++;
+     if (currentMonth > 11) {
+       currentMonth = 0;
+       currentYear++;
+     }
+     generateCalendar(currentMonth, currentYear);
+   });
+   
+   // Function to generate the calendar
+   function generateCalendar(month, year) {
+     monthYearElement.textContent = new Date(year, month).toLocaleString('default', { month: 'long' }) + ' ' + year;
+     datesElement.innerHTML = '';
+   
+     const firstDayOfMonth = new Date(year, month, 1);
+     const lastDayOfMonth = new Date(year, month + 1, 0);
+     const startDay = firstDayOfMonth.getDay();
+     const endDay = lastDayOfMonth.getDate();
+   
+     for (let i = 0; i < startDay; i++) {
+       const dateElement = document.createElement('div');
+       dateElement.classList.add('date');
+       datesElement.appendChild(dateElement);
+   
+     }
+   
+     for (let day = 1; day <= endDay; day++) {
+       const dateElement = document.createElement('div');
+       dateElement.textContent = day;
+       dateElement.classList.add('date');
+       if (month === currentDate.getMonth() && year === currentDate.getFullYear() && day === currentDate.getDate()) {
+         dateElement.classList.add('current-month');
+       }
+       dateElement.addEventListener('click', () => openEventModal(year, month, day));
+       datesElement.appendChild(dateElement);
+   
+     }
+   
+   }
+   
+   // Function to open the event modal
+   function openEventModal(year, month, day) {
+     selectedDate = new Date(year, month, day);
+     eventDate.textContent = selectedDate.toDateString();
+     eventDescription.value = getEventDescription(selectedDate) || '';
+     eventModal.style.display = 'block';
+   
+     let strDate = selectedDate.getFullYear() + "-" + ("0" + (selectedDate.getMonth()+1)).slice(-2) + "-" +  ("0" + (selectedDate.getDate()+0)).slice(-2);
+   
+     console.log(strDate);
+
+      $.ajax({
+         type: 'POST',
+         url: 'viewLogs.php',
+         data: {
+            'strDate': strDate,
+         },
+         success: function(data){
+            // $('.mylogs_table_header').html(data)
+            $(data).insertAfter('.mylogs_table_header');
+         }
+
+      })
+      
+   }
+   
+   // Function to close the event modal
+   function closeEventModal() {
+
+     eventModal.style.display = 'none';
+
+     let mylogs_updates = document.querySelectorAll('.mylogs_update');
+
+     Array.from(mylogs_updates).forEach((mylogs_update) => {
+
+      $(mylogs_update).remove();
+
+     });
+
+   }
+   
+   // Function to save the event
+   function saveEvent() {
+     const description = eventDescription.value;
+     setEventDescription(selectedDate, description);
+    
+       
+     closeEventModal();
+   }
+   
+   // Event listener for save button
+   saveEventBtn.addEventListener('click', saveEvent);
+   
+   // Function to get event description from local storage
+   function getEventDescription(date) {
+     const key = date.toDateString();
+     return localStorage.getItem(key);
+   }
+   
+   // Function to save event description to local storage
+   function setEventDescription(date, description) {
+     const key = date.toDateString();
+     localStorage.setItem(key, description);
+   }
+   
+   // Event listener for modal close button
+   const closeBtn = document.getElementsByClassName('close')[0];
+   closeBtn.addEventListener('click', closeEventModal);
+   
+   // Event listener for outside modal click
+   window.addEventListener('click', (event) => {
+     if (event.target === eventModal) {
+       closeEventModal();
+     }
+
+     
+
+   });
+   
+
+  }
+  employeeCalendar();
+
+
 });
 
 
+//Calendar

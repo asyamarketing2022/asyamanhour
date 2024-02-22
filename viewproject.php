@@ -323,7 +323,7 @@ $row = $project->fetch_assoc();
             <div class="modal-right-content">
                 <div class="tasks-content_container">
                     <div class="tasks-content">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="float: right;>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="float: right;">
                             <span aria-hidden="true">×</span>
                         </button>
                         <div class="user_photo">

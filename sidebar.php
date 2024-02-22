@@ -7,7 +7,7 @@
 
 <?php
 
- $URL = 'http://asyamanhour';
+ $URL = 'http://dev.asyamanhour.local';
 
 ?>
 

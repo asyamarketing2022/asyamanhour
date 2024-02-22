@@ -10,7 +10,7 @@
 <?php include_once 'userProfile.php'; ?>
 <?/*php include 'assign-projectIncharge.php'; */?>
 
-<div class="grid-right__content pt-0">
+<div class="grid-right__content pt-0 position-relative">
     <div class="profile">
         <div class="profile-container">
             <div class="profile-column">
@@ -81,7 +81,12 @@
                                 <input class="search" type="text">
                                 <div class="search-button">Search</div>
                             </div>
+
+                            <div class="calendar-logs">
+                                <img class='calendar-icon' src="img/calendar-days-solid.svg" alt="">
+                            </div>
                         </div>
+            
                         <table class="w-100">
                             <tbody>
                                 <tr>
@@ -264,6 +269,69 @@
     </div>
 </div>
 
+    
+<div class="calendar-overlay d-none"></div>
+    <div class="calendar d-none">
+        <div class="calendar-header">
+            <button id="prevBtn">&lt;</button>
+            <h1 id="monthYear"></h1>
+            <button id="nextBtn">&gt;</button>
+        </div>
+            <div class="days">
+                <div class="day">Sun</div>
+                <div class="day">Mon</div>
+                <div class="day">Tue</div>
+                <div class="day">Wed</div>
+                <div class="day">Thu</div>
+                <div class="day">Fri</div>
+                <div class="day">Sat</div>
+            </div>
+        <div class="dates " id="dates">
+            <div class="date" data-day="1">1</div>
+            <div class="date" data-day="2">2</div>
+            <div class="date" data-day="3">3</div>
+            <div class="date" data-day="4">4</div>
+            <div class="date" data-day="5">5</div>
+            <div class="date" data-day="6">6</div>
+        </div>
+    </div>
 
+      <!-- Modal for Event Details -->
+    <div class="modal modal-logs event show-modal hidden" id="eventModal">
+        <div class="modal-content">
+
+         <!-- <span class="close">&times;</span> -->
+            <h2 id="eventDate"></h2>
+            <textarea class="area d-none" id="eventDescription"></textarea>
+            <button class='d-none' id="saveEventBtn">Save</button>
+            <div class="content-table">
+                <table>
+                    <tbody>
+                        <tr class="mylogs_table_header">
+                            <th class="d-none">Update Task Id</th>
+                            <th>Project Name</th>
+                            <th>Service</th>
+                            <th>Phase of work</th>
+                            <th>Updates</th>
+                            <th>Date</th>
+                            <th>Spend Hours</th>
+                            <th></th>
+                        </tr>
+
+                        <tr>
+                            <td><img class="add_newUpdate_btn" src="/img/add-icon.png" width="25"></td>
+                            <td></td>
+                            <td><button class="save_update_tasks">Save</button></td>
+                            <td></td>
+                            <td></td>
+                            <td>Total Hours:<span class="total_spend_hours"></span></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+            </table>
+            </div>
+
+        </div>
+    </div>
 
 <?php include 'footer.php'; ?>
