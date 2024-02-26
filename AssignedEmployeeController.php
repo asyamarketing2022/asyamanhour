@@ -10,6 +10,7 @@ class AssignedEmployeeController
     public $projectId;
     public $managerId;
     public $employeeId;
+    public $conn;
 
     public function __construct($service_pow_assigned_employee = null, $service_pow_assigned_manager = null, $projectId = null, $managerId = null, $employeeId = null)
     {
@@ -67,8 +68,7 @@ class AssignedEmployeeController
 }
 
 
-$ex = new AssignedEmployeeController();
-$ex->assignProjectInCharge();
+
 
 
 ?>

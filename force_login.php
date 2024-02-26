@@ -7,7 +7,7 @@ $userId = $_SESSION['UserId'];
 
 if(empty($userId)) {
 
-    header("Location: /index.php");
+    header("Location: $URL/index.php");
 
 } 
 

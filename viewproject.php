@@ -449,7 +449,7 @@ $row = $project->fetch_assoc();
 
                     </div>
 
-                    <?php if(isset($_SESSION['UserLogin']) && $_SESSION['Access'] == "admin" ) { ?>
+                    <?php if(isset($_SESSION['UserLogin']) && $_SESSION['Access'] == "admin" || $_SESSION['Access'] == "contract & billing" ) { ?>
 
                         <img class="addManagerBtn" data-toggle="modal" data-target="#addManager" src="img/add-icon.png" alt="" width="50">
 

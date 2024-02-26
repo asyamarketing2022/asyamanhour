@@ -38,36 +38,10 @@ class Userslog {
             $con->query("INSERT INTO `users_record`(`user_name`, `user_id`, `user_position`, `department`, `action`, `source`, `action_status`) VALUE ('$firstName $lastName', $userId, '$userPostion', '$userDepartment', '$this->action', '$this->source', '$actionStatus')");
 
         }
-
-
-        // // Database Connection
-        // // global $dbconn;
-        // $dbconn = new DBconnection();
-
-        // $con = $dbconn->Connect();
-
-        // $set = mysqli_query($dbconn, "INSERT INTO `users_record`(`user_name`, `user_id`, `user_position`, `department`, `action`, `source`, `action_status`)");
-
-        // $dbconn = mysqli_connect("localhost","root","","pms_db");
-        // $con = $dbconn->Connect();
-
-        // $firstName = $_SESSION['UserLogin'];
-        // $lastName = $_SESSION['Userlname'];
-        // $userId = $_SESSION['UserId'];
-        // $userPostion = $_SESSION['Position'];
-        // $userDepartment = $_SESSION['Department'];
-
-        // $actionStatus = 'success';
-
-        // $set = mysqli_query($dbconn, "INSERT INTO `users_record`(`user_name`, `user_id`, `user_position`, `department`, `action`, `source`, `action_status`) VALUE ('$firstName $lastName', $userId, '$userPostion', '$userDepartment', '$this->action', '$this->source', '$actionStatus')");
- 
-        // return $set;
       
     }
 
 }
 
-// $dbcon = new userslog();
-// $dbcon->userRecord();
 
 ?>

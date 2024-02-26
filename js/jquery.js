@@ -3055,7 +3055,7 @@ search_file_paths()
 
             } else {
 
-               // To give alot time for manager
+               // To give allot time for manager
                $.ajax({
                   type: 'POST',
                   url: 'allot_time_for_manager.php',

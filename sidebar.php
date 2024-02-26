@@ -4,12 +4,8 @@
 <?php include_once 'users-table.php'; ?>
 <?php include_once 'userProfile.php'; ?>
 <?php include_once 'notification-file-path.php'; ?>
+<?php include_once 'url.php'; ?>
 
-<?php
-
- $URL = 'http://dev.asyamanhour.local';
-
-?>
 
 <div class="manage-project__wrapper">
 

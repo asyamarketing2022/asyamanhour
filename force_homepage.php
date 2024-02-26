@@ -8,7 +8,7 @@ $userId = empty($_SESSION['UserId']) ? "" : $_SESSION['UserId'];
 
 if(!empty($userId)) {
 
-    header("Location: /homepage.php");
+    header("Location: $URL/homepage.php");
 
 } 
 

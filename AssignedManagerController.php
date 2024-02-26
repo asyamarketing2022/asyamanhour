@@ -7,6 +7,7 @@ class AssignedManagerController
     public $managerId;
     public $projectId;
     public $service_pow_assign_manager;
+    public $conn;
 
     public function __construct($managerId = null, $projectId = null, $service_pow_assign_manager = null) 
     {
@@ -51,7 +52,7 @@ class AssignedManagerController
     }
 }
 
-    $ex = new AssignedManagerController;
-    $ex->assignManager();
+    // $ex = new AssignedManagerController;
+    // $ex->assignManager();
 
 ?>

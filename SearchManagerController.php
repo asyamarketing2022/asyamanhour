@@ -1,6 +1,7 @@
 <?php 
 
 include_once("connections/DBconnection.php");
+include_once("url.php");
 
 class SearchManagerController
 {
@@ -8,6 +9,7 @@ class SearchManagerController
     public $department;
     public $searchValue;
     public $userId_container;
+    public $conn;
 
     public function __construct($department = null, $searchValue = null, $userId_container = null)
     {
@@ -22,8 +24,6 @@ class SearchManagerController
 
     function searchManager()
     {
-
-        $URL = 'http://asyamanhour';
 
         if(isset($this->searchValue) && !empty($this->userId_container)){
    
