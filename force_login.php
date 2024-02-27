@@ -1,5 +1,6 @@
 <?php include_once('connections/DBconnection.php'); ?>
 <?php include_once('login.php') ?>
+<?php include_once('url.php'); ?>
 
 <?php 
 

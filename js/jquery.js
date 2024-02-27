@@ -86,7 +86,7 @@ jQuery(function () {
 
    //Update Project
    $('.table-row_projects').each(function(){
-      $(this).on("click", function(){
+      $(this).on("click", function(e){
          $.ajax({
             type: 'POST',
             url: 'update-project.php',
@@ -100,19 +100,126 @@ jQuery(function () {
       });
    });
 
-   //Assign Project
-      $(".view-project").on("click", function(){
-         $.ajax({
-            type: 'POST',
-            url: 'assign-project.php',
-            data: {
-                  tableID:($(this).attr('value')),
-            },
-            success:function(data){
-               $('.assignform-project').html(data);
-            }
+   function change_project_status_dropdown() {
+
+      let changeStatus_arrow = document.querySelectorAll('.change-status-arrow');
+
+      Array.from(changeStatus_arrow).forEach((arrow) => {
+
+         $(arrow).on('click', function(e){
+
+            let statusList = $(arrow).find('.status-list');
+
+               if($(statusList).hasClass('d-none')) {
+
+                  $(statusList).removeClass('d-none');
+                  
+               } else {
+
+                  $(statusList).addClass('d-none');
+
+               }
+        
+            e.preventDefault();
+            e.stopPropagation();
+      
          });
+         
       });
+
+   }
+   change_project_status_dropdown();
+
+   function change_project_status_dropdown_close(){
+
+      $(document).on('mouseup', (e)=> {
+
+         let changeStatus_arrow = document.querySelectorAll('.change-status-arrow');
+
+         Array.from(changeStatus_arrow).forEach((arrow) => {
+
+            if(!$(arrow).is(e.target) && $(arrow).has(e.target).length === 0) {
+
+               $statusList = $(arrow).find('.status-list')
+
+               if(!$($statusList).hasClass('d-none')){
+
+                  $($statusList).addClass('d-none');
+
+               }
+
+            }
+
+         });
+
+      });
+
+   }
+   change_project_status_dropdown_close();
+
+   function change_project_status() {
+
+      let statusList = document.querySelectorAll('.status-list');
+
+      for (let i = 0; statusList.length > i; i++) {
+
+         let span = $(statusList[i]).children('span');
+         let tr = $(statusList[i]).parent().parent().parent();
+         let projectId = $(tr).attr('value');
+
+         for(let num = 0; span.length > num; num++) {
+
+            $(span[num]).off().on('click', ()=> {
+
+               let updateStatus = $(span[num]).text();
+
+               $.ajax({
+                  type: 'POST',
+                  url: 'change_project_status.php',
+                  data: {
+                     'projectId': projectId,
+                     'updateStatus': updateStatus,
+                  },
+                  success: function(data){
+                     
+                     Swal.fire({
+                        position: "center",
+                        icon: "success",
+                        title: "Change Project Status Successfully!",
+                        showConfirmButton: false,
+                        timer: 1500
+                        });
+
+                        setTimeout(() => {
+                           location.reload();
+                        }, 500);
+                  }
+
+               });
+
+
+            });
+
+         }
+
+      }
+
+   }
+   change_project_status();
+
+   //Assign Project
+   $(".view-project").on("click", function(){
+      $.ajax({
+         type: 'POST',
+         url: 'assign-project.php',
+         data: {
+               tableID:($(this).attr('value')),
+         },
+         success:function(data){
+            $('.assignform-project').html(data);
+         }
+      });
+   });
 
 
    //MyProject Details
@@ -543,6 +650,8 @@ jQuery(function () {
                $('.userhistory-table').html(data);
             }
          });
+
+         
       });
   
    }
@@ -589,6 +698,39 @@ jQuery(function () {
             $('.pagination_link:last-child').removeClass('hide');
 
          }
+
+
+         let pagination_link_last = $('.pagination_link').last();
+         let pagination_link_first = $('.pagination_link').first();
+         let pagination_link_second = $('.pagination_link').eq(1);
+         let pagination_link_second_to_last = $('.pagination_link:nth-last-child(2)');
+
+         if($(pagination_link_first).hasClass('selected')) {
+
+            $('.pagination_link').eq(2).removeClass('hide');
+            $('.pagination_link').eq(3).removeClass('hide');
+
+         }
+
+         if($(pagination_link_second).hasClass('selected')) {
+
+            $('.pagination_link').eq(3).removeClass('hide');
+
+         }
+
+         if($(pagination_link_last).hasClass('selected')) {
+
+            $('.pagination_link:nth-last-child(3)').removeClass('hide');
+            $('.pagination_link:nth-last-child(4)').removeClass('hide');
+       
+         }
+
+         if($(pagination_link_second_to_last).hasClass('selected')) {
+
+            $('.pagination_link:nth-last-child(4)').removeClass('hide');
+
+         }
+
 
       });
    }
@@ -651,9 +793,11 @@ jQuery(function () {
                   let btnPrev = $('.btnPrev');
                   let selected = $('.selected');
                   let btnNext = $('.btnNext');
-                  let pagination_link = $('.pagination_link').last();
+                  let pagination_link_last = $('.pagination_link').last();
+                  let pagination_link_first = $('.pagination_link').first();
+                  let pagination_link_second = $('.pagination_link').eq(1);
 
-                  $(pagination_link).removeClass('hide');
+                  $(pagination_link_last).removeClass('hide');
 
                   $(btnPrev).prev().addClass('btnPrev');
                   $(btnPrev).prev().removeClass('hide');
@@ -666,11 +810,31 @@ jQuery(function () {
                   $(selected).next().addClass('hide');
                   $(selected).next().removeClass('btnNext');
 
-   
+                  if($(pagination_link_first).hasClass('selected')) {
+
+                     $('.pagination_link').eq(2).removeClass('hide');
+
+                  }
+
+                  if($(pagination_link_second).hasClass('selected')) {
+
+                     $('.pagination_link').eq(3).removeClass('hide');
+
+                  }
+
+                  let pagination_link_third_to_last = $('.pagination_link:nth-last-child(3)');
+
+                  if($(pagination_link_third_to_last).hasClass('selected')) {
+         
+                     $(pagination_link_last).removeClass('hide');
+         
+                  }
+
                }
             });
 
          }
+
 
       });
 
@@ -687,6 +851,7 @@ jQuery(function () {
          let val = $('.dataLimit option:selected').attr('value');
          let searchVal = $(".searchFilter").val();
          let nextPage =  $('.btnNext').attr('id');
+
 
             if(document.querySelector('.selected') == null) {
 
@@ -711,6 +876,7 @@ jQuery(function () {
                      $(pagination_link_prev).addClass('btnPrev');
                      $(pagination_link_Selected).addClass('selected');
                      $(pagination_link_next).addClass('btnNext');
+
       
                   }
                });
@@ -747,15 +913,47 @@ jQuery(function () {
 
                      $(btnNext).next().addClass('btnNext');
                      $(btnNext).next().removeClass('hide');
-      
+
+
+                     let pagination_link_last = $('.pagination_link').last();
+                     let pagination_link_second_to_last = $('.pagination_link:nth-last-child(2)');
+     
+                     if($(pagination_link_last).hasClass('selected')) {
+
+                        $('.pagination_link:nth-last-child(3)').removeClass('hide');
+                        $('.pagination_link:nth-last-child(4)').removeClass('hide');
+                   
+                     }
+            
+                     if($(pagination_link_second_to_last).hasClass('selected')) {
+            
+                        $('.pagination_link:nth-last-child(4)').removeClass('hide');
+            
+                     }
+          
                   }
                });
 
             }
 
+
       });
    }
    nextBtn();  
+
+   // function second_paginate_btn(){
+
+   //    let second_paginate_btn = $('.pagination_link').eq(1);
+   //    let forth_paginate_btn = $('.pagination_link').eq(3);
+
+   //    $(second_paginate_btn).on('click', ()=> {
+
+   //       $(forth_paginate_btn).removeClass('hide');
+         
+   //    });
+
+   // }
+   // second_paginate_btn();
 
    function selectServicesxxxxxxxxx() {
       $(document).on('change', '.services', function(){
@@ -6434,6 +6632,35 @@ function show_phase_of_work() {
 
 }
 show_phase_of_work();
+
+function close_phase_of_work(){
+
+   $(document).on('mouseup', (e)=> {
+
+      let add_pow_btn = document.querySelectorAll('.add_phase_of_work_btn');
+
+      Array.from(add_pow_btn).forEach((btn) => {
+
+         let contentTable = $(btn).parent();
+         let pow_container = $(contentTable).find('.phase_of_work');
+
+         if(!$(btn).is(e.target) && $(btn).has(e.target).length === 0) {
+
+            if(!$(pow_container).hasClass('d-none')) {
+
+               $(pow_container).addClass('d-none');
+
+            }
+
+
+         }
+
+      });
+
+   });
+
+}
+close_phase_of_work()
 
 // Add phase of work in ongoing project
 function add_phase_of_work() {

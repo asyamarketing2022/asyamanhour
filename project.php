@@ -60,6 +60,7 @@
                         <th>Typology</th>
                         <th>Company Name</th>
                         <th>Client Name</th>
+                        <th>Active Status</th>
                         <!-- <th></th> -->
                     </tr>
                
@@ -75,13 +76,27 @@
 
                                     <?php if($projectInfo['status'] != 'revise' ) { ?>
 
-                                    <tr class="table-row_projects select_project table-form" value="<?php echo $projectInfo['id'] ?>" data-href="viewproject.php?ID=<?php echo $projectInfo['id'] ?>">
+                                    <tr class="table-row_projects select_project table-form <?php echo $projectInfo['project_status'] ?>" value="<?php echo $projectInfo['id'] ?>" data-href="viewproject.php?ID=<?php echo $projectInfo['id'] ?>" style="pointer-events: auto !important;">
                                         <td><?php echo $projectInfo['project_name'] ?></td>
                                         <td><?php echo $projectInfo['location'] ?></td>
                                         <td><?php echo $projectInfo['lot_areas'] ?></td>
                                         <td><?php echo $projectInfo['typology'] ?></td>
                                         <td><?php echo $projectInfo['company_name'] ?></td>
                                         <td><?php echo $projectInfo['client_name'] ?></td>
+                                        <td>
+                                            <span style="line-height: 3;">
+                                                <?php echo $projectInfo['project_status'] ?>
+                                            </span>
+                                            <div class="change-status-arrow">
+                                                <i class="fa-solid fa-sort-down"></i>
+                                                <div class="status-list d-none">
+                                                    <span>done</span>
+                                                    <span>active</span>
+                                                    <span>on-hold</span>
+                                                </div>
+                                            </div>
+                                            
+                                        </td>
                                     </tr>
 
                                     <?php } ?>

@@ -48,13 +48,13 @@ if (!empty($_POST['DataLimit']) && !empty($_POST['searchFilter']) or !empty($_PO
         for($i=1; $i<=$total_pages; $i++){  
 
             if ($i < 5 || $i == $total_pages ) {
-                $pages .= "<span class='pagination_link' style='cursor:pointer; padding:6px; border:1px solid #ccc;' id='".$i."'>".$i."</span>";  
+                $pages .= "<span class='pagination_link' style='cursor:pointer; border:1px solid #ccc;' id='".$i."'>".$i."</span>";  
             }
             elseif($i > 4 || $i != $total_pages ){
-                $pages .= "<span class='pagination_link hide' style='cursor:pointer; padding:6px; border:1px solid #ccc;' id='".$i."'>".$i."</span>"; 
+                $pages .= "<span class='pagination_link hide' style='cursor:pointer; border:1px solid #ccc;' id='".$i."'>".$i."</span>"; 
     
             } else {
-                $pages .="<span class='pagination_link' style='cursor:pointer; padding:6px; border:1px solid #ccc;' id='".$i."'>".$i."</span>";  
+                $pages .="<span class='pagination_link' style='cursor:pointer; border:1px solid #ccc;' id='".$i."'>".$i."</span>";  
             }
     
         }  

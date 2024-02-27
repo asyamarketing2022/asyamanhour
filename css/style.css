@@ -1867,6 +1867,7 @@ button:focus {
     flex-wrap: nowrap;
     justify-content: flex-start;
     align-items: center;
+    margin-left: 10px;
 }
 
 .content-table .pagination-filter .pageBtn_container .pagination_link_prev,
@@ -1894,10 +1895,52 @@ button:focus {
 
 .content-table .table-row_projects {
     cursor: pointer;
+    color: #000;
+}
+
+.content-table .table-row_projects .change-status-arrow {
+    display: inline;
+    float: right;
+    padding: 10px 9px;
+}
+
+.content-table .table-row_projects .change-status-arrow .status-list {
+    display: grid;
+    position: absolute;
+    border: 1px solid #000;
+    background: #7a7a7a;
+    padding: 10px;
+    right: 10px;
+    z-index: 10;
+    color: #fff;
+    /* box-shadow: 17px -2px */
+}
+
+.content-table .table-row_projects .change-status-arrow .status-list span {
+    padding: 10px;
+    border-bottom: 1px solid rgb(255 255 255 / 12%);
+    color: #fff;
 }
 
 .content-table .table-row_projects:hover {
+    color: #000;
+}
+
+/* .content-table .table-row_projects:hover {
     color: #fff;
+} */
+
+.content-table .table-row_projects.on-hold {
+    pointer-events: none;
+    background: #e59e9e;
+}
+
+.content-table .table-row_projects.active {
+    background: #cdf3cb;
+}
+
+.content-table .table-row_projects.done {
+    background: #ebf0fd;
 }
 
 .content-table .delete {
@@ -1910,6 +1953,10 @@ button:focus {
     bottom: 5px;
     background: #3E3E3E;
     color: #fff;
+    width: 45px;
+    padding: 5px 0;
+    display: inline-block;
+    text-align: center;
 }
 
 .content-table .pageBtn .pagination_link.selected {
@@ -1969,12 +2016,33 @@ button:focus {
     position: relative;
 } */
 
-.content-table .pageBtn .pagination_link:nth-child(2).hide:before, 
-.content-table .pageBtn .pagination_link:nth-last-child(2).hide:after {
+.content-table .pageBtn .pagination_link:nth-child(1) {
+    margin-right: 45px;
+}
+.content-table .pageBtn .pagination_link:nth-last-child(1) {
+    margin-left: 45px;
+}
+
+.content-table .pageBtn .pagination_link:nth-child(1):before {
     content: "...";
     font-size: 30px;
     visibility: initial;
     pointer-events: none;
+    position: absolute;
+    right: -35px;
+    color: #3E3E3E;
+    top: 0;
+}
+
+.content-table .pageBtn .pagination_link:nth-last-child(1):after {
+    content: "...";
+    font-size: 30px;
+    visibility: initial;
+    pointer-events: none;
+    position: absolute;
+    left: -35px;
+    color: #3E3E3E;
+    top: 0;
 }
 
 .content-table .pageBtn .pagination_link:nth-child(2).hide,
@@ -1983,7 +2051,8 @@ button:focus {
 }
 
 .content-table .pageBtn .pagination_link.hide {
-    visibility: hidden;
+    /* visibility: hidden; */
+    display: none;
     position: absolute;
     color: #3E3E3E;
 }
@@ -3116,4 +3185,40 @@ input.form-check-input {
 #view_project_in_charge .modal-left-content .modal-title .closeBtn {
     display: inline;
     float: right;
+}
+
+.page-not-found {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    height: 100%;
+}
+
+.page-not-found h1 {
+    font-size: 7vw;
+}
+
+.page-not-found p {
+    font-size: 1.9vw;
+}
+
+.page-restriction {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    height: 100%;
+}
+
+.page-restriction img {
+    width: 150px;
+}
+
+.page-restriction p {
+    font-size: 1.9vw;
 }

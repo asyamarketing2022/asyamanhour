@@ -1,7 +1,7 @@
 <?php include 'force_login.php'; ?>
 <?php $page = 'project'; include 'header.php'; ?>
 
-<?php include_once("redirect-project-page.php"); ?>
+<?php include_once("project-restriction.php"); ?>
 <?php include_once("connections/DBconnection.php"); ?>
 <?php include_once("phase-of-work_status.php"); ?>
 
@@ -33,6 +33,7 @@ $row = $project->fetch_assoc();
 
 ?>
 
+
 <?php if(isset($row['id'])) { ?>
 
 <?php include_once("sidebar.php"); ?>
@@ -48,7 +49,7 @@ $row = $project->fetch_assoc();
                 <div class="btn-container float-end">
                     <?php 
                     
-                    if($_SESSION['Access'] == 'admin' || $_SESSION['Access'] == 'contract & billing') {
+                        if($_SESSION['Access'] == 'admin' || $_SESSION['Access'] == 'contract & billing') {
 
                     ?>
 
@@ -179,16 +180,16 @@ $row = $project->fetch_assoc();
 
         <?php 
              
-             //
-             if($row['arch_conceptual'] != 1 || $row['arch_schematic'] != 1 || $row['arch_designdevelopment'] != 1 || $row['arch_construction'] != 1 || $row['arch_site'] != 1 && $_SESSION['Access'] == 'admin') {
+             // Architectire Button
+             if($_SESSION['Access'] == 'admin' || $_SESSION['Access'] == 'contract & billing' ) {
 
-                echo "<img class='add_phase_of_work_btn' id='archi_pow' src='img/add-icon.png' width='30'>";
+                if($row['arch_conceptual'] != 1 || $row['arch_schematic'] != 1 || $row['arch_designdevelopment'] != 1 || $row['arch_construction'] != 1 || $row['arch_site'] != 1) {
 
-             } else if($row['arch_conceptual'] != 1 || $row['arch_schematic'] != 1 || $row['arch_designdevelopment'] != 1 || $row['arch_construction'] != 1 || $row['arch_site'] != 1 && $_SESSION['Access'] == 'contract & billing') {
+                    echo "<img class='add_phase_of_work_btn' id='archi_pow' src='img/add-icon.png' width='30'>";
 
-                echo "<img class='add_phase_of_work_btn' id='archi_pow' src='img/add-icon.png' width='30'>";
+                }
 
-             }
+            } 
              
         ?>
 
@@ -254,15 +255,15 @@ $row = $project->fetch_assoc();
         <?php 
              
             // Engineering 
-            if($row['engi_schematic'] != 1 || $row['engi_designdevelopment'] != 1 || $row['engi_construction'] != 1 && $_SESSION['Access'] == 'admin') {
+            if($_SESSION['Access'] == 'admin' || $_SESSION['Access'] == 'contract & billing' ) {
 
-                echo "<img class='add_phase_of_work_btn' id='engi_pow' src='img/add-icon.png' width='30'>";
+                if($row['engi_schematic'] != 1 || $row['engi_designdevelopment'] != 1 || $row['engi_construction'] != 1) {
 
-            } else if($row['engi_schematic'] != 1 || $row['engi_designdevelopment'] != 1 || $row['engi_construction'] != 1 && $_SESSION['Access'] == 'contract & billing' ) {
+                    echo "<img class='add_phase_of_work_btn' id='engi_pow' src='img/add-icon.png' width='30'>";
 
-                echo "<img class='add_phase_of_work_btn' id='engi_pow' src='img/add-icon.png' width='30'>";
+                }
 
-            }
+            } 
              
         ?>
 
@@ -337,16 +338,17 @@ $row = $project->fetch_assoc();
             
             <?php 
                 
-                // Engineering 
-                if($row['int_conceptual'] != 1 || $row['int_designdevelopment'] != 1 || $row['int_construction'] != 1 || $row['int_site'] != 1 && $_SESSION['Access'] == 'admin') {
-    
-                    echo "<img class='add_phase_of_work_btn' id='int_pow' src='img/add-icon.png' width='30'>";
-    
-                } else if($row['int_conceptual'] != 1 || $row['int_designdevelopment'] != 1 || $row['int_construction'] != 1 || $row['int_site'] != 1 && $_SESSION['Access'] == 'contract & billing') {
 
-                    echo "<img class='add_phase_of_work_btn' id='int_pow' src='img/add-icon.png' width='30'>";
+                // Interior
+                if($_SESSION['Access'] == 'admin' || $_SESSION['Access'] == 'contract & billing' ) {
 
-                }
+                    if($row['int_conceptual'] != 1 || $row['int_designdevelopment'] != 1 || $row['int_construction'] != 1 || $row['int_site'] != 1) {
+
+                        echo "<img class='add_phase_of_work_btn' id='int_pow' src='img/add-icon.png' width='30'>";
+
+                    }
+
+                } 
                 
             ?>
  
@@ -401,16 +403,16 @@ $row = $project->fetch_assoc();
 
             <?php 
                 
-                // Engineering 
-                if($row['masterplanning_conceptual'] != 1 || $row['masterplanning_schematic'] != 1 && $_SESSION['Access'] == 'admin') {
-    
-                    echo "<img class='add_phase_of_work_btn' id='masterplanning_pow' src='img/add-icon.png' width='30'>";
-    
-                } elseif($row['masterplanning_conceptual'] != 1 || $row['masterplanning_schematic'] != 1 && $_SESSION['Access'] == 'contract & billing') {
+                // Master Planning
+                if($_SESSION['Access'] == 'admin' || $_SESSION['Access'] == 'contract & billing' ) {
 
-                    echo "<img class='add_phase_of_work_btn' id='masterplanning_pow' src='img/add-icon.png' width='30'>";
+                    if($row['masterplanning_conceptual'] != 1 || $row['masterplanning_schematic'] != 1) {
 
-                }
+                        echo "<img class='add_phase_of_work_btn' id='masterplanning_pow' src='img/add-icon.png' width='30'>";
+
+                    }
+
+                } 
                 
             ?>
  
@@ -911,14 +913,6 @@ $row = $project->fetch_assoc();
     </div>
 </div>
 
-<?php 
-
-} else {
-
-     header("Location: /project.php");
-    
-} 
-
-?>
+<?php } ?>
 
 <?php include 'footer.php'; ?>

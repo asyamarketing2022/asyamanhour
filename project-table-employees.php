@@ -81,6 +81,7 @@ if(!empty($pms_project['id'])) {
     $employees_id_output_array_count = (empty($array_filter) ? 0 : count($array_filter));
   
     $userId = $_SESSION['UserId'];
+   
 
     // echo "$employees_id_output_array_count &nbsp;";
 
@@ -95,15 +96,17 @@ if(!empty($pms_project['id'])) {
                 $projectTypology = $pms_project['typology'];
                 $projectCompany_name = $pms_project['company_name'];
                 $projectClient_name = $pms_project['client_name'];
+                $projectActive_status = $pms_project['project_status'];
 
-                $pms_project_table .= " <tr class='table-row_projects select_project table-form' value='$projectId' data-href='viewproject.php?ID=$projectId'>
-                                            <td>$projectName</td>
-                                            <td>$projectLocation</td>
-                                            <td>$projectLot_areas</td>
-                                            <td>$projectTypology</td>
-                                            <td>$projectCompany_name</td>
-                                            <td>$projectClient_name</td>
-                                        </tr>";
+                    $pms_project_table .= " <tr class='table-row_projects select_project table-form $projectActive_status' value='$projectId' data-href='viewproject.php?ID=$projectId'>
+                                                <td>$projectName</td>
+                                                <td>$projectLocation</td>
+                                                <td>$projectLot_areas</td>
+                                                <td>$projectTypology</td>
+                                                <td>$projectCompany_name</td>
+                                                <td>$projectClient_name</td>
+                                                <td>$projectActive_status</td>
+                                            </tr>";
                 
                 break;
 
