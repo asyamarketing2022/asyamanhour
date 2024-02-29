@@ -21,13 +21,26 @@ if(!empty($_POST['projectSearch'])) {
                     foreach($sql_run as $items)
                     {
 
-                        echo "<tr class='table-row_projects select_project table-form' value=" . $items['id'] . " data-href='viewproject.php?ID=" . $items['id'] . "'>
+                        echo "<tr class='table-row_projects select_project table-form " . $items['project_status'] . "' value=" . $items['id'] . " data-href='viewproject.php?ID=" . $items['id'] . "'>
                                     <td>" . $items['project_name'] . "</td>
                                     <td>" . $items['location'] . "</td>
                                     <td>" . $items['lot_areas'] . "</td>
                                     <td>" . $items['typology'] . "</td>
                                     <td>" . $items['company_name'] . "</td>
                                     <td>" . $items['client_name'] . "</td>
+                                    <td>
+                                        <span style='line-height: 3;'>
+                                            " . $items['project_status'] . "
+                                        </span>
+                                        <div class='change-status-arrow'>
+                                            <i class='fa-solid fa-sort-down'></i>
+                                            <div class='status-list d-none'>
+                                                <span>done</span>
+                                                <span>active</span>
+                                                <span>on-hold</span>
+                                            </div>
+                                        </div>
+                                    </td>
                                 </tr>";
                     }
                 }
@@ -123,14 +136,16 @@ if(!empty($_POST['projectSearch'])) {
                                     $projectTypology = $pms_project['typology'];
                                     $projectCompany_name = $pms_project['company_name'];
                                     $projectClient_name = $pms_project['client_name'];
+                                    $projectStatus = $pms_project['project_status'];
                     
-                                    $pms_project_table .= " <tr class='table-row_projects select_project table-form' value='$projectId' data-href='viewproject.php?ID=$projectId'>
+                                    $pms_project_table .= " <tr class='table-row_projects select_project table-form $projectStatus' value='$projectId' data-href='viewproject.php?ID=$projectId'>
                                                                 <td>$projectName</td>
                                                                 <td>$projectLocation</td>
                                                                 <td>$projectLot_areas</td>
                                                                 <td>$projectTypology</td>
                                                                 <td>$projectCompany_name</td>
                                                                 <td>$projectClient_name</td>
+                                                                <td>$projectStatus</td>
                                                             </tr>";
                     
                                     break;
@@ -168,15 +183,31 @@ if(!empty($_POST['projectSearch'])) {
                 $projectTypology = $projectInfo['typology'];
                 $projectCompany_name = $projectInfo['company_name'];
                 $projectClient_name = $projectInfo['client_name'];
+                $projectStatus = $projectInfo['project_status'];
             
-                $pms_project_table .= "<tr class='table-row_projects select_project table-form' value='$projectId' data-href='viewproject.php?ID=$projectId'>
+                $pms_project_table .= "<tr class='table-row_projects select_project table-form $projectStatus' value='$projectId' data-href='viewproject.php?ID=$projectId'>
                                             <td>$projectName</td>
                                             <td>$projectLocation</td>
                                             <td>$projectLot_areas</td>
                                             <td>$projectTypology</td>
                                             <td>$projectCompany_name</td>
                                             <td>$projectClient_name</td>
+                                            <td>
+                                                <span style='line-height: 3;'>
+                                                    $projectStatus
+                                                </span>
+                                                <div class='change-status-arrow'>
+                                                    <i class='fa-solid fa-sort-down'></i>
+                                                    <div class='status-list d-none'>
+                                                        <span>done</span>
+                                                        <span>active</span>
+                                                        <span>on-hold</span>
+                                                    </div>
+                                                </div>
+                                            </td>
                                         </tr>";
+
+
         
             }while($projectInfo = $project->fetch_assoc());
            
@@ -269,14 +300,16 @@ if(!empty($_POST['projectSearch'])) {
                             $projectTypology = $pms_project['typology'];
                             $projectCompany_name = $pms_project['company_name'];
                             $projectClient_name = $pms_project['client_name'];
+                            $projectStatus = $pms_project['project_status'];
 
-                            $pms_project_table .= " <tr class='table-row_projects select_project table-form' value='$projectId' data-href='viewproject.php?ID=$projectId'>
+                            $pms_project_table .= " <tr class='table-row_projects select_project table-form $projectStatus' value='$projectId' data-href='viewproject.php?ID=$projectId'>
                                                         <td>$projectName</td>
                                                         <td>$projectLocation</td>
                                                         <td>$projectLot_areas</td>
                                                         <td>$projectTypology</td>
                                                         <td>$projectCompany_name</td>
                                                         <td>$projectClient_name</td>
+                                                        <td>$projectStatus</td>
                                                     </tr>";
 
                             break;

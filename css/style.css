@@ -145,6 +145,12 @@ a {
     filter: invert(99%) sepia(5%) saturate(2%) hue-rotate(333deg) brightness(104%) contrast(100%);
 }
 
+@media (max-width: 500px) {
+    .popup-btn-menu {
+        top: 115px;
+    }
+}
+
 .accept {
     width: 100px;
     height: 30px;
@@ -905,6 +911,7 @@ button:focus {
     display: grid;
     grid-template-columns: 100%;
     /* overflow-x: hidden; */
+    background: #fff;
 }
 
 .top-bar .asyamanhour-logo {
@@ -1076,6 +1083,19 @@ button:focus {
     justify-content: center;
     align-items: center;
     z-index: 5;
+}
+
+@media (max-width: 500px) {
+    .top-bar {
+        height: 150px;
+    }
+
+    .top-bar .asyamanhour-logo {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 40%;
+    }
 }
 
 .swal2-actions button {
@@ -1548,6 +1568,7 @@ button:focus {
     border: none;
     border-radius: 0;
     padding-left: 10px;
+    width: 150px;
 }
 
 .employee_filter input.searchFilter:focus {
@@ -1694,7 +1715,7 @@ button:focus {
 }
 
 .project-title .searchEmployee .deliverablesSearch {
-    height: 40px;
+    height: 30px;
     box-shadow: 0px 0px 2px 1px rgba(0,0,0,0.1);
     border: none;
     padding-left: 10px;
@@ -1724,6 +1745,14 @@ button:focus {
 .search-action__wrapper .add_employee:focus,
 .search-action__wrapper .add_employee:active {
     background-color: #ac0e2f;
+}
+
+.search-action__wrapper .project-search-action {
+    position: absolute;
+    bottom: 6px;
+    left: 0;
+    color: #fff;
+    font-weight: 500;
 }
 
 .search-action__wrapper .add_project {
@@ -1768,7 +1797,8 @@ button:focus {
     border-radius: 4px 0 0 4px;
     border: 2px solid rgb(230 230 230 / 70%);
     background-color: #f6f6f6;
-    width: 14vw;
+    /* width: 14vw; */
+    width: 120px;
     padding-left: 10px;
 }
 
@@ -1844,6 +1874,10 @@ button:focus {
     grid-template-columns: 10% 45% 45%;
     margin-bottom: 10px;
     padding-top: 130px;
+}
+
+.content-table .pagination-filter select {
+    width: 120px;
 }
 
 .content-table .pagination-filter .pageBtn{
@@ -1963,6 +1997,47 @@ button:focus {
     background-color: #ac0e2f;
 }
 
+@media (max-width: 1400px) {
+    .content-table .pagination-filter {
+        grid-template-columns: 100%;
+    }
+
+    .content-table .pageBtn .pagination_link {
+        width: 40px;
+        padding: 10px 0px;
+    }
+
+    .content-table .pagination-filter {
+        padding-top: 0px;
+    }
+
+    .content-table .dataLimit-container {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: flex-end;
+        align-items: center;
+        margin-left: 10px;
+        height: 70px;
+    }
+
+    .content-table .pagination-filter .pageBtn_container {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: center;
+        align-items: center;
+        margin-left: 10px;
+        height: 70px;
+    }
+
+    .content-table .pagination-filter .employee_filter {
+        display: grid;
+        justify-content: normal;
+        grid-template-columns: 75% 25%;
+    }
+}
+
 .content-table.project_services_table {
     padding-bottom: 50px;
     height: auto;
@@ -2061,10 +2136,11 @@ button:focus {
     padding: 0 40px;
 }
 
-.pop-up__modal .modal-content .profile-picture  {
+.pop-up__modal .modal-content .profile-picture {
     position: absolute;
     top: 270px;
     z-index: 100;
+    display: none;
 }
 
 .pop-up__modal .modal-content .profile-picture img {
@@ -2112,9 +2188,21 @@ button:focus {
  
 .pop-up__modal .modal-content .tab-content__info .tab-content__profile {
     display: grid;
-    grid-template-columns: 30% 70%;
+    grid-template-columns: 100%;
     padding: 50px 0;
 }
+
+@media (min-width: 767px) {
+    .pop-up__modal .modal-content .tab-content__info .tab-content__profile {
+        grid-template-columns: 30% 70%;
+    }
+   
+    .pop-up__modal .modal-content .profile-picture {
+        display: block;
+    }
+}
+
+
 
 .search-filepath__wrapper {
     width: 100%;
@@ -3024,7 +3112,7 @@ input.form-check-input {
 
     .manage-employee__content {
         display: block;
-        position: relative;
+        /* position: relative; */
     }
 
     .grid-left__menu {

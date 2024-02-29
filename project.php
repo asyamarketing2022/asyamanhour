@@ -13,29 +13,32 @@
 <?php include("sidebar.php"); ?>
 
         <div class="grid-right__content">
+
+         
+
             <div class="search-action__wrapper mt-4">
-                <div class="float-start">
+          
                     <h1>Projects</h1>
-                    <div class="search-action">
-               
+                    <div class="search-action project-search-action">
+                
                         <input class='projectSearch' type="text" placeholder=" Project Name" size="25">
                         <button type="button" class="search-button submit_projectSearch">Search</button>
 
                     </div>
-                </div>
-                <!-- <div class="search-action">
-                    <input class="search" type="text">
-                    <div class="search-button">Search</div>
-                </div> -->
+                    <!-- <div class="search-action">
+                        <input class="search" type="text">
+                        <div class="search-button">Search</div>
+                    </div> -->
 
 
-                <?php if(isset($_SESSION['UserLogin']) && $_SESSION['Access'] == "admin" || isset($_SESSION['UserLogin']) && $_SESSION['Access'] == "contract & billing")   { ?>
-                    
-                    <div class='select-action__sort show float-start float-sm-end'>
-                        <button type="button" class="btn add_project" data-toggle="modal" data-target="#add_project"><i class="fa fa-plus"></i> Add Project</button>
-                    </div>
-                    
-                <?php } ?>
+                    <?php if(isset($_SESSION['UserLogin']) && $_SESSION['Access'] == "admin" || isset($_SESSION['UserLogin']) && $_SESSION['Access'] == "contract & billing")   { ?>
+                        
+                        <div class='select-action__sort show '>
+                            <button type="button" class="btn add_project" data-toggle="modal" data-target="#add_project"><i class="fa fa-plus"></i> Add Project</button>
+                        </div>
+                        
+                    <?php } ?>
+
             </div>
                     
             <!-- <div class="select-action__wrapper mt-4">
@@ -95,7 +98,6 @@
                                                     <span>on-hold</span>
                                                 </div>
                                             </div>
-                                            
                                         </td>
                                     </tr>
 

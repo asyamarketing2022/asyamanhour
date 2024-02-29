@@ -44,11 +44,11 @@ class AssignedEmployeeController
 
         $AssignedEmployee = $row[$service_pow_assignedEmployee];
         $container_assignedEmployee = array("$AssignedEmployee", "$employeeIds");
-        $wrapper_employeesAssigned = implode($container_assignedEmployee, " ");
+        $wrapper_employeesAssigned = implode(" ", $container_assignedEmployee);
 
         $WhoAssignedManager = $row[$service_pow_assignedManager];
         $container_whoAssignedManager = array("$WhoAssignedManager", "$managerIds");
-        $wrapper_whoAssignedManager = implode($container_whoAssignedManager, " ");
+        $wrapper_whoAssignedManager = implode(" ", $container_whoAssignedManager);
 
         $updateSQL = "UPDATE `pms_projects` SET `$service_pow_assignedEmployee` = '$wrapper_employeesAssigned', `$service_pow_assignedManager` = '$wrapper_whoAssignedManager' WHERE id = '" . $this->projectId . "'";
 

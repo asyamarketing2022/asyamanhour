@@ -19,7 +19,7 @@
             <ul>
                 <li>
                     <lord-icon
-                        src="https://cdn.lordicon.com/wzrwaorf.json"
+                        src="lordicon/talk.json"
                         trigger="hover"
                         style="width:30px;height:30px"
                         stroke="bold"
@@ -30,7 +30,7 @@
                 <li>
 
                 <lord-icon
-                    src="https://cdn.lordicon.com/lznlxwtc.json"
+                    src="lordicon/bell.json"
                     style="width:30px;height:30px;position:relative;cursor:pointer;"
                     trigger="click"
                     class="new-bell">
@@ -67,7 +67,7 @@
                         <path d="M7.29365 12.7066C7.68428 13.0973 8.31865 13.0973 8.70928 12.7066L14.7093 6.70664C15.0999 6.31602 15.0999 5.68164 14.7093 5.29102C14.3187 4.90039 13.6843 4.90039 13.2937 5.29102L7.9999 10.5848L2.70615 5.29414C2.31553 4.90352 1.68115 4.90352 1.29053 5.29414C0.899902 5.68477 0.899902 6.31914 1.29053 6.70977L7.29053 12.7098L7.29365 12.7066Z" fill="black"/>
                     </svg> -->
                     <lord-icon
-                        src="https://cdn.lordicon.com/xcrjfuzb.json"
+                        src="lordicon/arrow-down.json"
                         trigger="click"
                         style="width:30px;height:30px"
                         class="chevron-down">
@@ -179,7 +179,7 @@
             <ul>
                 <li onclick="location.href='<?php echo $URL ?>/homepage.php';" class="<?php if($page=='homepage'){echo 'active';} ?> li-home" > 
                 <lord-icon
-                    src="https://cdn.lordicon.com/laqlvddb.json"
+                    src="lordicon/home.json"
                     trigger="hover"
                     style="width:40px;height:40px"
                     target=".li-home"
@@ -199,7 +199,7 @@
                     colors="primary:white">
                 </lord-icon> -->
                 <lord-icon
-                    src="https://cdn.lordicon.com/xzalkbkz.json"
+                    src="lordicon/profile.json"
                     trigger="hover"
                     style="width:40px;height:40px"
                     target=".li-profile"
@@ -214,7 +214,7 @@
 
                     <li onclick="location.href='<?php echo $URL ?>/admin.php';" class="<?php if($page=='admin'){echo 'active';} ?> li-employees">
                     <lord-icon
-                        src="https://cdn.lordicon.com/rdfmytjv.json"
+                        src="lordicon/employee.json"
                         trigger="hover"
                         style="width:40px;height:40px"
                         target=".li-employees"
@@ -229,7 +229,7 @@
 
                 <li onclick="location.href='<?php echo $URL ?>/project.php';" class="<?php if($page=='project'){echo 'active';} ?> li-projects" >
                 <lord-icon
-                    src="https://cdn.lordicon.com/wzwygmng.json"
+                    src="lordicon/projects.json"
                     trigger="hover"
                     style="width:40px;height:40px"
                     target=".li-projects"
@@ -245,7 +245,7 @@
                
                     <li onclick="location.href='<?php echo $URL ?>/deliverables.php';" class="<?php if($page=='deliverables'){echo 'active';} ?> li-deliverables">
                     <lord-icon
-                        src="https://cdn.lordicon.com/aycieyht.json"
+                        src="lordicon/deliverables.json"
                         trigger="hover"
                         style="width:40px;height:40px"
                         target=".li-deliverables"
@@ -263,7 +263,7 @@
 
                 <li onclick="location.href='<?php echo $URL ?>/project-records.php';" class="<?php if($page=='project-records'){echo 'active';} ?> li-project-records">
                 <lord-icon
-                    src="https://cdn.lordicon.com/abwrkdvl.json"
+                    src="lordicon/project-records.json"
                     trigger="hover"
                     style="width:40px;height:40px"
                     target=".li-project-records"
@@ -279,7 +279,7 @@
 
                 <li onclick="location.href='<?php echo $URL ?>/usersReport.php';" class="<?php if($page=='usersReport'){echo 'active';} ?> li-book">
                 <lord-icon
-                    src="https://cdn.lordicon.com/qvyppzqz.json"
+                    src="lordicon/user-logs.json"
                     trigger="hover"
                     style="width:40px;height:40px"
                     target=".li-book"
@@ -294,7 +294,7 @@
                 <li class="calendar-icon li-calendar">
                     <!-- <i class="fa-regular fa-calendar"></i> -->
                     <lord-icon
-                        src="https://cdn.lordicon.com/ghhwiltn.json"
+                        src="lordicon/report-logs.json"
                         trigger="hover"
                         style="width:40px;height:40px"
                         target=".li-calendar"

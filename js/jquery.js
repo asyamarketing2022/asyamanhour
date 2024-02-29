@@ -546,6 +546,8 @@ jQuery(function () {
                success:function(data){
                   $('.userProject-table').html(data);
                   table_form_link();
+                  change_project_status_dropdown();
+                  change_project_status();
                }
             });
 
@@ -3267,7 +3269,7 @@ search_file_paths()
                      'managerFullname' : managerFullname,
                   },
                   success: function(data){
-                  
+                       
                   },
                   
                });
@@ -3283,12 +3285,14 @@ search_file_paths()
                      'searchManager_service' : searchManager_service,
                   },
                   success: function(data){
+                   
+                     console.log(data);
 
                      setTimeout(
                         function()
                         {
 
-                           window.location.reload();
+                           // window.location.reload();
 
                         }, 100);
 
