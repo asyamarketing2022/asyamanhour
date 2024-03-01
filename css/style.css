@@ -264,6 +264,13 @@ button.deleteTask {
     padding: 0 40px;
 }
 
+@media (max-width: 600px) {
+    #view_project_in_charge .modal-left-content,
+    #view_managers .modal-left-content {
+        width: 95vw;
+    }
+}
+
 .table-row-green {
     background: #a8c7a8 !important;
 }
@@ -444,6 +451,18 @@ button.deleteTask {
  .tasks-content .user-tasks .taskUpdate .taskUpdate_tooltip .taskUpdate_tbody tr:last-child td {
    border: none;
    color: #000;
+ }
+
+ @media(max-width: 1600px) {
+    .tasks-content_container {
+        left: 0;
+        width: 100%;
+        padding: 10px;
+    }
+
+    .tasks-content .user-tasks .taskUpdate .taskUpdate_tooltip {
+        left: -150px;
+    }
  }
 
 .addNewTask_form_container {
@@ -1540,6 +1559,26 @@ button:focus {
     font-size: 10px;
     border-radius: 0;
     border: 1px;
+}
+
+@media (max-width: 600px) {
+    .manage-employee__content .user_container {
+        grid-template-columns: 100%;
+    }
+
+    .manage-employee__content .user_container .user_info {
+        padding: 20px;
+    }
+
+    .manage-employee__content .user_container .user_info .user_tasks {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: center;
+        align-items: center;
+        align-content: center;
+    }
+
 }
 
 .search-action__wrapper,
@@ -3215,6 +3254,7 @@ input.form-check-input {
     position: fixed;
     width: 100%;
     z-index: 20;
+    top: 0;
 }
 
 #view_managers .view_managers_overlay {

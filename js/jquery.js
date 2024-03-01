@@ -3609,15 +3609,23 @@ search_file_paths()
                         $('.tasks-content .user_photo').html(data);
                      },
                   });
+
+
    
                   setTimeout(
    
                      function() 
                         {
+
+                           if($(window).width() > 1600) {
+
+                              $('#view_project_in_charge .modal-left-content').addClass('move-left-22');
+                              $('#view_managers .modal-left-content').addClass('move-left-22');
+               
+
+                           } 
    
-                     $('#view_project_in_charge .modal-left-content').addClass('move-left-22');
-                     $('#view_managers .modal-left-content').addClass('move-left-22');
-   
+         
                   }, 10);
    
                   setTimeout(
